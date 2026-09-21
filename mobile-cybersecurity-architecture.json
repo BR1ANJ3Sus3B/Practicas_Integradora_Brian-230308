@@ -1,0 +1,237 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "Cybersecurity Mobile Platform",
+    "locale": "en",
+    "quality_profile": "showcase",
+    "visual_preset": "blueprint",
+    "animation": "trace",
+    "output": "architecture.html",
+    "viewBox": [1340, 820],
+    "views": [
+      {
+        "id": "secure-request",
+        "label": "Secure request flow",
+        "focus": ["flutter-app", "rest-api", "auth-service", "jwt-rbac", "security-service", "postgresql"],
+        "note": "Follow the authenticated request from the mobile app to protected data."
+      },
+      {
+        "id": "notifications",
+        "label": "Incident notifications",
+        "focus": ["security-service", "notification-service", "firebase", "flutter-app"],
+        "note": "Security events are transformed into mobile push notifications."
+      },
+      {
+        "id": "audit-and-operations",
+        "label": "Audit and operations",
+        "focus": ["rest-api", "audit-logs", "postgresql", "redis", "devops"],
+        "note": "Audit evidence, cache operations, and delivery tooling remain visible."
+      }
+    ]
+  },
+  "components": [
+    {
+      "id": "flutter-app",
+      "type": "frontend",
+      "label": "Flutter Mobile App",
+      "sublabel": "Android / iOS · secure storage",
+      "tag": "Client layer",
+      "pos": [40, 320],
+      "size": [190, 78]
+    },
+    {
+      "id": "rest-api",
+      "type": "backend",
+      "label": "REST API",
+      "sublabel": "Validated application requests",
+      "tag": "HTTPS/TLS · input validation",
+      "pos": [300, 320],
+      "size": [185, 78]
+    },
+    {
+      "id": "auth-service",
+      "type": "security",
+      "label": "Authentication Service",
+      "sublabel": "Identity and password hashing",
+      "tag": "Authentication module",
+      "pos": [555, 320],
+      "size": [195, 78]
+    },
+    {
+      "id": "jwt-rbac",
+      "type": "security",
+      "label": "JWT & Authorization",
+      "sublabel": "JWT validation and role-based access",
+      "tag": "RBAC",
+      "pos": [820, 320],
+      "size": [200, 78]
+    },
+    {
+      "id": "security-service",
+      "type": "backend",
+      "label": "Security Service",
+      "sublabel": "Dashboard, incidents, reports",
+      "tag": "Application services",
+      "pos": [1090, 320],
+      "size": [205, 78]
+    },
+    {
+      "id": "notification-service",
+      "type": "backend",
+      "label": "Notification Service",
+      "sublabel": "Incident notification delivery",
+      "tag": "Application service",
+      "pos": [1080, 490],
+      "size": [195, 72]
+    },
+    {
+      "id": "firebase",
+      "type": "external",
+      "label": "Firebase Cloud Messaging",
+      "sublabel": "Push notification provider",
+      "tag": "External service",
+      "pos": [820, 490],
+      "size": [200, 72]
+    },
+    {
+      "id": "postgresql",
+      "type": "database",
+      "label": "PostgreSQL",
+      "sublabel": "Protected system data",
+      "tag": "Data layer",
+      "pos": [1085, 655],
+      "size": [185, 70]
+    },
+    {
+      "id": "redis",
+      "type": "database",
+      "label": "Redis Cache",
+      "sublabel": "Session and performance cache",
+      "tag": "Data layer",
+      "pos": [830, 655],
+      "size": [175, 70]
+    },
+    {
+      "id": "audit-logs",
+      "type": "database",
+      "label": "Audit Logs",
+      "sublabel": "Immutable user action evidence",
+      "tag": "Audit trail",
+      "pos": [570, 655],
+      "size": [185, 70]
+    },
+    {
+      "id": "report-service",
+      "type": "backend",
+      "label": "Report Service",
+      "sublabel": "Security report generation",
+      "tag": "Application service",
+      "pos": [300, 490],
+      "size": [185, 72]
+    },
+    {
+      "id": "devops",
+      "type": "external",
+      "label": "GitHub · Docker · CI/CD",
+      "sublabel": "Source control and delivery pipeline",
+      "tag": "External operations",
+      "pos": [45, 655],
+      "size": [200, 70]
+    }
+  ],
+  "boundaries": [
+    {
+      "kind": "security-group",
+      "label": "Trust boundary: mobile device",
+      "wraps": ["flutter-app"],
+      "pad": 28
+    },
+    {
+      "kind": "security-group",
+      "label": "Trust boundary: backend and security controls",
+      "wraps": ["rest-api", "auth-service", "jwt-rbac", "security-service", "notification-service", "report-service"],
+      "pad": 30
+    },
+    {
+      "kind": "security-group",
+      "label": "Trust boundary: protected data",
+      "wraps": ["postgresql", "redis", "audit-logs"],
+      "pad": 30
+    },
+    {
+      "kind": "security-group",
+      "label": "Trust boundary: external services",
+      "wraps": ["firebase", "devops"],
+      "pad": 28
+    }
+  ],
+  "connections": [
+    {
+      "id": "client-api",
+      "from": "flutter-app",
+      "to": "rest-api",
+      "label": "HTTPS/TLS request",
+      "variant": "security", "labelAt": [265, 412]
+    },
+    {
+      "id": "api-authentication",
+      "from": "rest-api",
+      "to": "auth-service",
+      "label": "Authenticate credentials",
+      "variant": "security", "labelAt": [458, 412]
+    },
+    {
+      "id": "auth-jwt",
+      "from": "auth-service",
+      "to": "jwt-rbac",
+      "label": "Issue and validate JWT",
+      "variant": "security", "labelAt": [785, 412]
+    },
+    {
+      "id": "jwt-security-service",
+      "from": "jwt-rbac",
+      "to": "security-service",
+      "label": "Authorize security action",
+      "variant": "emphasis", "labelAt": [1055, 412]
+    },
+    {
+      "id": "api-audit-log",
+      "from": "rest-api",
+      "to": "audit-logs",
+      "label": "User action audit trail",
+      "variant": "security", "labelAt": [528, 600]
+    },
+    {
+      "id": "security-notifications",
+      "from": "security-service",
+      "to": "notification-service",
+      "label": "Incident event",
+      "variant": "emphasis", "fromSide": "bottom", "toSide": "top", "labelAt": [1180, 430]
+    },
+    {
+      "id": "notifications-firebase",
+      "from": "notification-service",
+      "to": "firebase",
+      "label": "Push notification",
+      "variant": "emphasis", "labelAt": [1050, 576]
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "Security controls",
+      "items": ["HTTPS/TLS protects requests across the mobile-to-backend boundary.", "Authentication, JWT validation, RBAC, password hashing and input validation enforce access control."]
+    },
+    {
+      "dot": "slate",
+      "title": "Application capabilities",
+      "items": ["The mobile app exposes the security dashboard, incident management, notifications and reports.", "Security and Report services implement protected backend operations."]
+    },
+    {
+      "dot": "rose",
+      "title": "Evidence and operations",
+      "items": ["User actions create an audit trail before durable PostgreSQL persistence.", "GitHub, Docker and CI/CD are external delivery dependencies."]
+    }
+  ]
+}

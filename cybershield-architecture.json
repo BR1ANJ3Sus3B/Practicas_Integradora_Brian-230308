@@ -1,0 +1,276 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "CyberShield Security Monitoring",
+    "quality_profile": "showcase",
+    "visual_preset": "blueprint",
+    "animation": "trace",
+    "output": "cybershield-architecture.html",
+    "viewBox": [1270, 900],
+    "legend": {
+      "mode": "auto",
+      "entries": {
+        "external": { "label": "Usuarios externos" },
+        "frontend": { "label": "Interfaz" },
+        "security": { "label": "Seguridad" },
+        "backend": { "label": "Servicios internos" },
+        "database": { "label": "Almacenamiento" }
+      }
+    },
+    "views": [
+      {
+        "id": "flujo-operativo",
+        "label": "Flujo operativo",
+        "focus": ["administrator", "security-analyst", "web-frontend", "authentication-service", "api-gateway", "monitoring-service", "detection-engine", "alert-service"],
+        "note": "Ruta de acceso y procesamiento de eventos de seguridad."
+      },
+      {
+        "id": "deteccion-alertas",
+        "label": "Detección y alertas",
+        "focus": ["monitoring-service", "detection-engine", "alert-service", "web-frontend"],
+        "note": "Las amenazas detectadas se clasifican y se notifican al equipo."
+      },
+      {
+        "id": "datos-seguridad",
+        "label": "Persistencia",
+        "focus": ["authentication-service", "alert-service", "monitoring-service", "detection-engine", "mysql", "mongodb-logs"],
+        "note": "Datos estructurados, alertas y registros de eventos."
+      }
+    ]
+  },
+  "components": [
+    {
+      "id": "administrator",
+      "type": "external",
+      "label": "Administrador",
+      "sublabel": "Gestión y configuración",
+      "pos": [35, 210],
+      "size": [160, 68]
+    },
+    {
+      "id": "security-analyst",
+      "type": "external",
+      "label": "Analista de Seguridad",
+      "sublabel": "Monitoreo e investigación",
+      "pos": [35, 405],
+      "size": [160, 68]
+    },
+    {
+      "id": "web-frontend",
+      "type": "frontend",
+      "label": "Web Frontend",
+      "sublabel": "Panel, alertas, usuarios y eventos",
+      "tag": "HTTPS",
+      "pos": [270, 305],
+      "size": [190, 76]
+    },
+    {
+      "id": "authentication-service",
+      "type": "security",
+      "label": "Authentication Service",
+      "sublabel": "Credenciales, sesiones y roles",
+      "tag": "Control de acceso",
+      "pos": [535, 305],
+      "size": [190, 76]
+    },
+    {
+      "id": "api-gateway",
+      "type": "security",
+      "label": "API Gateway",
+      "sublabel": "Validación y enrutamiento",
+      "tag": "Punto de entrada",
+      "pos": [800, 305],
+      "size": [175, 76]
+    },
+    {
+      "id": "monitoring-service",
+      "type": "backend",
+      "label": "Security Monitoring Service",
+      "sublabel": "Ingesta y coordinación",
+      "tag": "Eventos de seguridad",
+      "pos": [1050, 305],
+      "size": [195, 76]
+    },
+    {
+      "id": "detection-engine",
+      "type": "backend",
+      "label": "Threat Detection Engine",
+      "sublabel": "Análisis y detección",
+      "tag": "Amenazas",
+      "pos": [1050, 475],
+      "size": [195, 76]
+    },
+    {
+      "id": "alert-service",
+      "type": "backend",
+      "label": "Alert Management Service",
+      "sublabel": "Severidad y notificaciones",
+      "tag": "Alertas",
+      "pos": [800, 475],
+      "size": [175, 76]
+    },
+    {
+      "id": "mysql",
+      "type": "database",
+      "label": "MySQL Database",
+      "sublabel": "Usuarios, roles, configuración y alertas",
+      "tag": "Datos estructurados",
+      "pos": [535, 630],
+      "size": [205, 72]
+    },
+    {
+      "id": "mongodb-logs",
+      "type": "database",
+      "label": "MongoDB Security Logs",
+      "sublabel": "Eventos, logs y actividad",
+      "tag": "Registros de seguridad",
+      "pos": [1050, 630],
+      "size": [195, 72]
+    }
+  ],
+  "boundaries": [
+    {
+      "kind": "security-group",
+      "label": "Límite de seguridad: zona de frontend",
+      "wraps": ["web-frontend"],
+      "pad": 28
+    },
+    {
+      "kind": "security-group",
+      "label": "Límite de seguridad: acceso y API",
+      "wraps": ["authentication-service", "api-gateway"],
+      "pad": 30
+    },
+    {
+      "kind": "security-group",
+      "label": "Límite de seguridad: servicios de detección",
+      "wraps": ["monitoring-service", "detection-engine", "alert-service"],
+      "pad": 25
+    },
+    {
+      "kind": "security-group",
+      "label": "Límite de seguridad: almacenamiento",
+      "wraps": ["mysql", "mongodb-logs"],
+      "pad": 25
+    }
+  ],
+  "connections": [
+    {
+      "id": "admin-access",
+      "from": "administrator",
+      "to": "web-frontend",
+      "label": "Administración HTTPS",
+      "variant": "security",
+      "labelAt": [233, 205]
+    },
+    {
+      "id": "analyst-access",
+      "from": "security-analyst",
+      "to": "web-frontend",
+      "label": "Monitoreo HTTPS",
+      "variant": "security",
+      "labelAt": [233, 395]
+    },
+    {
+      "id": "frontend-authentication",
+      "from": "web-frontend",
+      "to": "authentication-service",
+      "label": "Inicio de sesión y sesión",
+      "variant": "security",
+      "labelAt": [498, 395]
+    },
+    {
+      "id": "authentication-gateway",
+      "from": "authentication-service",
+      "to": "api-gateway",
+      "label": "Token y permisos",
+      "variant": "security",
+      "labelAt": [763, 395]
+    },
+    {
+      "id": "gateway-monitoring",
+      "from": "api-gateway",
+      "to": "monitoring-service",
+      "label": "Solicitud validada",
+      "variant": "emphasis",
+      "labelAt": [1013, 395]
+    },
+    {
+      "id": "monitoring-detection",
+      "from": "monitoring-service",
+      "to": "detection-engine",
+      "label": "Eventos para análisis",
+      "variant": "emphasis",
+      "labelAt": [1141, 395]
+    },
+    {
+      "id": "detection-alerts",
+      "from": "detection-engine",
+      "to": "alert-service",
+      "label": "Amenaza detectada",
+      "variant": "emphasis",
+      "labelAt": [1013, 565]
+    },
+    {
+      "id": "alerts-frontend",
+      "from": "alert-service",
+      "to": "web-frontend",
+      "label": "Alertas notificadas",
+      "variant": "emphasis",
+      "fromSide": "bottom",
+      "toSide": "bottom",
+      "via": [[887.5, 760], [365, 760]],
+      "labelAt": [625, 760]
+    },
+    {
+      "id": "auth-mysql",
+      "from": "authentication-service",
+      "to": "mysql",
+      "label": "Usuarios, roles y sesiones",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "labelAt": [630, 550]
+    },
+    {
+      "id": "alerts-mysql",
+      "from": "alert-service",
+      "to": "mysql",
+      "label": "Alertas y severidad"
+    },
+    {
+      "id": "monitoring-mongodb",
+      "from": "monitoring-service",
+      "to": "mongodb-logs",
+      "label": "Eventos de monitoreo"
+      ,"fromSide": "right",
+      "toSide": "right",
+      "via": [[1260, 343], [1260, 666]],
+      "labelAt": [1210, 410]
+    },
+    {
+      "id": "detection-mongodb",
+      "from": "detection-engine",
+      "to": "mongodb-logs",
+      "label": "Logs y hallazgos"
+      ,"labelAt": [1141, 565]
+    }
+  ],
+  "cards": [
+    {
+      "dot": "slate",
+      "title": "Operación de seguridad",
+      "items": ["El frontend concentra panel de monitoreo, alertas y visualización de eventos.", "El API Gateway valida solicitudes antes de llegar a los servicios internos."]
+    },
+    {
+      "dot": "rose",
+      "title": "Detección y respuesta",
+      "items": ["El motor analiza eventos y genera amenazas detectadas.", "Alert Management clasifica la severidad y notifica al equipo de seguridad."]
+    },
+    {
+      "dot": "cyan",
+      "title": "Custodia de datos",
+      "items": ["MySQL conserva información estructurada y alertas.", "MongoDB conserva logs y eventos de seguridad para análisis."]
+    }
+  ]
+}
