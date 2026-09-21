@@ -8,6 +8,14 @@ Modelo interactivo de arquitectura de ciberseguridad desarrollado con Archify y 
 
 [![Vista previa de la documentación](https://github.com/BR1ANJ3Sus3B/Practicas_Integradora_Brian-230308/blob/main/Doc/Practicas_Integradora_230308_Documentacion.pdf)]
 
+## Diagramas interactivos
+
+| # | Diagrama | Abrir |
+|---|----------|-------|
+| 1 | Arquitectura inicial de la aplicación móvil | [Abrir HTML](arquitectura-inicial-interactiva.html) |
+| 2 | CyberShield Security Monitoring | [Abrir HTML](cybershield-architecture.html) |
+| 3 | Cybersecurity Mobile Platform | [Abrir HTML](mobile-cybersecurity-architecture.html) |
+
 
 | # | Nombre de la práctica | Descripción | Firmas | Estatus |
 |---|------------------------|--------------|--------|---------|
