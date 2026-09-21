@@ -1,0 +1,258 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "CyberShield Security Monitoring",
+    "quality_profile": "showcase",
+    "viewBox": [1360, 850],
+    "views": [
+      {
+        "id": "access-control",
+        "label": "Acceso y control",
+        "focus": ["administrator", "analyst", "web-frontend", "authentication", "api-gateway"],
+        "note": "Explora el acceso autenticado, las sesiones y la autorización por rol."
+      },
+      {
+        "id": "detection-path",
+        "label": "Detección de amenazas",
+        "focus": ["api-gateway", "monitoring", "detection", "alerts", "security-logs"],
+        "note": "Sigue la actividad desde el monitoreo hasta la detección y la alerta."
+      },
+      {
+        "id": "persistent-state",
+        "label": "Datos persistentes",
+        "focus": ["authentication", "alerts", "monitoring", "detection", "mysql", "security-logs"],
+        "note": "Revisa la separación entre datos estructurados y registros de seguridad."
+      }
+    ]
+  },
+  "components": [
+    {
+      "id": "administrator",
+      "type": "external",
+      "label": "Administrador",
+      "sublabel": "Gestión y configuración",
+      "pos": [26, 186],
+      "size": [150, 72]
+    },
+    {
+      "id": "analyst",
+      "type": "external",
+      "label": "Analista de Seguridad",
+      "sublabel": "Investigación de alertas",
+      "pos": [26, 370],
+      "size": [150, 72]
+    },
+    {
+      "id": "web-frontend",
+      "type": "frontend",
+      "label": "Web Frontend",
+      "sublabel": "Monitoreo, alertas y eventos",
+      "tag": "Portal seguro",
+      "pos": [210, 276],
+      "size": [158, 82]
+    },
+    {
+      "id": "authentication",
+      "type": "security",
+      "label": "Authentication Service",
+      "sublabel": "Credenciales, sesiones y roles",
+      "tag": "Identidad",
+      "pos": [405, 276],
+      "size": [174, 82]
+    },
+    {
+      "id": "api-gateway",
+      "type": "security",
+      "label": "API Gateway",
+      "sublabel": "Validación y enrutamiento",
+      "tag": "Entrada protegida",
+      "pos": [638, 276],
+      "size": [162, 82]
+    },
+    {
+      "id": "monitoring",
+      "type": "backend",
+      "label": "Security Monitoring Service",
+      "sublabel": "Coordina el monitoreo",
+      "tag": "Monitoreo",
+      "pos": [858, 276],
+      "size": [188, 82]
+    },
+    {
+      "id": "detection",
+      "type": "security",
+      "label": "Threat Detection Engine",
+      "sublabel": "Análisis y detección de amenazas",
+      "tag": "Detección",
+      "pos": [1104, 276],
+      "size": [194, 82]
+    },
+    {
+      "id": "alerts",
+      "type": "backend",
+      "label": "Alert Management Service",
+      "sublabel": "Severidad y notificaciones",
+      "tag": "Respuesta",
+      "pos": [1104, 500],
+      "size": [194, 82]
+    },
+    {
+      "id": "mysql",
+      "type": "database",
+      "label": "MySQL Database",
+      "sublabel": "Usuarios, roles, configuración y alertas",
+      "tag": "Datos estructurados",
+      "pos": [470, 646],
+      "size": [220, 82]
+    },
+    {
+      "id": "security-logs",
+      "type": "database",
+      "label": "MongoDB Security Logs",
+      "sublabel": "Eventos, logs y actividad",
+      "tag": "Registro de seguridad",
+      "pos": [820, 646],
+      "size": [220, 82]
+    }
+  ],
+  "boundaries": [
+    {
+      "kind": "security-group",
+      "label": "Zona de acceso",
+      "wraps": ["web-frontend"],
+      "pad": 34
+    },
+    {
+      "kind": "security-group",
+      "label": "Servicios internos protegidos",
+      "wraps": ["authentication", "api-gateway", "monitoring", "detection", "alerts"],
+      "pad": 34
+    },
+    {
+      "kind": "security-group",
+      "label": "Almacenamiento restringido",
+      "wraps": ["mysql", "security-logs"],
+      "pad": 34
+    }
+  ],
+  "connections": [
+    {
+      "id": "administrator-portal",
+      "from": "administrator",
+      "to": "web-frontend",
+      "label": "HTTPS · administración",
+      "labelAt": [180, 150],
+      "variant": "emphasis"
+    },
+    {
+      "id": "analyst-portal",
+      "from": "analyst",
+      "to": "web-frontend",
+      "label": "HTTPS · investigación",
+      "labelAt": [180, 460],
+      "variant": "emphasis"
+    },
+    {
+      "id": "portal-authentication",
+      "from": "web-frontend",
+      "to": "authentication",
+      "label": "inicio de sesión",
+      "labelAt": [376, 390],
+      "variant": "security"
+    },
+    {
+      "id": "authentication-gateway",
+      "from": "authentication",
+      "to": "api-gateway",
+      "label": "sesión y permisos",
+      "labelAt": [608, 390],
+      "variant": "security"
+    },
+    {
+      "id": "gateway-monitoring",
+      "from": "api-gateway",
+      "to": "monitoring",
+      "label": "solicitudes validadas"
+      ,"labelAt": [828, 390]
+    },
+    {
+      "id": "monitoring-detection",
+      "from": "monitoring",
+      "to": "detection",
+      "label": "eventos de seguridad",
+      "labelAt": [1140, 412],
+      "variant": "emphasis"
+    },
+    {
+      "id": "detection-alerts",
+      "from": "detection",
+      "to": "alerts",
+      "label": "amenaza detectada",
+      "labelAt": [1201, 430],
+      "fromSide": "bottom",
+      "toSide": "top",
+      "variant": "emphasis"
+    },
+    {
+      "id": "alerts-portal",
+      "from": "alerts",
+      "to": "web-frontend",
+      "label": "alertas clasificadas",
+      "fromSide": "right",
+      "toSide": "top",
+      "route": "auto",
+      "via": [[1330, 541], [1330, 110], [289, 110]],
+      "labelAt": [760, 90],
+      "variant": "emphasis"
+    },
+    {
+      "id": "authentication-mysql",
+      "from": "authentication",
+      "to": "mysql",
+      "label": "usuarios y roles",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "variant": "security"
+    },
+    {
+      "id": "alerts-mysql",
+      "from": "alerts",
+      "to": "mysql",
+      "label": "alertas y severidad",
+      "fromSide": "bottom",
+      "toSide": "bottom",
+      "via": [[1201, 622], [1330, 622], [1330, 770], [580, 770]],
+      "labelAt": [960, 790]
+    },
+    {
+      "id": "monitoring-logs",
+      "from": "monitoring",
+      "to": "security-logs",
+      "label": "actividad de red",
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "detection-logs",
+      "from": "detection",
+      "to": "security-logs",
+      "label": "eventos y hallazgos",
+      "fromSide": "bottom",
+      "toSide": "right",
+      "variant": "security"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "violet",
+      "title": "Controles de seguridad",
+      "items": ["Autenticación, sesiones y control de acceso por rol", "Gateway como punto único de validación hacia servicios internos"]
+    },
+    {
+      "dot": "amber",
+      "title": "Operación de detección",
+      "items": ["Análisis continuo de actividad y eventos", "Alertas priorizadas para investigación y respuesta"]
+    }
+  ]
+}
