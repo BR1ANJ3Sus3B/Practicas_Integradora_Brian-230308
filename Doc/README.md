@@ -31,6 +31,16 @@ Los tres modelos representan:
 
 ---
 
+## Visualizar diagramas (un clic)
+
+| Diagrama | Enlace |
+|----------|--------|
+| Arquitectura inicial de la aplicación móvil | [Abrir arquitectura-inicial-interactiva.html](https://br1anj3sus3b.github.io/Practicas_Integradora_Brian-230308/Doc/arquitectura-inicial-interactiva.html) |
+| CyberShield Security Monitoring | [Abrir cybershield-architecture.html](https://br1anj3sus3b.github.io/Practicas_Integradora_Brian-230308/Doc/cybershield-architecture.html) |
+| Cybersecurity Mobile Platform | [Abrir mobile-cybersecurity-architecture.html](https://br1anj3sus3b.github.io/Practicas_Integradora_Brian-230308/Doc/mobile-cybersecurity-architecture.html) |
+
+---
+
 ## Contenido del repositorio
 
 | Archivo | Descripción |
