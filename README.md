@@ -2,12 +2,12 @@
 Modelo interactivo de arquitectura de ciberseguridad desarrollado con Archify y publicado mediante GitHub Pages. El proyecto representa visualmente los principales componentes, servicios y flujos de comunicación de un sistema orientado al monitoreo y protección de la información.
 
 
-
 ## Arquitectura de la aplicación móvil
 
-[Abrir diagrama interactivo]()
+[🔗 Abrir diagrama interactivo](https://br1anj3sus3b.github.io/Practicas_Integradora_Brian-230308/)
 
-[![Vista previa del diagrama]()
+[![Vista previa de la documentación](https://github.com/BR1ANJ3Sus3B/Practicas_Integradora_Brian-230308/blob/main/Doc/Practicas_Integradora_230308_Documentacion.pdf)]
+
 
 | # | Nombre de la práctica | Descripción | Firmas | Estatus |
 |---|------------------------|--------------|--------|---------|
