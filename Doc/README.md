@@ -33,11 +33,11 @@ Los tres modelos representan:
 
 ## Visualizar diagramas (un clic)
 
-| Diagrama | Enlace |
-|----------|--------|
-| Arquitectura inicial de la aplicación móvil | [Abrir arquitectura-inicial-interactiva.html](https://br1anj3sus3b.github.io/Practicas_Integradora_Brian-230308/Doc/arquitectura-inicial-interactiva.html) |
-| CyberShield Security Monitoring | [Abrir cybershield-architecture.html](https://br1anj3sus3b.github.io/Practicas_Integradora_Brian-230308/Doc/cybershield-architecture.html) |
-| Cybersecurity Mobile Platform | [Abrir mobile-cybersecurity-architecture.html](https://br1anj3sus3b.github.io/Practicas_Integradora_Brian-230308/Doc/mobile-cybersecurity-architecture.html) |
+| Diagrama | Vista previa | Abrir HTML |
+|----------|--------------|------------|
+| Arquitectura inicial de la aplicación móvil | ![Arquitectura inicial](img/arquitectura-inicial.png) | [Abrir arquitectura-inicial-interactiva.html](https://br1anj3sus3b.github.io/Practicas_Integradora_Brian-230308/Doc/arquitectura-inicial-interactiva.html) |
+| CyberShield Security Monitoring | ![CyberShield](img/cybershield.png) | [Abrir cybershield-architecture.html](https://br1anj3sus3b.github.io/Practicas_Integradora_Brian-230308/Doc/cybershield-architecture.html) |
+| Cybersecurity Mobile Platform | ![Cybersecurity Mobile](img/mobile-cybersecurity.png) | [Abrir mobile-cybersecurity-architecture.html](https://br1anj3sus3b.github.io/Practicas_Integradora_Brian-230308/Doc/mobile-cybersecurity-architecture.html) |
 
 ---
 
