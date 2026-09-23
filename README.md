@@ -4,7 +4,7 @@ Modelo interactivo de arquitectura de ciberseguridad desarrollado con Archify y 
 
 ## Arquitectura de la aplicación móvil
 
-[🔗 Abrir diagrama interactivo](https://br1anj3sus3b.github.io/Practicas_Integradora_Brian-230308/)
+[🔗 Abrir diagrama interactivo](https://BR1ANJ3Sus3B.github.io/Practicas_Integradora_Brian-230308/)
 
 [Vista previa de la documentación](https://github.com/BR1ANJ3Sus3B/Practicas_Integradora_Brian-230308/blob/main/Doc/Practicas_Integradora_230308_Documentacion.pdf)
 
