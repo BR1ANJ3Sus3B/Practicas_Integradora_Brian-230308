@@ -217,3 +217,6 @@ Las salidas HTML son archivos autocontenidos: basta abrirlos en cualquier navega
 | Navegador web | Visualización de los diagramas generados. |
 | VS Code + Live Server | Servidor local de desarrollo. |
 | GitHub Pages | Publicación de los diagramas en línea. |
+
+## Link 
+| 02 | [Práctica02 - Boceto de Arquitectura con Archify](https://BR1ANJ3Sus3B.github.io/Practicas_Integradora_Brian-230308/) | Instalación y configuración de Archify (agente de modelado arquitectónico) con interacción con Codex de OpenAI. Se generó un diagrama de arquitectura interactivo en HTML del sistema, incluyendo capa móvil, autenticación, API, datos, servicios externos e infraestructura de desarrollo. | 24 | Completada ✅ |
