@@ -35,9 +35,9 @@ Los tres modelos representan:
 
 | Diagrama | Vista previa | Abrir HTML |
 |----------|--------------|------------|
-| Arquitectura inicial de la aplicación móvil | ![Arquitectura inicial](img/arquitectura-inicial.png) | [Abrir arquitectura-inicial-interactiva.html](https://br1anj3sus3b.github.io/Practicas_Integradora_Brian-230308/Doc/arquitectura-inicial-interactiva.html) |
-| CyberShield Security Monitoring | ![CyberShield](img/cybershield.png) | [Abrir cybershield-architecture.html](https://br1anj3sus3b.github.io/Practicas_Integradora_Brian-230308/Doc/cybershield-architecture.html) |
-| Cybersecurity Mobile Platform | ![Cybersecurity Mobile](img/mobile-cybersecurity.png) | [Abrir mobile-cybersecurity-architecture.html](https://br1anj3sus3b.github.io/Practicas_Integradora_Brian-230308/Doc/mobile-cybersecurity-architecture.html) |
+| Arquitectura inicial de la aplicación móvil | ![Arquitectura inicial](Doc/img/arquitectura-inicial.png) | [Abrir arquitectura-inicial-interactiva.html](https://br1anj3sus3b.github.io/Practicas_Integradora_Brian-230308/Doc/arquitectura-inicial-interactiva.html) |
+| CyberShield Security Monitoring | ![CyberShield](Doc/img/cybershield.png) | [Abrir cybershield-architecture.html](https://br1anj3sus3b.github.io/Practicas_Integradora_Brian-230308/Doc/cybershield-architecture.html) |
+| Cybersecurity Mobile Platform | ![Cybersecurity Mobile](Doc/img/mobile-cybersecurity.png) | [Abrir mobile-cybersecurity-architecture.html](https://br1anj3sus3b.github.io/Practicas_Integradora_Brian-230308/Doc/mobile-cybersecurity-architecture.html) |
 
 ---
 
@@ -69,7 +69,7 @@ Los tres modelos representan:
 
 Representa el esqueleto inicial del sistema móvil con tres vistas: solicitando principal, integración de mapas y entorno de desarrollo.
 
-![Arquitectura inicial de la aplicación móvil](img/arquitectura-inicial.png)
+![Arquitectura inicial de la aplicación móvil](Doc/img/arquitectura-inicial.png)
 
 **Componentes:**
 
@@ -103,7 +103,7 @@ Representa el esqueleto inicial del sistema móvil con tres vistas: solicitando 
 
 Sistema de monitoreo de seguridad tipo SOC (Security Operations Center) con preset visual *blueprint* y animación de trazo.
 
-![CyberShield Security Monitoring](img/cybershield.png)
+![CyberShield Security Monitoring](Doc/img/cybershield.png)
 
 **Componentes:**
 
@@ -136,7 +136,7 @@ Sistema de monitoreo de seguridad tipo SOC (Security Operations Center) con pres
 
 Plataforma móvil de ciberseguridad (playbook en inglés) que enfatiza el control de acceso, la evidencia de auditoría y la entrega de notificaciones.
 
-![Cybersecurity Mobile Platform](img/mobile-cybersecurity.png)
+![Cybersecurity Mobile Platform](Doc/img/mobile-cybersecurity.png)
 
 **Componentes:**
 
