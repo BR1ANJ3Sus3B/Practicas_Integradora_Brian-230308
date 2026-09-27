@@ -111,6 +111,32 @@ La malla del canvas es estrecha por diseño (5 columnas), y en una celda de
 detalle completo no cabe en el lienzo canónico y vive en la vista ampliada,
 donde las celdas de 320 px proyectan un 17 % más de texto.
 
+### El icono de la aplicación
+
+El bloque **Canales** lleva el icono oficial de Crunchyroll en las dos vistas.
+Es la marca de la aplicación en sí: ese bloque es «App, web, TV y consolas».
+
+Archify admite marcas de producto mediante el campo `brand` de un nodo. Crunchyroll
+no viene en el catálogo de la herramienta, así que el icono se capturó del
+sitio oficial y quedó **fijado por su resumen SHA-256**:
+
+```json
+"brand": {
+  "url": "https://www.crunchyroll.com/news",
+  "sha256": "d6254f829c7f9abfbb1e574ed3b6876b7a02f8aa1e350112afc402289f54bab3"
+}
+```
+
+El HTML entregado lleva el PNG incrustado como `data:` URI, de modo que el
+icono se ve **sin conexión** y también aparece en las exportaciones. Si el
+contenido capturado cambiara, la validación fallaría en lugar de servir un
+icono distinto en silencio.
+
+> La captura se hizo desde `crunchyroll.com/news` porque la portada
+> (`crunchyroll.com`) y la sección de ayuda responden 403/404 a peticiones
+> automatizadas. El dominio es el oficial; el resumen SHA-256 es lo que
+> garantiza qué bytes exactos se incrustaron.
+
 ---
 
 ## El modelo final
@@ -125,7 +151,7 @@ donde las celdas de 320 px proyectan un 17 % más de texto.
 | **Propuesta de valor** | Anime legal y simultáneo · Multiidioma · Offline | Escala: más de 200 países y 13 idiomas |
 | **Relaciones con clientes** | Autoservicio y comunidad · Reseñas · Avisos | — |
 | **Segmentos de clientes** | Fans B2C y socios B2B · Fan · Mega · Ultimate | Segmentos: fans de 13 a 34 años, hogares, B2B |
-| **Canales** | App, web, TV y consolas · Store · Manga · Push | — |
+| **Canales** | App, web, TV y consolas · Store · Manga · Push · icono de la app | — |
 | **Estructura de costos** | Regalías, tecnología y marketing · CAC · CDN | Costos: 3 familias de costo |
 | **Flujos de ingresos** | Suscripción, Store y B2B · 3 planes · Cine | Ingresos: suscripción, Store, cine, juegos, música, eventos, B2B |
 
@@ -221,8 +247,8 @@ node bin/archify.mjs visual-check Practica03\bmc-crunchyroll-detalle.html --json
 | Comprobación | Lienzo canónico | Vista ampliada |
 |--------------|-----------------|----------------|
 | `validate --quality showcase` | 9/9 · 0 errores · 0 advertencias | 9/9 · 0 errores · 0 advertencias |
-| `deliver` (especificación) | 5 696 B · `4d48c59d…d08ee24` | 4 033 B · `2b96c9a9…93283bb` |
-| `deliver` (artefacto) | 814 721 B · `0f4984f6…7cd6f1` | 808 138 B · `19b58158…a57995` |
+| `deliver` (especificación) | 5 830 B · `7c1f9cbf…f9595c` | 4 167 B · `73407f1e…a822d5` |
+| `deliver` (artefacto) | 817 567 B · `f696d22f…2748e` | 810 983 B · `f9dbc30d…af461d` |
 | Holgura mínima etiqueta↔ruta | 30.5 px | sin aristas |
 | Problemas de legibilidad de escritorio | 0 | 0 |
 | `visual-check` 1440×900 · 1600×1000 · 1920×1080 · 2048×1320 | `pass` en los 4 | `pass` en los 4 |

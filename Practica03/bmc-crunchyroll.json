@@ -38,7 +38,7 @@
     { "id": "customer_relationships", "type": "security", "label": "Relaciones con clientes", "sublabel": "Autoservicio y comunidad", "tag": "Reseñas · Avisos", "row": 0, "col": 3, "size": [174, 80] },
     { "id": "customer_segments", "type": "external", "label": "Segmentos de clientes", "sublabel": "Fans B2C y socios B2B", "tag": "Fan · Mega · Ultimate", "row": 0, "col": 4, "size": [174, 240] },
     { "id": "key_resources", "type": "database", "label": "Recursos clave", "sublabel": "Catálogo, marca y datos", "tag": "21 M suscriptores", "row": 1, "col": 1, "size": [174, 80] },
-    { "id": "channels", "type": "cloud", "label": "Canales", "sublabel": "App, web, TV y consolas", "tag": "Store · Manga · Push", "row": 1, "col": 3, "size": [174, 80] },
+    { "id": "channels", "type": "cloud", "label": "Canales", "sublabel": "App, web, TV y consolas", "tag": "Store · Manga · Push", "brand": { "url": "https://www.crunchyroll.com/news", "sha256": "d6254f829c7f9abfbb1e574ed3b6876b7a02f8aa1e350112afc402289f54bab3" }, "row": 1, "col": 3, "size": [174, 80] },
     { "id": "cost_structure", "type": "backend", "label": "Estructura de costos", "sublabel": "Regalías, tecnología y marketing", "tag": "CAC · CDN", "row": 2, "col": 0, "size": [722, 80] },
     { "id": "revenue_streams", "type": "backend", "label": "Flujos de ingresos", "sublabel": "Suscripción, Store y B2B", "tag": "3 planes · Cine", "row": 2, "col": 3, "size": [448, 80] }
   ],

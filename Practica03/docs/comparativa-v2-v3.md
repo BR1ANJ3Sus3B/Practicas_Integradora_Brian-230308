@@ -56,6 +56,7 @@ muy distinto en India, Japón o Suiza. Ninguna cifra se presenta como universal.
 | Malla del lienzo | `cellH 150 / gapY 100` | `cellH 80 / gapY 80` |
 | Ingresos | incluían publicidad | suscripción, Store, cine, juegos, música, eventos, B2B |
 | Etiqueta de la 9.ª arista | `tecnología` | `sistemas` (corta lo que cabe en un hueco de 80 px) |
+| Icono de la app | ninguno | marca de producto en el nodo **Canales**, fijada por SHA-256 |
 
 ---
 
@@ -79,6 +80,23 @@ De ahí salen las tres restricciones que el prompt v3 fija como medibles y no
 como estimaciones: 26 caracteres en el texto de nodo, 32 en los ítems de
 tarjeta y 6 tarjetas.
 
+### 4.1 El icono de la aplicación y el hueco que reserva
+
+El bloque **Canales** lleva la marca de producto de Crunchyroll. Archify dibuja
+la marca en la esquina superior derecha del nodo y **reserva 48 px de ancho**
+para ella: la etiqueta del nodo se ajusta contra `ancho − 48`.
+
+En el lienzo canónico eso deja `174 − 48 = 126 px` para la etiqueta. La
+comprobación `brandTopRailProblem` exige que quepan los 8 px del mínimo
+legible, y «Canales» necesita unos 34 px, así que pasa con holgura. Aun así,
+una etiqueta larga en un nodo de 174 px sí entraría en conflicto con el icono;
+por eso el icono va en un nodo cuya etiqueta es corta.
+
+El PNG queda incrustado como `data:` URI en el HTML entregado, con su resumen
+`d6254f829c7f9abfbb1e574ed3b6876b7a02f8aa1e350112afc402289f54bab3`. La
+validación exige ese resumen exacto: si el recurso capturado cambiara, la
+herramienta falla en vez de incrustar un icono distinto.
+
 ---
 
 ## 5. Receipts de la v3
@@ -88,8 +106,8 @@ tarjeta y 6 tarjetas.
 | Comprobación | Resultado |
 |--------------|-----------|
 | `validate --quality showcase` | 9/9 · 0 errores · 0 advertencias |
-| `deliver` | Especificación 5 696 B · `4d48c59debc17cf93649be2fa2011141d993d2c45b75eb47257341aa9d08ee24` |
-| `deliver` (artefacto) | 814 721 B · `0f4984f6350a19cf5fa69c7c2df17720ac0bf24982634cff24f908be407cd6f1` |
+| `deliver` | Especificación 5 830 B · `7c1f9cbf285a6deb921cf298c35169dfa964cc01c5778c8171738033b1f9595c` |
+| `deliver` (artefacto) | 817 567 B · `f696d22f388c2bc31c412330075b417905b34e96171894d431b30840c0d2748e` |
 | Holgura mínima etiqueta↔ruta | 30.5 px |
 | `visual-check` 1440×900 · 1600×1000 · 1920×1080 · 2048×1320 | `pass` en los 4, sin desborde en ningún eje |
 | Texto de nodo proyectado (mínimo) | 6.87 px a 1440×900 · 7.19 px a 1600×1000 · 9.00 px a 1920×1080 y 2048×1320 |
@@ -100,8 +118,8 @@ tarjeta y 6 tarjetas.
 | Comprobación | Resultado |
 |--------------|-----------|
 | `validate --quality showcase` | 9/9 · 0 errores · 0 advertencias |
-| `deliver` | Especificación 4 033 B · `2b96c9a9c7d7cbae7f61da63788eced70b4da33d097c49aaada3619c393283bb` |
-| `deliver` (artefacto) | 808 138 B · `19b58158261243b13f14e66551e00130a764f312c642f64fafbc1c446aa57995` |
+| `deliver` | Especificación 4 167 B · `73407f1e5cbaefc025324b7e63af22cd6cc32546f7dd48310537e14739a822d5` |
+| `deliver` (artefacto) | 810 983 B · `f9dbc30d9bf8b898ed998f6e80e607c1afc4dba0b811a4fd05a12e7132af461d` |
 | `visual-check` 1440×900 · 1600×1000 · 1920×1080 · 2048×1320 | `pass` en los 4, sin desborde |
 | Texto de nodo proyectado (mínimo) | 8.06 px a 1440×900 · 8.50 px a 1920×1080 |
 | Revisión perceptual de las capturas | **Pendiente de revisor humano** |

@@ -37,7 +37,7 @@
     { "id": "value_proposition", "type": "frontend", "label": "Propuesta de valor", "sublabel": "Anime legal, global y simultáneo, con subtítulos y dubbing", "tag": "Offline · Multiidioma", "row": 1, "col": 0, "size": [320, 145] },
     { "id": "customer_relationships", "type": "security", "label": "Relaciones con clientes", "sublabel": "Autoservicio 24/7, recomendaciones, reseñas y comunidad", "tag": "Avisos · Crunchylists", "row": 1, "col": 1, "size": [320, 145] },
     { "id": "customer_segments", "type": "external", "label": "Segmentos de clientes", "sublabel": "Fans de 13 a 34 años, hogares y clientes B2B de TV", "tag": "Fan · Mega Fan · Ultimate", "row": 1, "col": 2, "size": [320, 145] },
-    { "id": "channels", "type": "cloud", "label": "Canales", "sublabel": "Web, apps, smart TV, consolas, Store, Manga y push", "tag": "6 pantallas simultáneas", "row": 2, "col": 0, "size": [320, 145] },
+    { "id": "channels", "type": "cloud", "label": "Canales", "sublabel": "Web, apps, smart TV, consolas, Store, Manga y push", "tag": "6 pantallas simultáneas", "brand": { "url": "https://www.crunchyroll.com/news", "sha256": "d6254f829c7f9abfbb1e574ed3b6876b7a02f8aa1e350112afc402289f54bab3" }, "row": 2, "col": 0, "size": [320, 145] },
     { "id": "cost_structure", "type": "backend", "label": "Estructura de costos", "sublabel": "Regalías, CDN y ancho de banda, plataforma y marketing", "tag": "CAC · Soporte", "row": 2, "col": 1, "size": [320, 145] },
     { "id": "revenue_streams", "type": "backend", "label": "Flujos de ingresos", "sublabel": "Suscripción Fan/Mega/Ultimate, Store, cine, juegos y B2B", "tag": "3 planes de pago", "row": 2, "col": 2, "size": [320, 145] }
   ],
