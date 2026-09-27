@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "Modelo de Negocio de Crunchyroll: Canvas de 9 bloques",
+    "output": "bmc-crunchyroll.html",
+    "quality_profile": "showcase",
+    "views": [
+      { "id": "creacion-de-valor", "label": "Creación de valor", "focus": ["key_partners", "key_activities", "key_resources", "value_proposition"], "note": "De las licencias de los socios a la propuesta de valor, con los recursos que la sostienen." },
+      { "id": "propuesta-y-canales", "label": "Propuesta y canales", "focus": ["value_proposition", "customer_relationships", "channels", "customer_segments"], "note": "Cómo llega la oferta al fan: relación, canales y segmentos." },
+      { "id": "flujos-de-ingresos", "label": "Flujos de ingresos", "focus": ["customer_segments", "channels", "revenue_streams"], "note": "Los segmentos financian el modelo desde suscripción, publicidad, tienda y licencias B2B." },
+      { "id": "estructura-de-costos", "label": "Estructura de costos", "focus": ["key_partners", "key_resources", "key_activities", "cost_structure"], "note": "Regalías de los socios y tecnología de los recursos: los dos grandes fijan de costo." }
+    ],
+    "legend": {
+      "entries": {
+        "external": { "label": "Socios y segmentos" },
+        "backend": { "label": "Actividades, costos e ingresos" },
+        "database": { "label": "Activos y datos" },
+        "frontend": { "label": "Oferta al cliente" },
+        "security": { "label": "Confianza y relación" },
+        "cloud": { "label": "Puntos de contacto" }
+      }
+    }
+  },
+  "layout": {
+    "mode": "grid",
+    "origin": [40, 40],
+    "cols": 5,
+    "cellW": 174,
+    "cellH": 150,
+    "gapX": 100,
+    "gapY": 100
+  },
+  "components": [
+    { "id": "key_partners", "type": "external", "label": "Socios clave", "sublabel": "Licencias y distribución", "tag": "Sony Group · Studios", "row": 0, "col": 0, "size": [174, 400] },
+    { "id": "key_activities", "type": "backend", "label": "Actividades clave", "sublabel": "Adquisición e ingesta", "tag": "Simulcast · Recomendación", "row": 0, "col": 1, "size": [174, 150] },
+    { "id": "value_proposition", "type": "frontend", "label": "Propuesta de valor", "sublabel": "Anime legal y simultáneo", "tag": "Multiidioma · Offline", "row": 0, "col": 2, "size": [174, 400] },
+    { "id": "customer_relationships", "type": "security", "label": "Relaciones con clientes", "sublabel": "Autoservicio y comunidad", "tag": "Reseñas · Avisos", "row": 0, "col": 3, "size": [174, 150] },
+    { "id": "customer_segments", "type": "external", "label": "Segmentos de clientes", "sublabel": "Fans B2C y socios B2B", "tag": "Free · Premium", "row": 0, "col": 4, "size": [174, 400] },
+    { "id": "key_resources", "type": "database", "label": "Recursos clave", "sublabel": "Catálogo y marca", "tag": "Datos de usuarios", "row": 1, "col": 1, "size": [174, 150] },
+    { "id": "channels", "type": "cloud", "label": "Canales", "sublabel": "App, web, TV y consolas", "tag": "Store · Push", "row": 1, "col": 3, "size": [174, 150] },
+    { "id": "cost_structure", "type": "backend", "label": "Estructura de costos", "sublabel": "Regalías, tecnología y marketing", "tag": "CAC · CDN", "row": 2, "col": 0, "size": [722, 150] },
+    { "id": "revenue_streams", "type": "backend", "label": "Flujos de ingresos", "sublabel": "Suscripción, anuncios y tienda", "tag": "Suscripción · Ads · B2B", "row": 2, "col": 3, "size": [448, 150] }
+  ],
+  "connections": [
+    { "id": "partners-license", "from": "key_partners", "to": "key_activities", "label": "licencias anime", "variant": "emphasis" },
+    { "id": "resources-support", "from": "key_resources", "to": "key_activities", "label": "sustenta" },
+    { "id": "activities-offer", "from": "key_activities", "to": "value_proposition", "label": "crea oferta", "variant": "emphasis" },
+    { "id": "value-relationship", "from": "value_proposition", "to": "customer_relationships", "label": "entrega valor" },
+    { "id": "relationship-segment", "from": "customer_relationships", "to": "customer_segments", "label": "atiende" },
+    { "id": "channels-segment", "from": "channels", "to": "customer_segments", "label": "distribuye" },
+    { "id": "segment-payment", "from": "customer_segments", "to": "revenue_streams", "label": "paga", "variant": "emphasis", "fromSide": "bottom", "toSide": "top" },
+    { "id": "partners-royalty", "from": "key_partners", "to": "cost_structure", "label": "regalías", "variant": "dashed", "fromSide": "bottom", "toSide": "top" },
+    { "id": "resources-technology", "from": "key_resources", "to": "cost_structure", "label": "tecnología", "variant": "dashed", "fromSide": "bottom", "toSide": "top", "labelAt": [490, 454] }
+  ],
+  "cards": [
+    { "dot": "emerald", "title": "Ingresos", "items": ["Suscripciones Premium y publicidad", "Crunchyroll Store: manga y Blu-ray", "Licencias B2B a TV y operadores"] },
+    { "dot": "amber", "title": "Costos", "items": ["Regalías y anticipos de licencia", "CDN, ancho de banda y plataforma", "Localización, marketing y CAC"] },
+    { "dot": "violet", "title": "Segmentos", "items": ["Fans B2C de 13 a 34 años", "Free, Premium y clientes B2B", "América, EMEA, APAC y Latinoamérica"] }
+  ]
+}
