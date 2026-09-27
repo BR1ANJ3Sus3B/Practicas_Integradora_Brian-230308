@@ -28,6 +28,7 @@ mediante GitHub Pages.
 | `prompts/prompt-v1.md` | **Prompt v1** tal como se entregó a Archify, con su descomposición de intención. |
 | `prompts/prompt-v2.md` | **Prompt v2:** qué cambió y por qué, decisiones de diseño e iteración durante la aceptación. |
 | `prompts/prompt-v3.md` | **Prompt v3 (final):** enriquecimiento con cifras verificadas, 6 tarjetas y segunda vista ampliada. |
+| `prompts/prompt-codex.md` | **Prompt de traspaso a Codex:** el sobre que se le pega a Codex para que sea él quien orqueste Archify, con las restricciones ya medidas. |
 | `docs/revision-v1.md` | **Actividad 3:** revisión del modelo obtenido con el prompt v1, hallazgos y acciones derivadas. |
 | `docs/comparativa-v1-v2.md` | **Actividad 4:** comparación v1 → v2, receipts de entrega y alcance de la evidencia. |
 | `docs/comparativa-v2-v3.md` | **Actividad 4 (continuación):** corrección factual del modelo, fuentes, receipts de la v3 y restricciones geométricas medidas. |
@@ -92,6 +93,20 @@ corrige un **error factual** de la v2 (el nivel gratuito con anuncios se
 eliminó a finales de 2025), sustituye categorías por cifras fechadas y
 regionales, duplica las tarjetas de 3 a 6, y añade un **segundo artefacto** con
 la vista ampliada por bloque.
+
+### 6. Traspaso a Codex
+
+Los tres prompts anteriores se le entregaron a Archify. En
+[`prompts/prompt-codex.md`](prompts/prompt-codex.md) está el **prompt de
+traspaso**: el sobre que se le pega a Codex para que sea él quien orqueste
+Archify y reconstruya los dos artefactos desde cero.
+
+Incluye lo que costó encontrar esta práctica, para que no haya que
+redescubrirlo a base de rechazos: el umbral real de legibilidad
+(`minProjectedNodeTextPx ≥ 6` a 1440×900, no un conteo de caracteres), el
+ancho máximo de lienzo, por qué son 6 tarjetas y no 8, y que Archify no tiene
+un tipo de diagrama «business model». También lleva el icono de la app con su
+resumen SHA-256 y la corrección del nivel gratuito.
 
 ---
 
