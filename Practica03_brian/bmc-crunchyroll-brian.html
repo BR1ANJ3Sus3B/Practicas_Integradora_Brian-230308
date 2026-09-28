@@ -80,14 +80,6 @@ h1{margin:14px 0 0;font-size:clamp(30px,4.6vw,50px);line-height:1.03;letter-spac
 h1 em{font-style:normal;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
 .lead{margin:13px 0 0;max-width:74ch;color:var(--muted);font-size:15.5px}
 
-/* ---------------- KPIs ---------------- */
-.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(168px,1fr));gap:11px;margin:22px 0 0}
-.kpi{border:1px solid var(--line);border-radius:14px;background:linear-gradient(180deg,var(--surf-2),var(--surf));padding:13px 15px}
-.kpi b{display:block;font-size:24px;letter-spacing:-.7px;line-height:1.1}
-.kpi b.hot{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
-.kpi span{display:block;margin-top:3px;font-size:11.5px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.4px}
-.kpi small{display:block;margin-top:5px;font-size:11px;color:var(--muted-2);line-height:1.4}
-
 /* ---------------- controles ---------------- */
 .controls{display:flex;flex-wrap:wrap;align-items:center;gap:9px;margin:26px 0 14px}
 .controls h2{margin:0 4px 0 0;font-size:12px;letter-spacing:1px;text-transform:uppercase;color:var(--muted-2)}
@@ -238,36 +230,10 @@ td .up{color:#5fd6a4;font-weight:800}
 .plist li+li{margin-top:5px}
 .plist b{color:#fff}
 .ptext{margin:0;font-size:12.6px;line-height:1.5;color:var(--muted)}
-.quote{margin:14px 0 0;padding:11px 13px;border-radius:12px;border:1px dashed var(--line-2);
-  font-size:12.2px;line-height:1.5;color:var(--muted)}
 .note{margin:15px 0 0;padding-top:11px;border-top:1px solid var(--line);font-size:11px;line-height:1.5;color:var(--muted-2)}
-.src{color:var(--cr-2);word-break:break-word}
 
-/* ---------------- líneas de negocio ---------------- */
-.lines{display:grid;grid-template-columns:repeat(auto-fit,minmax(184px,1fr));gap:11px;margin:16px 0 0}
-.line{
-  --c:#f47521;text-align:left;font:inherit;color:inherit;cursor:pointer;
-  border:1px solid var(--line);border-radius:15px;background:var(--surf);padding:13px 14px;
-  transition:.18s ease;
-}
-.line:hover{transform:translateY(-2px);border-color:color-mix(in srgb,var(--c) 55%,transparent);box-shadow:0 10px 24px rgba(0,0,0,.45)}
-.line[aria-pressed=true]{border-color:var(--c);background:linear-gradient(180deg,color-mix(in srgb,var(--c) 16%,var(--surf)),var(--surf))}
-.line b{display:flex;align-items:center;gap:8px;font-size:13.5px;letter-spacing:-.2px}
-.line b svg{width:16px;height:16px;color:var(--c);flex:none}
-.line span{display:block;margin-top:6px;font-size:11.8px;line-height:1.45;color:var(--muted)}
-.line em{display:block;margin-top:8px;font-style:normal;font-size:10.5px;font-weight:800;letter-spacing:.6px;
-  text-transform:uppercase;color:var(--c)}
-
-/* ---------------- tarjetas de datos ---------------- */
-.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:11px;margin:18px 0 0}
-.card{border:1px solid var(--line);border-top:3px solid var(--c,#f47521);border-radius:14px;background:var(--surf);padding:13px 15px}
-.card h4{margin:0 0 8px;font-size:11px;letter-spacing:.8px;text-transform:uppercase;color:var(--muted-2)}
-.card p{margin:0;font-size:12.4px;line-height:1.5;color:#d5d5e0}
-.card b{color:#fff}
-
-h2.sec{margin:40px 0 0;font-size:20px;letter-spacing:-.5px;display:flex;align-items:center;gap:10px}
-h2.sec::before{content:"";width:4px;height:20px;border-radius:2px;background:var(--grad)}
-.sub2{margin:7px 0 0;color:var(--muted);font-size:13.5px;max-width:80ch}
+footer{margin:34px 0 0;padding-top:18px;border-top:1px solid var(--line);
+  color:var(--muted-2);font-size:11.5px;line-height:1.6}
 
 footer{margin:44px 0 0;padding-top:18px;border-top:1px solid var(--line);
   color:var(--muted-2);font-size:11.5px;line-height:1.6}
@@ -603,7 +569,7 @@ const canvas = $("#canvas"), graph = $("#graph"), panel = $("#panel"), search = 
 const porId = id => BLOQUES.find(b => b.id === id);
 const relDe = id => RELACIONES.map((r,i)=>({r,i})).filter(x => x.r.a === id || x.r.b === id);
 
-let abierto = null, relActiva = null, vista = "todos", lineaActiva = null, consulta = "";
+let abierto = null, relActiva = null, vista = "todos", consulta = "";
 
 /* --- integridad: toda relación y vista debe apuntar a un bloque real --- */
 (function validar(){
@@ -615,10 +581,6 @@ let abierto = null, relActiva = null, vista = "todos", lineaActiva = null, consu
   if (malos.length) console.error("Referencias rotas:\n" + malos.join("\n"));
   else console.info("Modelo íntegro: " + BLOQUES.length + " bloques, " + RELACIONES.length + " relaciones.");
 })();
-
-/* --- KPIs eliminados --- */
-/* --- líneas de negocio eliminadas --- */
-/* --- tarjetas de datos eliminadas --- */
 
 /* --- bloques --- */
 BLOQUES.forEach(b => {
@@ -670,13 +632,9 @@ canvas.querySelectorAll(".rel").forEach(r => r.onclick = ev => {
 /* --- vistas rápidas --- */
 $("#controls").querySelectorAll(".chip").forEach(c => c.onclick = () => {
   vista = c.dataset.v;
-  lineaActiva = null;
   abrir(null);
   pintar();
 });
-
-/* --- líneas de negocio eliminadas --- */
-/* --- tarjetas de datos eliminadas --- */
 
 /* --- buscador --- */
 search.oninput = () => { consulta = search.value.trim().toLowerCase(); pintar(); };
@@ -730,7 +688,6 @@ function panelInicio(){
       significa esa relación. <kbd>Esc</kbd> cierra.</p>`)}
     ${g("Los nueve bloques", ul(BLOQUES.map(b =>
       `<b>${b.n}. ${esc(b.name)}</b> — ${b.items.length} elementos`)))}
-    ${g("Las ocho líneas de negocio", ul(LINEAS.map(l => `<b>${esc(l.n)}</b> — ${esc(l.d)}`)))}
     ${g("Restricción principal", `<p class="ptext">El margen entre lo que se cobra y lo que se paga por
       cada suscriptor. Con 21 M de cuentas y sin plan gratuito, el modelo compensa su coste de contenido con recurrencia,
       no con volumen de usuarios.</p>`)}
@@ -753,8 +710,8 @@ function panelBloque(id){
       const otro = porId(r.a === id ? r.b : r.a);
       return `<b>${b.n} → ${otro.n} · ${esc(r.l)}</b> — ${esc(r.d)}`;
     })))}
-    <p class="note">Este bloque sostiene las líneas de negocio:
-      ${LINEAS.filter(l => l.blocks.includes(id)).map(l => `<b style="color:#fff">${esc(l.n)}</b>`).join(" · ") || "—"}.</p>`;
+    <p class="note">${b.items.length} elementos con cifras y tabla dentro del lienzo.
+      Pulsa cualquier relación para saltar al bloque correspondiente.</p>`;
 }
 
 function panelRel(i){
@@ -786,21 +743,6 @@ function panelVista(){
     ${g("Siguiente paso", `<p class="ptext">Haz clic en cualquiera de estos bloques en el lienzo para leer su detalle completo.</p>`)}`;
 }
 
-function panelLinea(){
-  const l = LINEAS.find(x => x.id === lineaActiva);
-  panel.style.setProperty("--pc", l.c);
-  return `<span class="pill">Línea de negocio</span>
-    <h3>${esc(l.n)}</h3>
-    <p class="psum">${esc(l.d)}</p>
-    ${g("Aportación a la cuenta", `<p class="ptext">${esc(l.ev)}</p>`)}
-    ${g("Bloques del lienzo que sostiene", ul(l.blocks.map(id => {
-      const b = porId(id);
-      return `<b>${b.n}. ${esc(b.name)}</b> — ${esc(b.tag)}`;
-    })))}
-    ${g("Resto del modelo", `<p class="ptext">Pulsa de nuevo <b style="color:#fff">${esc(l.n)}</b> para volver a la vista
-      general de los nueve bloques.</p>`)}`;
-}
-
 /* ============================ CURVAS ============================ */
 function dibujar(){
   graph.querySelectorAll(".draw").forEach(x => x.remove());
@@ -813,14 +755,12 @@ function dibujar(){
     return [r.left + r.width/2 - c.left, r.top + r.height/2 - c.top, r.width, r.height];
   };
   const focoVista = (VISTAS[vista] || []);
-  const focoLinea = lineaActiva ? LINEAS.find(l => l.id === lineaActiva).blocks : [];
 
   RELACIONES.forEach((r, i) => {
     const A = p(r.a), B = p(r.b);
     if (!A || !B) return;
     const on = relActiva === i || abierto === r.a || abierto === r.b ||
-      (focoVista.length && focoVista.includes(r.a) && focoVista.includes(r.b)) ||
-      (focoLinea.length && focoLinea.includes(r.a) && focoLinea.includes(r.b));
+      (focoVista.length && focoVista.includes(r.a) && focoVista.includes(r.b));
     // origen y punto de control perpendiculares
     const [x1,y1] = [A[0], A[1] + A[3]/2 + 6];
     const [x2,y2] = [B[0], B[1] - B[3]/2 - 8];
