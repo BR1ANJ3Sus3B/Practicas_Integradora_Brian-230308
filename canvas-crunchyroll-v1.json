@@ -1,0 +1,170 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "AnimeHub — Modelo Canvas (7 componentes)",
+    "output": "canvas-crunchyroll-v1.html",
+    "quality_profile": "showcase",
+    "viewBox": [1440, 760],
+    "interaccion": {
+      "expandir_al_click": "El nodo clickeado ocupa el ancho completo y muestra todos sus ítems; un segundo click lo contrae.",
+      "panel_de_detalle": "A la derecha, con el detalle del nodo o de la relación clickeada.",
+      "tarjetas": "Siete tarjetas, una por componente, que activan el nodo correspondiente.",
+      "relaciones": "Cada flecha tiene etiqueta; al clickearla se explica su sentido en el panel."
+    },
+    "fuente_de_verdad": {
+      "path": "Practica03/business-model-canvas/analisis-proyecto.md",
+      "nota": "Todo el contenido autoral sale de ese documento. Este archivo solo lo organiza y lo visualiza: cada ítem declara su sección de evidencia."
+    },
+    "legend": {
+      "mode": "all",
+      "entries": {
+        "external": { "label": "1 Problema" },
+        "frontend": { "label": "2 Usuarios" },
+        "cloud": { "label": "3 Propuesta de valor" },
+        "backend": { "label": "4 Solución" },
+        "messagebus": { "label": "5 Procesos" },
+        "security": { "label": "6 Recursos y tecnologías" },
+        "database": { "label": "7 Resultados" }
+      }
+    },
+    "views": [
+      { "id": "problema-y-usuarios", "label": "1-2 · Problema y usuarios", "focus": ["problema", "usuarios"], "note": "Las cinco causas del mercado y los cinco tipos de usuario que las sufren." },
+      { "id": "cadena-de-valor", "label": "2-4 · Cadena de valor", "focus": ["usuarios", "propuesta", "solucion"], "note": "De la necesidad del usuario a los módulos que la atienden." },
+      { "id": "operacion", "label": "4-6 · Solución y operación", "focus": ["solucion", "procesos", "recursos"], "note": "Los siete módulos, los siete procesos y el stack que los ejecuta." },
+      { "id": "resultados", "label": "5-7 · Operación y resultados", "focus": ["procesos", "recursos", "resultados"], "note": "Procesos y recursos que se traducen en adquisición, conversión e ingresos." },
+      { "id": "ingresos-y-conversion", "label": "Ingresos y conversión", "focus": ["usuarios", "propuesta", "solucion", "procesos", "resultados"], "note": "Cómo la prueba gratuita y los planes de pago convierten usuarios en ingresos recurrentes." },
+      { "id": "plataforma-y-tecnologia", "label": "Plataforma y tecnología", "focus": ["solucion", "procesos", "recursos"], "note": "Stack del producto: React, Express, MongoDB, JWT, HLS, Docker y GitHub." }
+    ]
+  },
+  "components": [
+    {
+      "id": "problema",
+      "type": "external",
+      "n": 1,
+      "label": "Problema / Necesidad",
+      "resumen": "La oferta de anime está fragmentada por plataforma, región e idioma, y no deja decidir antes de pagar.",
+      "items": [
+        { "titulo": "C1 · Catálogo fragmentado", "desc": "La oferta está repartida en plataformas separadas por región, idioma y disponibilidad.", "ev": "§2 · C1" },
+        { "titulo": "C2 · Barrera de pago inicial", "desc": "No hay opción gratuita ni período de prueba: se paga desde el primer capítulo para poder decidir.", "ev": "§2 · C2" },
+        { "titulo": "C3 · Descubrimiento deficiente", "desc": "La búsqueda no permite filtrar por género, año, estudio, idioma o estado de emisión.", "ev": "§2 · C3" },
+        { "titulo": "C4 · Pérdida de progreso", "desc": "El avance del capítulo no se conserva al cambiar de dispositivo ni al cerrar la sesión.", "ev": "§2 · C4" },
+        { "titulo": "C5 · Gestión manual", "desc": "El alta de catálogo y la gestión de cuentas se hacen a mano y sin trazabilidad.", "ev": "§2 · C5" },
+        { "titulo": "Consecuencias actuales", "desc": "Abandono temprano · alta carga de soporte · consumo en fuentes no oficiales · ingresos no capturados · sin trazabilidad.", "ev": "§2 · Consecuencias" }
+      ]
+    },
+    {
+      "id": "usuarios",
+      "type": "frontend",
+      "n": 2,
+      "label": "Usuarios o beneficiarios",
+      "resumen": "Espectadores que consumen por capítulos y un equipo administrador que opera el catálogo y la plataforma.",
+      "items": [
+        { "titulo": "U1 · Espectador / estudiante", "desc": "Consume anime por capítulos desde escritorio y móvil. Quiere encontrar el título con filtros claros, empezar sin pagar y retomar el capítulo exacto donde se quedó.", "ev": "§3 · U1" },
+        { "titulo": "U2 · Suscriptor Premium", "desc": "Paga un plan mensual o anual. Espera reproducción sin interrupciones, calidad HD, historial de visualización y descarga para ver sin conexión.", "ev": "§3 · U2" },
+        { "titulo": "U3 · Usuario registrado gratuito", "desc": "Se registra para crear su lista o aprovechar la prueba, sin plan de pago. Necesita registro rápido con verificación por correo y acceso limitado pero suficiente para valorar el catálogo.", "ev": "§3 · U3" },
+        { "titulo": "U4 · Administrador de catálogo", "desc": "Da de alta series, episodios y metadatos: alta masiva, edición de portada y sinopsis, clasificación por género y control de publicación.", "ev": "§3 · U4" },
+        { "titulo": "U5 · Administrador de plataforma", "desc": "Gestiona usuarios, planes, métricas y soporte: panel de reproducción y conversión, gestión de planes y estados, y registro de auditoría.", "ev": "§3 · U5" }
+      ]
+    },
+    {
+      "id": "propuesta",
+      "type": "cloud",
+      "n": 3,
+      "label": "Propuesta de valor",
+      "resumen": "AnimeHub reúne el catálogo de anime en un solo lugar, con prueba gratuita, navegación por capítulos y progreso que se conserva en cualquier dispositivo.",
+      "frase": "AnimeHub reúne el catálogo de anime en un solo lugar, con prueba gratuita, navegación por capítulos y progreso de visualización que se conserva en cualquier dispositivo, para que el estudiante y el aficionado vean anime sin pagar antes de decidir.",
+      "items": [
+        { "titulo": "Un solo lugar", "desc": "Un único login y un único catálogo, sin saltar entre plataformas. Ataca C1.", "ev": "§4" },
+        { "titulo": "Decidir antes de pagar", "desc": "Período de prueba gratuito para valorar el contenido. Ataca C2.", "ev": "§4" },
+        { "titulo": "Progreso que te sigue", "desc": "El capítulo y el segundo exactos se guardan en la cuenta y se retoman en cualquier dispositivo. Ataca C4.", "ev": "§4" },
+        { "titulo": "Descubrimiento real", "desc": "Filtros por género, año, estudio, idioma y estado de emisión. Ataca C3.", "ev": "§4" }
+      ]
+    },
+    {
+      "id": "solucion",
+      "type": "backend",
+      "n": 4,
+      "label": "Solución propuesta",
+      "resumen": "Siete módulos que se agrupan en tres bloques: cuenta y catálogo, reproductor y seguimiento, suscripciones y pagos.",
+      "items": [
+        { "titulo": "M1 · Cuenta y autenticación", "desc": "Registro, inicio de sesión, verificación por correo, perfil, roles (RBAC) y recuperación de contraseña.", "ev": "§5 · M1" },
+        { "titulo": "M2 · Catálogo y búsqueda", "desc": "Listado de series y películas, filtros por género/año/estudio/idioma/estado, portada, sinopsis y detalle de episodios.", "ev": "§5 · M2" },
+        { "titulo": "M3 · Reproductor", "desc": "Reproducción de video, calidad seleccionable, subtítulos, control de avance y marcadores.", "ev": "§5 · M3" },
+        { "titulo": "M4 · Seguimiento y lista", "desc": "Lista de seguimiento por usuario, historial de visualización, reanudación del capítulo y marcas de tiempo.", "ev": "§5 · M4" },
+        { "titulo": "M5 · Suscripciones y pagos", "desc": "Planes mensual y anual, período de prueba, cobro, estado de la suscripción y baja.", "ev": "§5 · M5" },
+        { "titulo": "M6 · Notificaciones", "desc": "Aviso de nuevos episodios de la lista y de caducidad de la prueba o del plan.", "ev": "§5 · M6" },
+        { "titulo": "M7 · Administración y métricas", "desc": "Gestión de catálogo, usuarios y planes; métricas de reproducción, conversión y retención; auditoría.", "ev": "§5 · M7" }
+      ]
+    },
+    {
+      "id": "procesos",
+      "type": "messagebus",
+      "n": 5,
+      "label": "Actividades y procesos clave",
+      "resumen": "Siete procesos: del registro del usuario al cobro, el alta de contenido y la lectura de métricas.",
+      "items": [
+        { "titulo": "A1 · Registro e inicio de sesión", "desc": "El usuario se registra, verifica su correo e inicia sesión; el sistema emite el token y asigna su rol.", "ev": "§6 · A1" },
+        { "titulo": "A2 · Consulta del catálogo y búsqueda", "desc": "El usuario navega el catálogo y aplica filtros; el sistema devuelve resultados y el detalle de cada título.", "ev": "§6 · A2" },
+        { "titulo": "A3 · Reproducción y control de calidad", "desc": "El reproductor solicita el episodio, aplica calidad y subtítulos, y reporta el avance.", "ev": "§6 · A3" },
+        { "titulo": "A4 · Cálculo de progreso y reanudación", "desc": "El sistema guarda el capítulo, el segundo y la marca; al volver, propone retomar desde ese punto.", "ev": "§6 · A4" },
+        { "titulo": "A5 · Gestión de la lista de seguimiento", "desc": "El usuario añade o quita títulos; el sistema notifica la salida de nuevos episodios.", "ev": "§6 · A5" },
+        { "titulo": "A6 · Suscripción, cobro y prueba", "desc": "Se activa la prueba o el plan, se cobra, se controla la vigencia y se gestiona la baja.", "ev": "§6 · A6" },
+        { "titulo": "A7 · Administración de contenido y métricas", "desc": "El equipo administrador da de alta series y episodios, edita metadatos y revisa las métricas.", "ev": "§6 · A7" }
+      ]
+    },
+    {
+      "id": "recursos",
+      "type": "security",
+      "n": 6,
+      "label": "Recursos y tecnologías clave",
+      "resumen": "Stack aprobado por el equipo, más las personas que lo construyen y lo mantienen.",
+      "items": [
+        { "titulo": "React (Vite) + React Router + Tailwind", "desc": "SPA responsive: catálogo, detalle, reproductor y panel de administración.", "ev": "§7 · Frontend" },
+        { "titulo": "Node.js + Express", "desc": "API REST que sirve catálogo, reproducción, listas y suscripciones.", "ev": "§7 · Backend" },
+        { "titulo": "MongoDB + Mongoose", "desc": "Persistencia de usuarios, catálogo, episodios, listas, suscripciones y auditoría.", "ev": "§7 · Datos" },
+        { "titulo": "JWT + bcrypt + RBAC", "desc": "Autenticación stateless, hash de contraseñas y control de acceso por rol.", "ev": "§7 · Identidad" },
+        { "titulo": "HLS sobre HTTP + almacenamiento de objetos", "desc": "Empaquetado y servido del video; también de portadas y subtítulos.", "ev": "§7 · Multimedia" },
+        { "titulo": "Pasarela de pago con webhooks", "desc": "Cobro de los planes mensual y anual, y confirmación de la prueba.", "ev": "§7 · Pagos" },
+        { "titulo": "Docker + Docker Compose", "desc": "Empaquetado y orquestación de API, base de datos y entorno de desarrollo.", "ev": "§7 · Infraestructura" },
+        { "titulo": "Git + GitHub (issues, PR, CI)", "desc": "Control de versiones, revisión de código y despliegue.", "ev": "§7 · Entrega" },
+        { "titulo": "Pruebas automatizadas + ESLint", "desc": "Verificación de la API y de los componentes críticos.", "ev": "§7 · Calidad" },
+        { "titulo": "Equipo humano", "desc": "Desarrollo (frontend, backend y base de datos) · análisis y diseño · perfil de contenido · calidad y soporte.", "ev": "§7 · Recursos humanos" }
+      ]
+    },
+    {
+      "id": "resultados",
+      "type": "database",
+      "n": 7,
+      "label": "Resultados, beneficios e impacto",
+      "resumen": "Siete resultados esperados, cada uno con su indicador de verificación.",
+      "items": [
+        { "titulo": "R1 · Adquisición sin fricción", "desc": "Registros completos con correo verificado.", "ev": "§8 · R1" },
+        { "titulo": "R2 · Conversión de prueba a suscripción", "desc": "Porcentaje de cuentas que pasan del plan gratuito a un plan de pago tras la prueba.", "ev": "§8 · R2" },
+        { "titulo": "R3 · Retención por continuidad", "desc": "Usuarios que vuelven a retomar un capítulo en los 7 días siguientes.", "ev": "§8 · R3" },
+        { "titulo": "R4 · Ingresos recurrentes", "desc": "Renovaciones de los planes mensual y anual.", "ev": "§8 · R4" },
+        { "titulo": "R5 · Menor carga de soporte", "desc": "Consultas sobre disponibilidad, calidad y cobro resueltas por el propio catálogo.", "ev": "§8 · R5" },
+        { "titulo": "R6 · Catálogo operable por el equipo", "desc": "Altas de contenido y métricas revisadas sin proceso manual.", "ev": "§8 · R6" },
+        { "titulo": "R7 · Impacto en la comunidad", "desc": "Acceso organizado a anime por capítulos, con progreso que se conserva.", "ev": "§8 · R7" }
+      ]
+    }
+  ],
+  "relations": [
+    { "id": "problema-usuarios", "from": "problema", "to": "usuarios", "label": "viven el problema", "detalle": "C1–C5 producen consecuencias en U1–U3 y carga operativa en U4–U5.", "ev": "§9" },
+    { "id": "usuarios-propuesta", "from": "usuarios", "to": "propuesta", "label": "motivan la propuesta", "detalle": "Cada elemento de la propuesta —catálogo único, prueba, progreso, filtros— cubre una necesidad declarada en U1–U3.", "ev": "§9" },
+    { "id": "propuesta-solucion", "from": "propuesta", "to": "solucion", "label": "se materializa en", "detalle": "Prueba gratuita → M5 · progreso que te sigue → M3 y M4 · filtros → M2 · un solo lugar → M1 y M2.", "ev": "§9" },
+    { "id": "solucion-procesos", "from": "solucion", "to": "procesos", "label": "se opera mediante", "detalle": "M1–M7 se ejecutan a través de A1–A7.", "ev": "§9" },
+    { "id": "procesos-recursos", "from": "procesos", "to": "recursos", "label": "se apoya en", "detalle": "Cada proceso depende de una o más tecnologías del stack aprobado por el equipo.", "ev": "§9" },
+    { "id": "procesos-resultados", "from": "procesos", "to": "resultados", "label": "produce", "detalle": "A1–A4 sostienen R1–R3 y R7 · A6 sostiene R2 y R4 · A7 sostiene R5 y R6.", "ev": "§9" },
+    { "id": "solucion-resultados", "from": "solucion", "to": "resultados", "label": "entrega el beneficio", "detalle": "Los módulos M1–M7 hacen observables los resultados R1–R7; sin ellos el beneficio no llega al usuario.", "ev": "§9" }
+  ],
+  "cards": [
+    { "id": "problema", "title": "1 · Problema / Necesidad", "items": ["C1 Catálogo fragmentado", "C2 Cobro sin prueba previa", "C3 Búsqueda sin filtros", "C4 Progreso que se pierde", "C5 Gestión manual"] },
+    { "id": "usuarios", "title": "2 · Usuarios o beneficiarios", "items": ["U1 Espectador / estudiante", "U2 Suscriptor Premium", "U3 Registrado gratuito", "U4 Administrador de catálogo", "U5 Administrador de plataforma"] },
+    { "id": "propuesta", "title": "3 · Propuesta de valor", "items": ["Un solo lugar", "Decidir antes de pagar", "Progreso que te sigue", "Descubrimiento real"] },
+    { "id": "solucion", "title": "4 · Solución propuesta", "items": ["M1 Cuenta y autenticación", "M2 Catálogo y búsqueda", "M3 Reproductor", "M4 Seguimiento y lista", "M5 Suscripciones y pagos", "M6 Notificaciones", "M7 Administración y métricas"] },
+    { "id": "procesos", "title": "5 · Actividades y procesos", "items": ["A1 Registro e inicio de sesión", "A2 Catálogo y búsqueda", "A3 Reproducción y calidad", "A4 Progreso y reanudación", "A5 Lista de seguimiento", "A6 Suscripción, cobro y prueba", "A7 Administración y métricas"] },
+    { "id": "recursos", "title": "6 · Recursos y tecnologías", "items": ["React (Vite) + Tailwind", "Node.js + Express", "MongoDB + Mongoose", "JWT + bcrypt + RBAC", "HLS + pasarela de pago", "Docker + GitHub + CI"] },
+    { "id": "resultados", "title": "7 · Resultados e impacto", "items": ["R1 Adquisición sin fricción", "R2 Conversión de prueba", "R3 Retención a 7 días", "R4 Ingresos recurrentes", "R5 Menor carga de soporte", "R6 Catálogo operable", "R7 Impacto en la comunidad"] }
+  ]
+}
