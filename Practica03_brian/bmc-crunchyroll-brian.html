@@ -97,13 +97,13 @@ kbd{background:var(--surf-2);border:1px solid var(--line-2);border-radius:5px;pa
   font:700 11px ui-monospace,Consolas,monospace;color:var(--muted)}
 
 /* ---------------- layout principal ---------------- */
-.layout{display:grid;grid-template-columns:minmax(0,1fr) 372px;gap:18px;align-items:start}
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 372px;gap:10px;align-items:start}
 .stage{position:relative}
 
 /* ---------------- el canvas ---------------- */
 .canvas{
   position:relative; isolation:isolate;
-  display:grid; gap:11px;
+  display:grid; gap:5px;
   grid-template-columns:repeat(5,minmax(0,1fr));
   grid-template-areas:
     "aliados  act     act     valor     valor"
@@ -127,7 +127,7 @@ kbd{background:var(--surf-2);border:1px solid var(--line-2);border-radius:5px;pa
   position:relative; text-align:left; font:inherit; color:inherit; cursor:pointer;
   border:1px solid var(--line); border-radius:var(--r);
   background:linear-gradient(170deg,var(--surf-2) 0%,var(--surf) 62%);
-  padding:13px 14px; display:flex; flex-direction:column; gap:8px;
+  padding:10px 11px; display:flex; flex-direction:column; gap:5px;
   transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease,opacity .2s ease;
   overflow:hidden;
 }
@@ -165,26 +165,40 @@ kbd{background:var(--surf-2);border:1px solid var(--line-2);border-radius:5px;pa
   font:800 10.5px/1.6 ui-monospace,Consolas,monospace;color:var(--muted)}
 
 /* estado expandido */
-.block.open{grid-area:auto;grid-column:1/-1;order:-1;padding:18px 20px 20px;border-color:var(--c);
+/* Cuando un bloque está abierto, compactamos los demás para evitar huecos
+   grandes provocados por las áreas fijas del grid. */
+.canvas.has-open{
+  grid-template-areas:none;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  grid-auto-flow:dense;
+  gap:4px;
+  row-gap:0;
+  column-gap:4px;
+  align-items:start;
+}
+.canvas.has-open .block{grid-area:auto !important}
+.canvas.has-open .block.open{grid-column:1/-1 !important; width:100%; min-width:0margin-top:-22px;}
+
+.block.open{grid-area:auto;grid-column:1/-1;order:99;padding:13px 15px 15px;margin-top:0;border-color:var(--c);
   background:linear-gradient(170deg,var(--surf-3) 0%,var(--surf) 60%)}
 .block.open::after{opacity:.8}
 .block.open .chev{transform:rotate(180deg)}
 .block.open .bname{font-size:19px;letter-spacing:-.4px}
 .block.open .bico{width:40px;height:40px;border-radius:13px}
 .block.open .bico svg{width:22px;height:22px}
-.openwrap{display:none}
+.openwrap{display:none;min-width:0;width:100%}
 .block.open .openwrap{display:block;animation:unfold .26s cubic-bezier(.2,.8,.2,1) both}
 @keyframes unfold{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
 
-.otext{margin:11px 0 0;font-size:13.5px;line-height:1.55;color:#dcdce6;max-width:96ch}
-.items{display:grid;grid-template-columns:repeat(auto-fit,minmax(272px,1fr));gap:10px;margin:15px 0 0;padding:0;list-style:none}
+.otext{margin:7px 0 0;font-size:13.5px;line-height:1.5;color:#dcdce6;max-width:96ch}
+.items{display:grid;grid-template-columns:repeat(auto-fit,minmax(272px,1fr));gap:6px;margin:8px 0 0;padding:0;list-style:none}
 .items li{
   border:1px solid var(--line);border-left:3px solid var(--c);border-radius:12px;
-  background:rgba(255,255,255,.028);padding:11px 13px;
+  background:rgba(255,255,255,.028);padding:8px 10px;
 }
 .items li b{display:block;font-size:13px;letter-spacing:-.1px}
 .items li span{display:block;margin-top:4px;font-size:12.2px;line-height:1.5;color:var(--muted)}
-.relbar{display:flex;flex-wrap:wrap;gap:8px;margin:15px 0 0;align-items:center}
+.relbar{display:flex;flex-wrap:wrap;gap:5px;margin:8px 0 0;align-items:center}
 .relbar>span{font-size:10.5px;font-weight:800;letter-spacing:.9px;text-transform:uppercase;color:var(--muted-2)}
 .rel{
   display:inline-flex;align-items:center;gap:7px;border-radius:999px;padding:6px 13px;
@@ -195,16 +209,16 @@ kbd{background:var(--surf-2);border:1px solid var(--line-2);border-radius:5px;pa
 .rel b{color:var(--c);font-weight:800}
 
 /* tablas y stats dentro del bloque abierto */
-.tablewrap{margin:15px 0 0;border:1px solid var(--line);border-radius:12px;overflow:hidden}
-table{width:100%;border-collapse:collapse;font-size:12.5px}
-th,td{padding:9px 12px;text-align:left;border-bottom:1px solid var(--line)}
+.tablewrap{margin:15px 0 0;border:1px solid var(--line);border-radius:12px;overflow-x:auto;overflow-y:hidden;max-width:100%;width:100%}
+table{width:100%;min-width:620px;border-collapse:collapse;font-size:12.5px}
+th,td{padding:9px 12px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top;overflow-wrap:anywhere}
 th{background:rgba(255,255,255,.05);font-size:10.5px;letter-spacing:.7px;text-transform:uppercase;color:var(--muted-2)}
 tr:last-child td{border-bottom:0}
 td b{color:#fff}
 td .up{color:#5fd6a4;font-weight:800}
-.mini{display:flex;flex-wrap:wrap;gap:9px;margin:14px 0 0}
+.mini{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 0}
 .mini div{
-  flex:1 1 130px;border:1px solid var(--line);border-radius:12px;padding:10px 12px;background:rgba(255,255,255,.03)
+  flex:1 1 130px;border:1px solid var(--line);border-radius:12px;padding:8px 10px;background:rgba(255,255,255,.03)
 }
 .mini b{display:block;font-size:18px;letter-spacing:-.5px;color:var(--c)}
 .mini span{display:block;margin-top:2px;font-size:11px;color:var(--muted);line-height:1.35}
@@ -254,6 +268,13 @@ footer{margin:34px 0 0;padding-top:18px;border-top:1px solid var(--line);
   .search{width:100%;order:9}
   .navin{flex-wrap:wrap;height:auto;padding:10px 0}
   .hint{margin-left:0;width:100%}
+}
+
+@media(max-width:980px){
+  .canvas.has-open{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:700px){
+  .canvas.has-open{grid-template-columns:minmax(0,1fr)}
 }
 @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
@@ -643,10 +664,14 @@ $("#btnLogin").onclick = () => {
 };
 
 /* ============================ EXPANSIÓN ============================ */
-function abrir(id){ abierto = id; relActiva = null; pintar(); if (id) canvas.scrollIntoView({ behavior:"smooth", block:"nearest" }); }
+function abrir(id){ abierto = id; relActiva = null; pintar(); }
 function selRel(i){ relActiva = relActiva === i ? null : i; abierto = null; pintar(); }
 
 function pintar(){
+  // Activa un layout compacto mientras un bloque está expandido.
+  // Así los otros 8 bloques se reorganizan y no dejan espacios vacíos.
+  canvas.classList.toggle("has-open", Boolean(abierto));
+
   const focoVista = VISTAS[vista] || [];
   const foco = focoVista.length ? focoVista : [];
   const hayFoco = foco.length > 0;
