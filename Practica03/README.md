@@ -1,12 +1,22 @@
 # Práctica 03 — Modelo de Negocio (Business Model Canvas) con Archify
 
-Modelado del **Business Model Canvas de Crunchyroll** (herramienta multiplataforma
-de streaming de anime) generado con **Archify** y publicado como HTML interactivo
-mediante GitHub Pages.
+Dos lienzos generados con **Archify** y publicados como HTML autocontenido e
+interactivo mediante GitHub Pages:
+
+| | Proyecto | Qué modela | Bloques |
+|---|----------|-----------|---------|
+| **A** | **Crunchyroll** | Modelo de negocio de una empresa comercial real | 9 canónicos |
+| **B** | **AnimeHub** | Modelo de negocio del proyecto integrador de la asignación | 7 |
+
+Son entregables **independientes**: distinto sujeto, distinto número de bloques
+y distinta fuente de verdad. El de Crunchyroll se documenta en este archivo; el
+de AnimeHub tiene su propio directorio,
+[`business-model-canvas/`](business-model-canvas/README.md), porque su análisis,
+sus receipts y su geometría no encajan aquí.
 
 ---
 
-## Entregable
+## Entregable A — Crunchyroll (este documento)
 
 | | |
 |---|---|
@@ -17,6 +27,43 @@ mediante GitHub Pages.
 | **Especificación de la vista ampliada** | [`bmc-crunchyroll-detalle.json`](bmc-crunchyroll-detalle.json) |
 | **Línea base v1** | [`bmc-crunchyroll-v1.html`](bmc-crunchyroll-v1.html) · [`bmc-crunchyroll-v1.json`](bmc-crunchyroll-v1.json) |
 | **Vista previa** | ![Modelo de Negocio de Crunchyroll](bmc-crunchyroll.visual-check.2048x1320.light.png) |
+
+---
+
+## Entregable B — AnimeHub (7 componentes)
+
+| | |
+|---|---|
+| **Abrir el diagrama (GitHub Pages)** | [bmc-animehub-final.html](https://br1anj3sus3b.github.io/Practicas_Integradora_Brian-230308/Practica03/business-model-canvas/bmc-animehub-final.html) |
+| **Abrir en local** | doble clic en [`business-model-canvas/bmc-animehub-final.html`](business-model-canvas/bmc-animehub-final.html) |
+| **Especificación fuente** | [`business-model-canvas/bmc-animehub-final.json`](business-model-canvas/bmc-animehub-final.json) |
+| **Documentación completa** | [`business-model-canvas/README.md`](business-model-canvas/README.md) |
+| **Análisis del proyecto** | [`business-model-canvas/analisis-proyecto.md`](business-model-canvas/analisis-proyecto.md) |
+| **Vista previa** | ![BMC de AnimeHub](business-model-canvas/canvas-final.png) |
+
+Contenido: 21 nodos, 7 regiones, 10 relaciones etiquetadas, 5 vistas guiadas y 4
+tarjetas. A diferencia del entregable A, **cada nodo declara su fuente** (línea
+exacta de `analisis-proyecto.md`), lo que obliga a pasar `--repo-root` en la
+validación: si esa evidencia deja de existir, la validación falla en vez de
+servir una referencia muerta.
+
+La revisión de aceptación, con los intentos rechazados y sus receipts, está en
+[`business-model-canvas/docs/comparativa-v1-final.md`](business-model-canvas/docs/comparativa-v1-final.md).
+
+### Diferencias entre los dos lienzos
+
+| | Crunchyroll | AnimeHub |
+|---|-----------|----------|
+| Sujeto | Empresa comercial real | Proyecto integrador de la asignación |
+| Bloques | 9 canónicos | 7 del proyecto |
+| Rejilla | 5 columnas × 3 filas | 4 columnas × 2 bandas de 3 filas |
+| Nodos | 9 | 21 (3 por bloque) |
+| Relaciones | 9 | 10 |
+| Vistas guiadas | 4 | 5 |
+| Tarjetas | 6 × 3 ítems | 4 × 3 ítems |
+| Evidencia por nodo | no | **sí**, 21 `sources` con línea |
+| `--repo-root` en validar | no | **obligatorio** |
+| `animation` | sin animación | `trace` |
 
 ---
 
