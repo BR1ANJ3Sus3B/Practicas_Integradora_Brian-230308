@@ -235,9 +235,6 @@ td .up{color:#5fd6a4;font-weight:800}
 footer{margin:34px 0 0;padding-top:18px;border-top:1px solid var(--line);
   color:var(--muted-2);font-size:11.5px;line-height:1.6}
 
-footer{margin:44px 0 0;padding-top:18px;border-top:1px solid var(--line);
-  color:var(--muted-2);font-size:11.5px;line-height:1.6}
-
 @media(max-width:1220px){
   .layout{grid-template-columns:minmax(0,1fr)}
   .panel{position:static;max-height:none}
@@ -790,12 +787,20 @@ function dibujar(){
   });
 }
 
-const ro = new ResizeObserver(dibujar);
+/* el panel se limita a la altura del lienzo para que no quede hueco debajo */
+const stage = document.querySelector(".stage");
+function ajustarPanel(){
+  if (getComputedStyle(panel).position === "static"){ panel.style.maxHeight = ""; return; }
+  panel.style.maxHeight = stage.offsetHeight + "px";
+}
+
+const ro = new ResizeObserver(() => { ajustarPanel(); dibujar(); });
 ro.observe(canvas);
 BLOQUES.forEach(b => ro.observe(document.getElementById(b.id)));
-addEventListener("resize", dibujar);
+addEventListener("resize", ajustarPanel);
 
 pintar();
+ajustarPanel();
 </script>
 </body>
 </html>
