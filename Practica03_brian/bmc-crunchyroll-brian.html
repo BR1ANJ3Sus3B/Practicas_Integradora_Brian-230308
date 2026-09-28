@@ -325,11 +325,9 @@ footer{margin:44px 0 0;padding-top:18px;border-top:1px solid var(--line);
   <header class="hero">
     <span class="eyebrow">Business Model Canvas · 9 bloques</span>
     <h1>Todo <em>Crunchyroll</em>, en un solo lienzo</h1>
-    <p class="lead">El modelo de negocio completo del mayor servicio de streaming de anime del mundo:
-      los nueve bloques del lienzo, las ocho líneas de negocio que sostiene y las cifras que lo respaldan.
+    <p class="lead">El modelo de negocio completo del mayor servicio de streaming de anime del mundo,
+      con sus nueve bloques y las cifras públicas que lo respaldan.
       <b style="color:#fff">Haz clic en cualquier bloque</b> para que se expanda y muestre todo su detalle.</p>
-
-    <div class="kpis" id="kpis"></div>
   </header>
 
   <div class="controls" id="controls">
@@ -360,36 +358,15 @@ footer{margin:44px 0 0;padding-top:18px;border-top:1px solid var(--line);
     <aside class="panel" id="panel" aria-live="polite" aria-label="Detalle"></aside>
   </div>
 
-  <h2 class="sec">Las ocho líneas de negocio</h2>
-  <p class="sub2">«Todo Crunchyroll» no es solo streaming. Toca una línea para ver qué bloques del lienzo soporta
-    y qué aporta a la cuenta de resultados.</p>
-  <div class="lines" id="lines"></div>
-
-  <h2 class="sec">Datos de la cuenta</h2>
-  <p class="sub2">Cifras públicas reportadas por Sony Group, Sony Pictures Entertainment y la propia Crunchyroll.</p>
-  <div class="cards" id="cards"></div>
-
   <footer>
-    <b>Fuentes.</b> Sony Group — resultados del ejercicio fiscal cerrado a marzo de 2026 yombramiento de estrategia
-    (8 may 2026) · Sony Pictures Entertainment — informe de resultados Q4 FY2025 · Crunchyroll — comunicación oficial
-    de precios (2 feb 2026) y del fin del plan gratuito (31 dic 2025) · Wikipedia y prensa sectorial
-    (Variety, Ars Technica, The Hollywood Reporter) para antecedentes societarios.
-    <br><b>Alcance.</b> Documento académico de análisis: usa cifras públicas divulgadas por la empresa y no
-    información financiera interna. Crunchyroll no cotiza; forma parte de Sony Group Corporation (TSE 6758 / NYSE: SONY).
+    <b>Fuentes.</b> Sony Group (resultados del ejercicio cerrado a marzo de 2026) · Sony Pictures Entertainment
+    (informe de resultados) · Crunchyroll (comunicación de precios de 2 feb 2026 y fin del plan gratuito el
+    31 dic 2025) · prensa sectorial para los antecedentes societarios.
   </footer>
 </main>
 
 <script>
 /* ============================ DATOS ============================ */
-
-const KPIS = [
-  {v:"21 M", l:"Suscriptores de pago", s:"A marzo de 2026, frente a 17 M un año antes (+25 %).", hot:true},
-  {v:"1.000+", l:"Series de anime en catálogo"},
-  {v:"21", l:"Idiomas de subtítulos", s:"Desde 2006, con doblaje en los principales mercados."},
-  {v:"$3.170 M", l:"Ingresos Media Networks", s:"Grupo que incluye Crunchyroll, +13 % interanual."},
-  {v:"$9,92 B", l:"Ventas de Sony Pictures", s:"Ejercicio fiscal cerrado a marzo de 2026, plano interanual."},
-  {v:"1.000+", l:"Empleados en 15 oficinas", s:"Reestructuración y despidos en marzo de 2026."}
-];
 
 const BLOQUES = [
   {
@@ -602,10 +579,10 @@ const RELACIONES = [
   {a:"rec",     b:"valor",l:"sostienen",  d:"El catálogo con derechos, la marca y los datos de 21 millones de cuentas son lo que convierte una tarea operativa en una promesa que el usuario puede creer."},
   {a:"act",     b:"valor",l:"entregan",  d:"La propuesta de valor no es una frase de marketing: es el resultado del simulcast, del doblaje, del reproductor y de la entrega global."},
   {a:"valor",   b:"clientes", l:"se comunica en", d:"La relación con clientes es el vehículo de la propuesta: listas, notificaciones, recomendaciones y soporte son los puntos de contacto donde el usuario la percibe."},
-  {a:"clientes",b:"seg",   l:"gana y retiene", d:"Cada segmento —estudiante, coleccionista, fan de cine— exige una relación distinta, y las campañas de retención se diseñan para el segmento cuyo margen más pesa."},
-  {a:"can",     b:"valor",l:"llegan por", d:"La misma propuesta se entrega con distinta fidelidad en cada canal: máxima en la web, comoda en la tele y limitada en el móvil cuando se descarga."},
-  {a:"can",     b:"seg",  l:"distribuyen a", d:"El canal determina la audiencia: la tele lleva al hogar, la consola al jugador y el cine al evento, y cada una captura un segmento distinto."},
-  {a:"seg",     b:"ingresos", l:"pagan a", d:"Cada plan y cada línea de negocio se dirige a un segmento concreto, y el nivel de gasto de ese segmento fija el precio que se puede pedir."},
+  {a:"clientes",b:"segmentos", l:"gana y retiene", d:"Cada segmento —estudiante, coleccionista, fan de cine— exige una relación distinta, y las campañas de retención se diseñan para el segmento cuyo margen más pesa."},
+  {a:"canales",  b:"valor",l:"llegan por", d:"La misma propuesta se entrega con distinta fidelidad en cada canal: máxima en la web, comoda en la tele y limitada en el móvil cuando se descarga."},
+  {a:"canales",  b:"segmentos", l:"distribuyen a", d:"El canal determina la audiencia: la tele lleva al hogar, la consola al jugador y el cine al evento, y cada una captura un segmento distinto."},
+  {a:"segmentos",b:"ingresos", l:"pagan a", d:"Cada plan y cada línea de negocio se dirige a un segmento concreto, y el nivel de gasto de ese segmento fija el precio que se puede pedir."},
   {a:"rec",     b:"costos", l:"consumen",  d:"El catálogo, el equipo y la infraestructura son, a la vez, la ventaja competitiva y la principal partida de gasto del modelo."},
   {a:"costos",  b:"ingresos", l:"limitan", d:"El margen entre lo que se cobra y lo que se paga por cada suscriptor es la restricción real del crecimiento, más que la demanda."}
 ];
@@ -613,47 +590,10 @@ const RELACIONES = [
 const VISTAS = {
   todos: [],
   creacion: ["aliados","act","rec","valor"],
-  ingreso: ["seg","valor","clientes","can","ingresos"],
+  ingreso: ["segmentos","valor","clientes","canales","ingresos"],
   riesgo: ["costos","ingresos","aliados","rec"]
 };
 
-const LINEAS = [
-  {id:"streaming", n:"Streaming", c:"#f47521", icon:'<polygon points="10 8 16 12 10 16"/>',
-   d:"La suscripción bajo demanda. Simulcast, catálogo y multipantalla.", ev:"Núcleo · 21 M de suscriptores",
-   blocks:["valor","can","ingresos","clientes","seg"]},
-  {id:"manga", n:"Manga", c:"#37d67a", icon:'<path d="M2 4h6a4 4 0 0 1 4 4v12a3 3 0 0 0-3-3H2z"/><path d="M22 4h-6a4 4 0 0 0-4 4v12a3 3 0 0 1 3-3h7z"/>',
-   d:"La antología de manga digital, incluida en el plan Ultimate Fan.", ev:"Sube el uso diario y el precio de disposición a pagar",
-   blocks:["valor","ingresos","clientes"]},
-  {id:"juegos", n:"Juegos", c:"#2ec4f0", icon:'<rect x="2" y="7" width="20" height="12" rx="5"/><line x1="7" y1="11" x2="7" y2="15"/><line x1="5" y1="13" x2="9" y2="13"/>',
-   d:"Publicación de videojuegos con estudios externos.", ev:"Monetiza el fandom más allá de la pantalla",
-   blocks:["aliados","ingresos","rec"]},
-  {id:"store", n:"Tienda", c:"#ff4f9a", icon:'<path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/>',
-   d:"Merchandising oficial, ediciones limitadas y figuras.", ev:"Mayor margen por venta que el vídeo",
-   blocks:["ingresos","clientes","seg"]},
-  {id:"cine", n:"Cine", c:"#ff9d4a", icon:'<rect x="2" y="4" width="20" height="16" rx="2"/><polygon points="8 4 8 20 17 14 17 10 8 4"/>',
-   d:"Crunchyroll Movie Night y estrenos teatrales de anime.", ev:"Producto de evento; 741 M USD en taquilla mundial",
-   blocks:["aliados","ingresos","costos","act"]},
-  {id:"fast", n:"Canal gratis (FAST)", c:"#7c5cff", icon:'<circle cx="12" cy="12" r="3"/><path d="M6.3 6.3a8 8 0 0 0 0 11.4"/><path d="M17.7 17.7a8 8 0 0 0 0-11.4"/>',
-   d:"Crunchyroll Channel con Game Show Network en Roku, LG, Freevee y Pluto TV.", ev:"El único sitio donde sobrevive la publicidad",
-   blocks:["aliados","can","ingresos"]},
-  {id:"comunidad", n:"Comunidad y eventos", c:"#ffd23f", icon:'<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/>',
-   d:"Anime Awards, Crunchyroll Expo, Discord y redes sociales.", ev:"Convierte suscripción en identidad cultural",
-   blocks:["clientes","act","seg"]},
-  {id:"musica", n:"Música", c:"#43e0c0", icon:'<path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>',
-   d:"Bandas sonoras en streaming y vinilos, conectados a Sony Music.", ev:"Segunda línea dentro del perímetro de Sony",
-   blocks:["aliados","ingresos"]}
-];
-
-const DATOS = [
-  {c:"#f47521", t:"Propiedad", p:"<b>Sony Group Corporation</b>, mediante una sociedad conjunta entre <b>Sony Pictures Entertainment</b> y <b>Aniplex</b>. Compra a AT&T por <b>1.175 M USD</b>, cerrada el 9 de agosto de 2021. No cotiza."},
-  {c:"#7c5cff", t:"Escala", p:"<b>21 M de suscriptores de pago</b> a marzo de 2026, frente a 17 M en 2025: cerca de <b>+25 %</b> en un año. Más de <b>1.000 series</b> y <b>21 idiomas</b>."},
-  {c:"#2ec4f0", t:"Precios", p:"Febrero de 2026: Fan de <b>7,99 a 9,99</b>, Mega Fan de <b>11,99 a 13,99</b> y Ultimate Fan de <b>15,99 a 17,99</b> dólares al mes. Primera subida del plan de entrada desde 2019."},
-  {c:"#ff4f9a", t:"Sin plan gratuito", p:"El nivel gratuito con anuncios <b>desapareció el 31 de diciembre de 2025</b>. Todo el catálogo exige suscripción de pago desde el 1 de enero de 2026."},
-  {c:"#37d67a", t:"Cine", p:"La película <b>Demon Slayer: Kimetsu no Yaiba Infinity Castle</b> repartió unos <b>741 M USD</b> en taquilla mundial. El ingresos teatral de SPE cayó de 900 a <b>494 M USD</b>."},
-  {c:"#ffd23f", t:"Audiencia", p:"Según Nielsen, los estadounidenses streamearon <b>4.400 M minutos</b> en enero de 2026, <b>más del doble</b> que el mismo mes de 2024."},
-  {c:"#8b93a7", t:"Ventas del grupo", p:"Ejercicio cerrado a marzo de 2026: <b>¥1,499 billones</b> (9.920 M USD), plano. Resultado operativo de <b>858 M USD</b> sin el cierre de Pixomondo, atribuido en buena parte a Crunchyroll."},
-  {c:"#43e0c0", t:"Guía 2027", p:"Sony proyecta para el ejercicio siguiente un <b>+9 %</b> en ventas del segmento y un <b>+38 %</b> en resultado operativo, con el crecimiento de suscriptores como motor declarado."}
-];
 
 /* ============================ LÓGICA ============================ */
 
@@ -665,10 +605,20 @@ const relDe = id => RELACIONES.map((r,i)=>({r,i})).filter(x => x.r.a === id || x
 
 let abierto = null, relActiva = null, vista = "todos", lineaActiva = null, consulta = "";
 
-/* --- KPIs --- */
-$("#kpis").innerHTML = KPIS.map(k =>
-  `<div class="kpi"><b class="${k.hot ? "hot" : ""}">${esc(k.v)}</b><span>${esc(k.l)}</span>${
-    k.s ? `<small>${esc(k.s)}</small>` : ""}</div>`).join("");
+/* --- integridad: toda relación y vista debe apuntar a un bloque real --- */
+(function validar(){
+  const ids = new Set(BLOQUES.map(b => b.id));
+  const malos = [];
+  RELACIONES.forEach(r => { if (!ids.has(r.a) || !ids.has(r.b)) malos.push(`relación "${r.l}": ${r.a}→${r.b}`); });
+  Object.values(VISTAS).forEach(v => v.forEach(id => { if (!ids.has(id)) malos.push(`vista: ${id}`); }));
+  BLOQUES.forEach(b => b.rels.forEach(r => { if (!BLOQUES.some(x => x.name === r[0])) malos.push(`chip de "${b.name}": ${r[0]}`); }));
+  if (malos.length) console.error("Referencias rotas:\n" + malos.join("\n"));
+  else console.info("Modelo íntegro: " + BLOQUES.length + " bloques, " + RELACIONES.length + " relaciones.");
+})();
+
+/* --- KPIs eliminados --- */
+/* --- líneas de negocio eliminadas --- */
+/* --- tarjetas de datos eliminadas --- */
 
 /* --- bloques --- */
 BLOQUES.forEach(b => {
@@ -722,30 +672,11 @@ $("#controls").querySelectorAll(".chip").forEach(c => c.onclick = () => {
   vista = c.dataset.v;
   lineaActiva = null;
   abrir(null);
-  $(".lines").querySelectorAll(".line").forEach(l => l.setAttribute("aria-pressed","false"));
   pintar();
 });
 
-/* --- líneas de negocio --- */
-$("#lines").innerHTML = LINEAS.map(l =>
-  `<button class="line" type="button" data-l="${l.id}" aria-pressed="false" style="--c:${l.c}">
-     <b><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-          stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${l.icon}</svg>${esc(l.n)}</b>
-     <span>${esc(l.d)}</span><em>${esc(l.ev)}</em>
-   </button>`).join("");
-$(".lines").querySelectorAll(".line").forEach(b => b.onclick = () => {
-  const l = LINEAS.find(x => x.id === b.dataset.l);
-  lineaActiva = lineaActiva === l.id ? null : l.id;
-  vista = "todos";
-  abrir(null);
-  $(".lines").querySelectorAll(".line").forEach(o =>
-    o.setAttribute("aria-pressed", o.dataset.l === lineaActiva ? "true" : "false"));
-  pintar();
-});
-
-/* --- tarjetas de datos --- */
-$("#cards").innerHTML = DATOS.map(d =>
-  `<article class="card" style="--c:${d.c}"><h4>${esc(d.t)}</h4><p>${d.p}</p></article>`).join("");
+/* --- líneas de negocio eliminadas --- */
+/* --- tarjetas de datos eliminadas --- */
 
 /* --- buscador --- */
 search.oninput = () => { consulta = search.value.trim().toLowerCase(); pintar(); };
@@ -762,8 +693,7 @@ function selRel(i){ relActiva = relActiva === i ? null : i; abierto = null; pint
 
 function pintar(){
   const focoVista = VISTAS[vista] || [];
-  const focoLinea = lineaActiva ? (LINEAS.find(l => l.id === lineaActiva).blocks) : [];
-  const foco = focoVista.length ? focoVista : focoLinea;
+  const foco = focoVista.length ? focoVista : [];
   const hayFoco = foco.length > 0;
 
   canvas.querySelectorAll(".block").forEach(el => {
@@ -771,7 +701,7 @@ function pintar(){
     const visible = !consulta || el.dataset.text.includes(consulta);
     el.classList.toggle("off", !visible);
     el.classList.toggle("open", el.id === abierto);
-    el.classList.setAttribute("aria-expanded", el.id === abierto ? "true" : "false");
+    el.setAttribute("aria-expanded", el.id === abierto ? "true" : "false");
     el.classList.toggle("sel", el.id === abierto ||
       (hayFoco && foco.includes(el.id)) ||
       (relActiva !== null && (RELACIONES[relActiva].a === el.id || RELACIONES[relActiva].b === el.id)));
