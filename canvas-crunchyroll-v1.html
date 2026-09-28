@@ -349,21 +349,22 @@ function selNodo(id){
 function selRel(i){ relActiva = relActiva === i ? null : i; activo = null; vistaActiva = -1; focoVista = []; pintar(); }
 
 function pintar(){
-  app.classList.toggle("sel", !!activo || relActiva !== null);
+  const conVista = !activo && relActiva === null && focoVista.length > 0;
+  app.classList.toggle("sel", !!activo || relActiva !== null || conVista);
   nodesBox.querySelectorAll(".node").forEach(e => {
     const suyo = relDe(e.id).some(({r,i}) => i === relActiva) || (activo && e.id === activo);
     const vecino = activo && relDe(activo).some(({r}) => r[0] === e.id || r[1] === e.id);
-    const enVista = focoVista.includes(e.id);
-    const apagado = (activo || relActiva !== null) && !suyo && !vecino && !enVista;
+    const enVista = conVista && focoVista.includes(e.id);
+    const apagado = (activo || relActiva !== null || conVista) && !suyo && !vecino && !enVista;
     e.classList.toggle("expanded", e.id === activo);
-    e.classList.toggle("active", !!suyo);
+    e.classList.toggle("active", !!suyo || !!enVista);
     e.classList.toggle("dim", !!apagado);
     e.setAttribute("aria-expanded", e.id === activo ? "true" : "false");
   });
   cards.querySelectorAll(".card").forEach(c => c.setAttribute("aria-pressed", c.dataset.id === activo ? "true" : "false"));
   views.querySelectorAll(".view").forEach((b,i) => b.setAttribute("aria-pressed", i === vistaActiva ? "true" : "false"));
-  panel.innerHTML = activo ? panelNodo(activo) : relActiva !== null ? panelRel(relActiva) : panelInicio();
-  requestAnimationFrame(dibujar);
+  panel.innerHTML = activo ? panelNodo(activo) : relActiva !== null ? panelRel(relActiva) : conVista ? panelVista() : panelInicio();
+  dibujar();
 }
 
 const grupo = (t, cuerpo) => `<div class="pgroup"><h3>${esc(t)}</h3>${cuerpo}</div>`;
@@ -403,6 +404,17 @@ function panelRel(i){
     grupo("Extremos", lista([`${a.n}. ${a.name} — ${a.items.length} elementos`,
                              `${b.n}. ${b.name} — ${b.items.length} elementos`])) +
     `<p class="src">Evidencia: <code>${esc(FUENTE)}</code> · ${esc(r[4])}</p>`;
+}
+
+function panelVista(){
+  const v = VISTAS[vistaActiva];
+  return `<span class="pill">Vista guiada</span>` +
+    `<h2>${esc(v[0])}</h2><p class="psum">${esc(v[2])}</p>` +
+    grupo("Bloques que enfoca", lista(v[1].map(id => {
+      const b = porId(id);
+      return `${b.n}. ${b.name} — ${b.items.length} elementos`;
+    }))) +
+    `<p class="src">Haz clic en cualquier bloque para leer su detalle completo.</p>`;
 }
 
 /* ---------- flechas ---------- */
