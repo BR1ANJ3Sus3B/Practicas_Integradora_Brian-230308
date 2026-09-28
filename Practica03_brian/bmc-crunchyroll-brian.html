@@ -1,0 +1,801 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Crunchyroll · Modelo Canvas de Negocio (9 bloques)</title>
+<style>
+:root{
+  --cr:#f47521; --cr-2:#ffa054; --cr-3:#ff6a00;
+  --bg:#07070b; --bg-2:#0d0d14; --surf:#14141d; --surf-2:#1c1c27; --surf-3:#262634;
+  --line:rgba(255,255,255,.10); --line-2:rgba(255,255,255,.16);
+  --ink:#ffffff; --muted:#a0a0b0; --muted-2:#75758a;
+  --grad:linear-gradient(135deg,var(--cr-2),var(--cr) 55%,var(--cr-3));
+  --focus:#f47521;
+  --r:16px;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0; background:var(--bg); color:var(--ink);
+  font:15px/1.55 "Inter","Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;
+  -webkit-font-smoothing:antialiased;
+}
+body::before{
+  content:""; position:fixed; inset:0; pointer-events:none; z-index:0;
+  background:
+    radial-gradient(760px 420px at 12% -8%, rgba(244,117,33,.16), transparent 62%),
+    radial-gradient(620px 380px at 92% 0%, rgba(124,92,255,.12), transparent 60%),
+    radial-gradient(900px 500px at 50% 110%, rgba(244,117,33,.07), transparent 65%);
+}
+.app{position:relative;z-index:1;max-width:1520px;margin:auto;padding:0 18px 60px}
+a{color:var(--cr-2)}
+
+/* ---------------- barra de navegación estilo app ---------------- */
+.nav{
+  position:sticky; top:0; z-index:40; margin:0 -18px; padding:0 18px;
+  background:rgba(7,7,11,.82); backdrop-filter:blur(14px) saturate(150%);
+  border-bottom:1px solid var(--line);
+}
+.navin{max-width:1520px;margin:auto;display:flex;align-items:center;gap:14px;height:64px}
+.brand{display:flex;align-items:center;gap:9px;flex:none}
+.brand svg{width:30px;height:30px;flex:none}
+.brand b{
+  font-size:20px; font-weight:800; letter-spacing:-.4px;
+  background:var(--grad); -webkit-background-clip:text; background-clip:text; color:transparent;
+}
+.menu{display:flex;gap:2px;margin-left:6px}
+.menu a{
+  padding:8px 13px; border-radius:999px; color:var(--muted); text-decoration:none;
+  font-size:13.5px; font-weight:600; white-space:nowrap;
+}
+.menu a:hover{color:#fff;background:rgba(255,255,255,.07)}
+.menu a.on{color:#fff;background:rgba(255,255,255,.10)}
+.nav .grow{flex:1}
+.search{
+  width:min(300px,38vw); border:1px solid var(--line-2); background:var(--surf);
+  color:var(--ink); border-radius:999px; padding:9px 15px; font:inherit; font-size:13.5px;
+  outline-offset:3px;
+}
+.search::placeholder{color:var(--muted-2)}
+.btn{
+  border:0; border-radius:999px; padding:9px 18px; font:inherit; font-size:13.5px; font-weight:800;
+  cursor:pointer; background:var(--grad); color:#1a0d02; white-space:nowrap;
+  box-shadow:0 6px 18px rgba(244,117,33,.28);
+  transition:transform .15s ease, box-shadow .15s ease, filter .15s ease;
+}
+.btn:hover{transform:translateY(-1px);box-shadow:0 10px 24px rgba(244,117,33,.36)}
+.btn.ghost{background:rgba(255,255,255,.08);color:#fff;box-shadow:none;border:1px solid var(--line-2)}
+.btn.ghost:hover{background:rgba(255,255,255,.14);box-shadow:none}
+
+/* ---------------- portada ---------------- */
+.hero{padding:30px 0 6px}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:8px;background:rgba(244,117,33,.12);
+  border:1px solid rgba(244,117,33,.34);color:var(--cr-2);
+  border-radius:999px;padding:5px 13px;font-size:11.5px;font-weight:800;
+  letter-spacing:.9px;text-transform:uppercase;
+}
+h1{margin:14px 0 0;font-size:clamp(30px,4.6vw,50px);line-height:1.03;letter-spacing:-1.4px;font-weight:800}
+h1 em{font-style:normal;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.lead{margin:13px 0 0;max-width:74ch;color:var(--muted);font-size:15.5px}
+
+/* ---------------- controles ---------------- */
+.controls{display:flex;flex-wrap:wrap;align-items:center;gap:9px;margin:26px 0 14px}
+.controls h2{margin:0 4px 0 0;font-size:12px;letter-spacing:1px;text-transform:uppercase;color:var(--muted-2)}
+.chip{
+  border:1px solid var(--line-2); background:rgba(255,255,255,.04); color:var(--muted);
+  border-radius:999px; padding:7px 14px; font:inherit; font-size:12.5px; font-weight:700; cursor:pointer;
+  transition:.16s ease;
+}
+.chip:hover{color:#fff;border-color:rgba(255,255,255,.3)}
+.chip[aria-pressed=true]{background:var(--grad);border-color:transparent;color:#1a0d02}
+.chip .dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--c,var(--cr));margin-right:7px;vertical-align:1px}
+.chip[aria-pressed=true] .dot{background:#1a0d02}
+.hint{color:var(--muted-2);font-size:12.5px;margin-left:auto}
+kbd{background:var(--surf-2);border:1px solid var(--line-2);border-radius:5px;padding:1px 6px;
+  font:700 11px ui-monospace,Consolas,monospace;color:var(--muted)}
+
+/* ---------------- layout principal ---------------- */
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 372px;gap:18px;align-items:start}
+.stage{position:relative}
+
+/* ---------------- el canvas ---------------- */
+.canvas{
+  position:relative; isolation:isolate;
+  display:grid; gap:11px;
+  grid-template-columns:repeat(5,minmax(0,1fr));
+  grid-template-areas:
+    "aliados  act     act     valor     valor"
+    "aliados  rec     rec     valor     valor"
+    "clientes clientes can     seg       seg"
+    "costos   costos   costos  ingresos  ingresos";
+}
+.graph{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;overflow:visible}
+.edge{fill:none;stroke:rgba(255,255,255,.20);stroke-width:2;pointer-events:stroke;cursor:pointer;transition:stroke .18s,stroke-width .18s}
+.edge:hover{stroke:var(--cr-2)}
+.edge.on{stroke:var(--cr);stroke-width:3.4;filter:drop-shadow(0 0 6px rgba(244,117,33,.55))}
+.elab{
+  font:700 10.5px "Inter",system-ui,sans-serif; fill:var(--muted-2);
+  paint-order:stroke; stroke:#0d0d14; stroke-width:4.5; stroke-linejoin:round;
+  pointer-events:all; cursor:pointer;
+}
+.elab.on{fill:var(--cr-2)}
+
+.block{
+  --c:#f47521; grid-area:var(--area);
+  position:relative; text-align:left; font:inherit; color:inherit; cursor:pointer;
+  border:1px solid var(--line); border-radius:var(--r);
+  background:linear-gradient(170deg,var(--surf-2) 0%,var(--surf) 62%);
+  padding:13px 14px; display:flex; flex-direction:column; gap:8px;
+  transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease,opacity .2s ease;
+  overflow:hidden;
+}
+.block::before{
+  content:""; position:absolute; left:0; right:0; top:0; height:3px;
+  background:linear-gradient(90deg,var(--c),transparent 92%);
+}
+.block::after{
+  content:""; position:absolute; inset:0; pointer-events:none; opacity:0; transition:opacity .25s ease;
+  background:radial-gradient(420px 130px at 50% -30%, color-mix(in srgb,var(--c) 30%, transparent), transparent 70%);
+}
+.block:hover{transform:translateY(-3px);border-color:color-mix(in srgb,var(--c) 55%,transparent);
+  box-shadow:0 14px 30px rgba(0,0,0,.55)}
+.block:hover::after{opacity:.55}
+.block:focus-visible{outline:3px solid var(--focus);outline-offset:3px}
+.block.sel{border-color:var(--c);box-shadow:0 0 0 1px var(--c),0 16px 40px rgba(0,0,0,.6)}
+.block.dim{opacity:.26}
+.block.off{display:none}
+
+.bhead{display:flex;align-items:center;gap:10px}
+.bico{
+  display:grid;place-items:center;width:32px;height:32px;flex:none;border-radius:10px;
+  background:color-mix(in srgb,var(--c) 17%,transparent);
+  border:1px solid color-mix(in srgb,var(--c) 42%,transparent);
+  color:var(--c);
+}
+.bico svg{width:17px;height:17px}
+.bname{font-size:13.5px;font-weight:800;line-height:1.2;letter-spacing:-.15px}
+.bnum{margin-left:auto;flex:none;font:800 10.5px/1 ui-monospace,Consolas,monospace;
+  color:var(--muted-2);background:rgba(255,255,255,.06);border-radius:6px;padding:5px 7px}
+.btag{font-size:12px;line-height:1.45;color:var(--muted);display:block}
+.bpeek{display:flex;align-items:center;gap:6px;margin-top:auto;font-size:11.5px;font-weight:800;color:var(--c)}
+.bpeek .chev{transition:transform .22s ease;display:inline-block}
+.bpeek b{margin-left:auto;background:rgba(255,255,255,.06);border-radius:999px;padding:1px 7px;
+  font:800 10.5px/1.6 ui-monospace,Consolas,monospace;color:var(--muted)}
+
+/* estado expandido */
+.block.open{grid-area:auto;grid-column:1/-1;order:-1;padding:18px 20px 20px;border-color:var(--c);
+  background:linear-gradient(170deg,var(--surf-3) 0%,var(--surf) 60%)}
+.block.open::after{opacity:.8}
+.block.open .chev{transform:rotate(180deg)}
+.block.open .bname{font-size:19px;letter-spacing:-.4px}
+.block.open .bico{width:40px;height:40px;border-radius:13px}
+.block.open .bico svg{width:22px;height:22px}
+.openwrap{display:none}
+.block.open .openwrap{display:block;animation:unfold .26s cubic-bezier(.2,.8,.2,1) both}
+@keyframes unfold{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
+
+.otext{margin:11px 0 0;font-size:13.5px;line-height:1.55;color:#dcdce6;max-width:96ch}
+.items{display:grid;grid-template-columns:repeat(auto-fit,minmax(272px,1fr));gap:10px;margin:15px 0 0;padding:0;list-style:none}
+.items li{
+  border:1px solid var(--line);border-left:3px solid var(--c);border-radius:12px;
+  background:rgba(255,255,255,.028);padding:11px 13px;
+}
+.items li b{display:block;font-size:13px;letter-spacing:-.1px}
+.items li span{display:block;margin-top:4px;font-size:12.2px;line-height:1.5;color:var(--muted)}
+.relbar{display:flex;flex-wrap:wrap;gap:8px;margin:15px 0 0;align-items:center}
+.relbar>span{font-size:10.5px;font-weight:800;letter-spacing:.9px;text-transform:uppercase;color:var(--muted-2)}
+.rel{
+  display:inline-flex;align-items:center;gap:7px;border-radius:999px;padding:6px 13px;
+  background:rgba(255,255,255,.05);border:1px solid var(--line-2);cursor:pointer;
+  font:700 12px inherit;color:var(--muted);transition:.16s ease;
+}
+.rel:hover{color:#fff;border-color:var(--c);background:color-mix(in srgb,var(--c) 14%,transparent)}
+.rel b{color:var(--c);font-weight:800}
+
+/* tablas y stats dentro del bloque abierto */
+.tablewrap{margin:15px 0 0;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+table{width:100%;border-collapse:collapse;font-size:12.5px}
+th,td{padding:9px 12px;text-align:left;border-bottom:1px solid var(--line)}
+th{background:rgba(255,255,255,.05);font-size:10.5px;letter-spacing:.7px;text-transform:uppercase;color:var(--muted-2)}
+tr:last-child td{border-bottom:0}
+td b{color:#fff}
+td .up{color:#5fd6a4;font-weight:800}
+.mini{display:flex;flex-wrap:wrap;gap:9px;margin:14px 0 0}
+.mini div{
+  flex:1 1 130px;border:1px solid var(--line);border-radius:12px;padding:10px 12px;background:rgba(255,255,255,.03)
+}
+.mini b{display:block;font-size:18px;letter-spacing:-.5px;color:var(--c)}
+.mini span{display:block;margin-top:2px;font-size:11px;color:var(--muted);line-height:1.35}
+
+/* ---------------- panel lateral ---------------- */
+.panel{
+  position:sticky;top:82px;max-height:calc(100vh - 100px);overflow:auto;
+  border:1px solid var(--line);border-radius:20px;background:linear-gradient(180deg,var(--surf-2),var(--surf));
+  padding:18px;
+}
+.panel::before{content:"";display:block;height:3px;margin:-18px -18px 15px;border-radius:20px 20px 0 0;
+  background:linear-gradient(90deg,var(--pc,var(--cr)),transparent 85%)}
+.pill{display:inline-block;border-radius:999px;padding:4px 11px;font:800 10.5px/1.5 inherit;
+  letter-spacing:.7px;text-transform:uppercase;
+  background:color-mix(in srgb,var(--pc,var(--cr)) 16%,transparent);
+  border:1px solid color-mix(in srgb,var(--pc,var(--cr)) 40%,transparent);
+  color:var(--pc,var(--cr-2))}
+.panel h3{margin:11px 0 5px;font-size:17px;letter-spacing:-.35px;line-height:1.2}
+.panel .psum{margin:0;font-size:12.8px;line-height:1.5;color:var(--muted)}
+.pg{margin:15px 0 0}
+.pg h4{margin:0 0 7px;font-size:10.5px;letter-spacing:.9px;text-transform:uppercase;color:var(--muted-2)}
+.plist{margin:0;padding-left:16px;font-size:12.6px;line-height:1.5}
+.plist li+li{margin-top:5px}
+.plist b{color:#fff}
+.ptext{margin:0;font-size:12.6px;line-height:1.5;color:var(--muted)}
+.note{margin:15px 0 0;padding-top:11px;border-top:1px solid var(--line);font-size:11px;line-height:1.5;color:var(--muted-2)}
+
+footer{margin:34px 0 0;padding-top:18px;border-top:1px solid var(--line);
+  color:var(--muted-2);font-size:11.5px;line-height:1.6}
+
+footer{margin:44px 0 0;padding-top:18px;border-top:1px solid var(--line);
+  color:var(--muted-2);font-size:11.5px;line-height:1.6}
+
+@media(max-width:1220px){
+  .layout{grid-template-columns:minmax(0,1fr)}
+  .panel{position:static;max-height:none}
+}
+@media(max-width:980px){
+  .menu{display:none}
+  .canvas{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    grid-template-areas:
+      "aliados valor" "act valor" "rec rec"
+      "clientes clientes" "can seg" "costos costos" "ingresos ingresos";
+  }
+}
+@media(max-width:700px){
+  .canvas{grid-template-columns:minmax(0,1fr);grid-template-areas:"aliados" "act" "rec" "valor" "clientes" "can" "seg" "costos" "ingresos"}
+  .graph{display:none}
+  .search{width:100%;order:9}
+  .navin{flex-wrap:wrap;height:auto;padding:10px 0}
+  .hint{margin-left:0;width:100%}
+}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="navin">
+    <span class="brand">
+      <svg viewBox="0 0 48 48" aria-hidden="true">
+        <defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#ffa054"/><stop offset=".55" stop-color="#f47521"/><stop offset="1" stop-color="#ff6a00"/>
+        </linearGradient></defs>
+        <path fill="url(#lg)" d="M24 3a21 21 0 1 0 0 42 21 21 0 0 0 0-42zm0 6.4c3.4 0 6.5 1.3 8.8 3.5l-4.2 4.2a8.6 8.6 0 0 0-4.6-1.3 9 9 0 0 0-7.9 13.8l-4.4 4.4A14.6 14.6 0 0 1 24 9.4z"/>
+        <path fill="url(#lg)" d="M14.6 25.4a9 9 0 0 0 9 12.4 9 9 0 0 0 6.3-2.6l4.3 4.3A14.6 14.6 0 0 1 10.6 25l4-4z"/>
+      </svg>
+      <b>CRUNCHYROLL</b>
+    </span>
+    <div class="menu" id="menu">
+      <a href="#" class="on">Inicio</a><a href="#">Explorar</a><a href="#">Manga</a>
+      <a href="#">Juegos</a><a href="#">Tienda</a><a href="#">Noticias</a><a href="#">Awards</a>
+    </div>
+    <span class="grow"></span>
+    <input class="search" id="search" type="search" placeholder="Buscar títulos, géneros, bloques…" aria-label="Buscar en el modelo">
+    <button class="btn" type="button" id="btnTodos">Contraer todo</button>
+    <button class="btn ghost" type="button" id="btnLogin">Iniciar sesión</button>
+  </div>
+</nav>
+
+<main class="app">
+
+  <header class="hero">
+    <span class="eyebrow">Business Model Canvas · 9 bloques</span>
+    <h1>Todo <em>Crunchyroll</em>, en un solo lienzo</h1>
+    <p class="lead">El modelo de negocio completo del mayor servicio de streaming de anime del mundo,
+      con sus nueve bloques y las cifras públicas que lo respaldan.
+      <b style="color:#fff">Haz clic en cualquier bloque</b> para que se expanda y muestre todo su detalle.</p>
+  </header>
+
+  <div class="controls" id="controls">
+    <h2>Foco rápido</h2>
+    <button class="chip" type="button" data-v="todos" aria-pressed="true">Los 9 bloques</button>
+    <button class="chip" type="button" data-v="creacion" aria-pressed="false">Creación de valor</button>
+    <button class="chip" type="button" data-v="ingreso" aria-pressed="false">Cadena del ingreso</button>
+    <button class="chip" type="button" data-v="riesgo" aria-pressed="false">Costos y riesgos</button>
+    <span class="hint"><kbd>clic</kbd> expande · <kbd>Esc</kbd> cierra · <kbd>flecha</kbd> en las curvas</span>
+  </div>
+
+  <div class="layout">
+    <section class="stage">
+      <div class="canvas" id="canvas">
+        <svg class="graph" id="graph" aria-hidden="true">
+          <defs>
+            <marker id="ar" markerWidth="9" markerHeight="9" refX="6.6" refY="3" orient="auto">
+              <path d="M0,0 L0,6 L7,3z" fill="rgba(255,255,255,.32)"/>
+            </marker>
+            <marker id="ar-on" markerWidth="9" markerHeight="9" refX="6.6" refY="3" orient="auto">
+              <path d="M0,0 L0,6 L7,3z" fill="#f47521"/>
+            </marker>
+          </defs>
+        </svg>
+      </div>
+    </section>
+
+    <aside class="panel" id="panel" aria-live="polite" aria-label="Detalle"></aside>
+  </div>
+
+  <footer>
+    <b>Fuentes.</b> Sony Group (resultados del ejercicio cerrado a marzo de 2026) · Sony Pictures Entertainment
+    (informe de resultados) · Crunchyroll (comunicación de precios de 2 feb 2026 y fin del plan gratuito el
+    31 dic 2025) · prensa sectorial para los antecedentes societarios.
+  </footer>
+</main>
+
+<script>
+/* ============================ MODELO ============================ */
+
+const BLOQUES = [
+  {
+    id:"aliados", area:"aliados", n:1, c:"#7c5cff", icon:'<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>',
+    name:"Aliados clave",
+    tag:"La cadena vertical de Sony y los socios que traen el contenido.",
+    texto:"Crunchyroll no alquila contenido: lo produce, lo licencia y lo distribuye dentro del mismo grupo. Esa integración con Sony es la ventaja estructural más difícil de copiar, porque permite participar en varias etapas de la misma fuente de ingresos en lugar de pagar regalías a un tercero.",
+    stats:[
+      {v:"$1.175 B", l:"Precio que Sony pagó a AT&T (cierre ago 2021)"},
+      {v:"2", l:"Socios de la sociedad: Sony Pictures + Aniplex"},
+      {v:"4", l:"Estudios propios y mixtos: Crunchyroll Studios, Syco, Southrup, Hayate"}
+    ],
+    items:[
+      {t:"Aniplex (Sony Music Entertainment Japan)", d:"Produce, financia y distribuye las series más estratégicas, y es la contraparte de las coproducciones. Aporta la mitad de la propiedad intelectual de primera mano."},
+      {t:"Sony Pictures Entertainment y Sony Pictures Releasing", d:"Lleva las películas de anime a cines bajo la marca Crunchyroll Movie Night. La película de Demon Slayer «Infinity Castle» repartió unos 741 M USD en taquilla mundial, y Sony participa de toda la cadena."},
+      {t:"Filiales de anime de Sony", d:"A-1 Pictures, CloverWorks, Wit Studio y otros estudios del perímetro del grupo, que alimentan el pipeline de simulcast."},
+      {t:"Estudios propios y societies mixtas", d:"Crunchyroll Studios (Los Ángeles), Syco, Southrup y Hayate Inc. —la sociedad de coproducción de Aniplex y Crunchyroll que en abril de 2026 absorbió al estudio Lay-duce—."},
+      {t:"Game Show Network", d:"Socio de la operación del canal gratuito Crunchyroll Channel (FAST), LANZADO en Roku Channel, LG Channels, Vizio, Freevee y Pluto TV."},
+      {t:"Titulares de licencia de terceros", d:"Editoriales y estudios que no pertenecen a Sony: sin ellos el catálogo encoge, pero también permiten distribuir todo lo que Sony no posee."},
+      {t:"Cadenas de pago y tiendas", d:"App Store, Google Play, Stripe y PayPal. También telecos y fabricantes que incluyen el servicio en paquetes de datos o de dispositivo."},
+      {t:"Distribuidores y cines regionales", d:"Cadenas de cines y distribuidores asociados a los estrenos regionales de las películas de anime."}
+    ],
+    tabla:{
+      cols:["Socio","Rol","Valor para el modelo"],
+      rows:[
+        ["Aniplex","Producción y coproducción","Contenido de primera mano y control del pipeline"],
+        ["Sony Pictures","Cine y marketing global","Segunda fuente de ingresos: taquilla"],
+        ["Game Show Network","Canal FAST compartido","Monetización publicitaria sin coste de app"],
+        ["Telecos y dispositivos","Empaquetado y OEM","Adquisición a coste bajo, retención más larga"]
+      ]
+    },
+    rels:[["Actividades clave","habilitan"],["Estructura de costos","pagan"]]
+  },
+  {
+    id:"act", area:"act", n:2, c:"#f47521", icon:'<circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16"/>',
+    name:"Actividades clave",
+    tag:"Negociar, conseguir, doblar, codificar y estrenar el anime.",
+    texto:"El trabajo no termina en comprar una licencia: hay que conseguirla en la ventana correcta, traducirla a más de veinte idiomas, codificarla para cada dispositivo y comunicar el estreno. Las tres primeras decisiones tienen meses de adelanto sobre el resto del modelo.",
+    items:[
+      {t:"Adquisición y renovación de licencias", d:"Negociar con estudios y titulares los derechos de streaming, las ventanas por región y las renovaciones. Es la partida que decide el resultado del ejercicio."},
+      {t:"Acuerdos de simulcast", d:"Conseguir cada episodio horas después de su emisión en Japón, en lugar de esperar meses. Es la promesa comercial central de la marca."},
+      {t:"Doblaje y subtitulado", d:"Producir o subcontratar subtítulos y doblajes para más de veinte idiomas, con control de calidad y adaptaciones culturales por mercado."},
+      {t:"Ingesta, codificación y entrega global", d:"Normalizar cada episodio a varios perfiles de bitrate, protegerlo con DRM y servirlo desde una CDN con el mínimo buffering posible."},
+      {t:"Desarrollo de producto", d:"Mantener las aplicaciones de móvil, escritorio y televisión, el reproductor, el sistema de recomendaciones y las integraciones en consolas y en televisores con Android TV."},
+      {t:"Marketing y marca", d:"Campañas como Ani-May, que en 2026 ofrecieron tres meses de Fan por 1,99 USD y Mega Fan por 2,99 USD en más de 35 países."},
+      {t:"Cine y eventos en vivo", d:"Producir Crunchyroll Movie Night y evaluar la presencia en convenciones como Crunchyroll Expo."},
+      {t:"Comunidad, premios y soporte", d:"Los Crunchyroll Anime Awards, la comunidad en Discord y las redes, y el centro de ayuda."}
+    ],
+    rels:[["Aliados clave","habilitan"],["Recursos clave","necesitan"],["Propuesta de valor","entregan"],["Fuentes de ingresos","producen"]]
+  },
+  {
+    id:"rec", area:"rec", n:3, c:"#2ec4f0", icon:'<polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 12 12 17 22 12"/><polyline points="2 17 12 22 22 17"/>',
+    name:"Recursos clave",
+    tag:"El catálogo, los derechos, la marca y el equipo que lo sostiene.",
+    texto:"El activo que no se puede clonar en un trimestre es el catálogo con derechos firmados y el acuerdo de simulcast con los estudios que lo alimentan. La marca es el segundo recurso: durante dos décadas construyó una comunidad que ninguna plataforma nueva puede replicar con presupuesto publicitario.",
+    stats:[
+      {v:"1.000+", l:"Series de anime disponibles"},
+      {v:"200+", l:"Dramas de Asia Oriental en catálogo"},
+      {v:"$9,99", l:"Precio de entrada tras la subida de febrero de 2026"}
+    ],
+    items:[
+      {t:"Catálogo y derechos de biblioteca", d:"Más de mil series de anime y más de doscientas obras de drama de Asia Oriental bajo licencia, con contratos de renovación en distintas etapas de su vida útil."},
+      {t:"Acuerdos de simultaneidad", d:"La red de relaciones con estudios japoneses que permite el estreno casi simultáneo, un bien escaso que ningún actor nuevo puede replicar rápido."},
+      {t:"Marca Crunchyroll", d:"Nombre de referencia mundial del anime como formato de consumo, con presencia en redes sociales, en la cultura pop y en el comercio."},
+      {t:"Base de 21 M de suscriptores", d:"Masa crítica de datos de consumo que alimenta las recomendaciones, la negociación de licencias y el poder de fijación de precios."},
+      {t:"Motor de recomendación y datos", d:"Historial de visualización, favoritos y comportamiento real de la audiencia, que son la base del descubrimiento en la app."},
+      {t:"Infraestructura de streaming", d:"CDN, DRM, codificación multi-perfil y reproducción fiable en redes móviles de larga latencia."},
+      {t:"Equipo humano", d:"Más de mil empleados repartidos en quince oficinas. En marzo de 2026 Sony ejecutó una reestructuración con despidos, y la entidad japonesa pasó de un beneficio neto de 1.239 M a 453 M de yenes (−63 %)."},
+      {t:"Portafolio de apps adyacentes", d:"Crunchyroll Manga, Crunchyroll Games y la tienda oficial, que amplía la relación con el usuario más allá del vídeo."},
+      {t:"Identidad de la plataforma", d:"El logotipo y el sistema de diseño que hacen reconocible la marca en la app, la web, la tele y el cine."}
+    ],
+    tabla:{
+      cols:["Recurso","Tipo","Defensibilidad"],
+      rows:[
+        ["Catálogo con derechos firmados","Intangible","Alta — requiere años de negociación"],
+        ["Acuerdos de simulcast","Relacional","Alta — red construidas desde 2006"],
+        ["Marca y comunidad","Intangible","Muy alta — 20 años de reputación"],
+        ["Datos de consumo","Datos","Media — requiere escala para mejorar el resultado"]
+      ]
+    },
+    rels:[["Actividades clave","sostienen"],["Propuesta de valor","materializan"],["Estructura de costos","consumen"]]
+  },
+  {
+    id:"valor", area:"valor", n:4, c:"#ff9d4a", icon:'<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>',
+    name:"Propuesta de valor",
+    tag:"Anime legal, sin anuncios y recién emitido, en cualquier pantalla.",
+    texto:"La promesa se puede resumir en una frase: el mismo anime que se emite en Japón, en legal y sin anuncios, en el móvil o en la tele del salón. Todo lo demás —manga, tienda, juegos, música, cine— es una extensión de esa promesa para que el fan no tenga que salir de la cuenta.",
+    items:[
+      {t:"Simulcast: recién emitido", d:"Los nuevos capítulos llegan poco después de su emisión en Japón, con horas de diferencia y no meses. Es la diferencia que la competencia no puede igualar sin cambiar de estrategia."},
+      {t:"Sin anuncios en planes de pago", d:"Desde el 1 de enero de 2026 no queda ni un solo plan gratuito: todo el catálogo exige suscripción de pago. La publicidad solo sobrevive en el canal FAST."},
+      {t:"Hasta seis pantallas simultáneas", d:"El plan Ultimate Fan permite seis flujos simultáneos, por encima de los cuatro del Mega Fan y del único dispositivo del Fan."},
+      {t:"Ver sin conexión", d:"Descargas para móvil, tablet y escritorio, con el progreso guardado que se respeta al cambiar de dispositivo."},
+      {t:"Subtítulos y doblajes profesionales", d:"Más de veinte idiomas de subtítulos y doblaje en los principales mercados, con control de calidad y opciones de imagen en imagen."},
+      {t:"Descubrimiento que funciona", d:"Categorías por género, estacionalidad, recomendaciones personalizadas y listas guardadas, resueltos con datos reales de 21 millones de cuentas."},
+      {t:"El universo Crunchyroll en una cuenta", d:"Manga en el plan Ultimate, tienda oficial, juegos y música, sin salir de la misma sesión ni pagar un segundo servicio."},
+      {t:"Confianza y seguridad", d:"Contenido con licencia, sin rastreadores agresivos y sin exponerse a versiones pirateadas de mala calidad."}
+    ],
+    rels:[["Actividades clave","entregan"],["Recursos clave","se apoyan en"],["Relación con clientes","se comunica en"],["Canales","llegan por"]]
+  },
+  {
+    id:"clientes", area:"clientes", n:5, c:"#ff4f9a", icon:'<path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>',
+    name:"Relación con clientes",
+    tag:"Autónoma y personalizada, con comunidad y eventos.",
+    texto:"La relación es mayoritariamente autoservicio: la app resuelve el descubrimiento, la lista y la reanudación sin intervención humana. La parte humana aparece en la comunidad, en los eventos y en el soporte, y es la que convierte a un suscriptor mensual en un fan que se queda diez años.",
+    items:[
+      {t:"Cuenta única y perfil", d:"Una sola identidad para streaming, manga, tienda y juegos, con preferencias de idioma, calidad y reproducción guardadas."},
+      {t:"Mi lista y historial", d:"Seguimiento de series, capítulos reservados y reanudación automática en el capítulo y el segundo exactos en cualquier dispositivo."},
+      {t:"Notificaciones de nuevos episodios", d:"Avisos por push y correo cuando sale un capítulo de lo que el usuario sigue, que es el motor de la retención recurrente."},
+      {t:"Recomendaciones personalizadas", d:"Sugerencias por similitud de gusto, popularidad y continuidad de la serie en curso."},
+      {t:"Comunidad y pertenencia", d:"Discord, Crunchyroll Anime Awards y la conversación diaria en redes, que mantienen la marca presente entre episodios."},
+      {t:"Eventos y experiencias", d:"Congresos, sesiones de cine y encuentros con la comunidad, que convierten la suscripción en una identidad cultural."},
+      {t:"Soporte multicanal", d:"Centro de ayuda, correo, X, Discord y soporte dentro de la app, con tiempos de respuesta medidos."},
+      {t:"Programas de retención", d:"Descuentos anuales y campañas como Ani-May, que reactivan cuentas inactivas y capturan clientes potenciales a cambio de un primer año barato."}
+    ],
+    rels:[["Propuesta de valor","se entrega en"],["Segmentos de clientes","gana y retiene"],["Canales","se contacta por"]]
+  },
+  {
+    id:"canales", area:"can", n:6, c:"#37d67a", icon:'<circle cx="12" cy="12" r="2"/><path d="M16.24 7.76a6 6 0 0 1 0 8.49"/><path d="M7.76 16.24a6 6 0 0 1 0-8.49"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M4.93 19.07a10 10 0 0 1 0-14.14"/>',
+    name:"Canales",
+    tag:"Web, apps, televisores, consolas, cine, canal gratis y redes.",
+    texto:"El canal es la parte del modelo que más se ha ensanchado: de ser un sitio web con una app de móvil a estar presente en cada tele, cada consola y cada sistema operativo. Y desde 2023, también en un canal gratuito de televisión abierta que monetize sin coste de desarrollo de app.",
+    items:[
+      {t:"Web de escritorio", d:"El reproductor principal, con máxima calidad, picture-in-picture y controles avanzados."},
+      {t:"Apps móviles y de escritorio", d:"iOS, iPadOS, Android y Windows, con descarga para ver sin conexión y control remoto desde el móvil."},
+      {t:"Televisores y dispositivos de salón", d:"Samsung con Tizen, LG, Sony, Hisense, Amazon Fire TV, Chromecast con Google TV, Roku, Apple TV y Android TV."},
+      {t:"Consolas", d:"PlayStation 4 y 5, Xbox y Nintendo Switch, además de integración en Prime Video Channels."},
+      {t:"Crunchyroll Channel (FAST)", d:"Canal gratuito y sostenido por publicidad, operado junto a Game Show Network en The Roku Channel, LG Channels, Vizio WatchFree+, Amazon Freevee y Pluto TV."},
+      {t:"Cine", d:"Crunchyroll Movie Night lleva las películas de anime a salas de cine, con doblaje y subtítulos según el mercado."},
+      {t:"Redes sociales y vídeo", d:"YouTube, TikTok, X, Instagram y Discord, donde se difunden los avances de los nuevos capítulos."},
+      {t:"Comunicación directa", d:"Correo electrónico y notificaciones push, la vía más barata y más efectiva para reclamar visualizaciones."}
+    ],
+    rels:[["Propuesta de valor","entregan"],["Segmentos de clientes","alcanzan a"],["Relación con clientes","sostienen"]]
+  },
+  {
+    id:"segmentos", area:"seg", n:7, c:"#ffd23f", icon:'<path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>',
+    name:"Segmentos de clientes",
+    tag:"Fans de anime, estudiantes, coleccionistas, cine y licencias.",
+    texto:"El núcleo es joven, digital y muy fandom, pero la estructura de precios crea segmentos muy distintos entre sí. Cada uno tiene una elasticidad distinta: el estudiante compra un año barato y no renueva; el coleccionista paga el plan más alto sin mirar la factura.",
+    stats:[
+      {v:"4,4 B", l:"Minutos streamados en EE. UU. (ene 2026, Nielsen), más del doble que en 2024"}
+    ],
+    items:[
+      {t:"Fans de anime de 15 a 34 años", d:"Núcleo principal. Consumo diario, muy recurrente y muy enredado en redes sociales; sostiene la posición de referencia de la marca."},
+      {t:"Estudiantes y familias de presupuesto ajustado", d:"Altamente sensibles al precio. Responden al plan anual promocional de 66,99 USD y a las ofertas de reingreso de Ani-May."},
+      {t:"Otaku y coleccionistas", d:"Compran en la tienda oficial, presupuestan la edición limitada y consumen en los planes que incluyen Manga."},
+      {t:"Fans de doblaje en español", d:"Segmento clave en Latinoamérica y España, con una oferta de doblaje adaptado al mercado y pago local."},
+      {t:"Amantes del cine de anime", d:"Audiencia de los estrenos teatrales, que compra entradas y además se suscribe para ver el resto del catálogo."},
+      {t:"Cuentas inactivas reactivables", d:"Base de suscripciones que se recuperan con descuentos de primer año, y cuyo valor depende del coste de adquisición."},
+      {t:"Hogares con varias pantallas", d:"Familias y grupos de amigos que necesitan el plan de varios flujos simultáneos para no pelearse por el dispositivo."},
+      {t:"Clientes B2B de licencia", d:"Cadenas de televisión, plataformas y distribuidores que compran ventanas de biblioteca después de su pase en el servicio."}
+    ],
+    rels:[["Relación con clientes","atienden"],["Canales","los distribuyen"],["Fuentes de ingresos","pagan"]]
+  },
+  {
+    id:"costos", area:"costos", n:8, c:"#8b93a7", icon:'<rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/>',
+    name:"Estructura de costos",
+    tag:"Licencias, traducción, tecnología, nóminas y teatro.",
+    texto:"Es un modelo de costos fijos con economía de escala: el mismo catálogo, la misma marca y la misma infraestructura dan servicio a 21 millones de clientes con un coste de contenido idéntico. Por eso el margen mejora tanto con el crecimiento de suscriptores, y por eso un año flojo de licencias se nota tanto en la cuenta.",
+    items:[
+      {t:"Compra de licencias (la partida dominante)", d:"Anticipos, regalías y compromisos de renovación con estudios. Es el mayor componente del coste y el que más directamente condiciona el margen."},
+      {t:"Producción y coproducción", d:"Aportaciones a series de Aniplex y a sociedades mixtas como Hayate. El contenido de primera mano cuesta más hoy y mañana cuesta menos en regalías."},
+      {t:"Doblaje y subtitulado", d:"Producción o subcontratación en más de veinte idiomas, con control de calidad y adaptación por mercado."},
+      {t:"Tecnología y CDN", d:"Ancho de banda, servidores, DRM, almacenamiento, construcción y mantenimiento de las aplicaciones de cada plataforma."},
+      {t:"Personal", d:"Más de mil empleados en quince oficinas. En marzo de 2026 se ejecutó una reestructuración con despidos, y la entidad japonesa cerró el ejercicio 2025 con un beneficio neto de 453 M de yenes, un 63 % menos que el año anterior."},
+      {t:"Marketing y eventos", d:"Campañas globales como Ani-May, los Crunchyroll Anime Awards, presencia en congresos y activaciones en retailers."},
+      {t:"Distribución cinematográfica", d:"Alquiler de salas, copia, doblaje para salas y marketing de estrenos regionales."},
+      {t:"Gastos legales y de cumplimiento", d:"Negociación de licencias, defensa frente a la piratería, protección de datos y cumplimiento normativo en cada país."},
+      {t:"Comisiones de tienda y otros", d:"Recargo de App Store y Google Play sobre las ventas de la tienda oficial y de las apps."}
+    ],
+    rels:[["Recursos clave","consumen"],["Aliados clave","invierten con"],["Fuentes de ingresos","limitan"]]
+  },
+  {
+    id:"ingresos", area:"ingresos", n:9, c:"#43e0c0", icon:'<polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/>',
+    name:"Fuentes de ingresos",
+    tag:"Suscripciones como núcleo, con cine, tienda, juegos, manga y licencias.",
+    texto:"La suscripción es la base y la fuente de ingresos recurrentes que Sony persigue; todo lo demás la acompaña. La decisión de eliminar el plan gratuito en 2025 y subir los precios en 2026 señala un giro explícito: menos usuarios, más ingreso por usuario, en un momento en que la marca ya no necesita comprar volumen.",
+    stats:[
+      {v:"$9,99", l:"Fan, el plan de entrada tras la subida de febrero de 2026"},
+      {v:"+25 %", l:"Crecimiento interanual de suscriptores de pago"},
+      {v:"$741 M", l:"Taquilla mundial de la película de Demon Slayer en cines"}
+    ],
+    items:[
+      {t:"Suscripciones de pago", d:"La fuente principal y recurrente. Tres planes mensuales en Estados Unidos tras la subida de febrero de 2026, más un plan anual promocional de 66,99 USD."},
+      {t:"Venta minorista oficial", d:"La tienda de Crunchyroll (merchandising, ediciones limitadas, figuras y ropa), con mayor margen por venta que el vídeo."},
+      {t:"Cine y eventos", d:"Entradas de Crunchyroll Movie Night, con la película de anime como producto de evento de alto impacto y márgenes separados."},
+      {t:"Crunchyroll Games", d:"Publicación de videojuegos con estudios externos, que monetiza el fandom más allá de la pantalla y abre una vía de ingresos por volumen de unidades."},
+      {t:"Crunchyroll Music", d:"Bandas sonoras en streaming y vinilos, conectados a la música de Sony."},
+      {t:"Manga", d:"La app de Crunchyroll Manga, incluida en el plan Ultimate Fan, que amplía el tiempo de uso diario y eleva la disposición a pagar."},
+      {t:"Licencias a terceros (B2B)", d:"Venta de ventanas de la biblioteca a televisiones, plataformas y distribuidores tras su pase en el servicio."},
+      {t:"Canal FAST con publicidad", d:"El canal Crunchyroll Channel monetiza inventario publicitario, único resto de la publicidad tras el fin del plan gratuito."},
+      {t:"Venta a Sony y al grupo", d:"Ingresos reportados dentro del segmento Media Networks de Sony Pictures, que subió un 13 % hasta 3.170 M de dólares."}
+    ],
+    tabla:{
+      cols:["Plan (EE. UU., 2026)","Precio","Qué incluye"],
+      rows:[
+        ["<b>Fan</b>","<b>$9,99</b> / mes","Sin anuncios, catálogo completo, 1 dispositivo, ver sin conexión"],
+        ["<b>Mega Fan</b>","<b>$13,99</b> / mes","Hasta 4 dispositivos simultáneos"],
+        ["<b>Ultimate Fan</b>","<b>$17,99</b> / mes","Hasta 6 dispositivos + app de Manga"],
+        ["<b>Fan Anual</b>","<b>$66,99</b> / año","Promoción limitada, equivale a $5,58 al mes"],
+        ["<span class='up'>Plan gratuito</span>","<span class='up'>Eliminado</span>","31 de diciembre de 2025: todo el catálogo exige pago"]
+      ]
+    },
+    rels:[["Segmentos de clientes","pagan a"],["Actividades clave","producen"],["Estructura de costos","consumen"]]
+  }
+];
+
+const RELACIONES = [
+  {a:"aliados", b:"act",  l:"habilitan",   d:"Aniplex, Sony Pictures, Game Show Network y los socios de empaquetado son la condición de posibilidad de las actividades: sin acuerdos de licencia y sin cadena de producción no hay simultaneidad que ofrecer."},
+  {a:"act",     b:"rec",  l:"consumen",   d:"Cada actividad —adquirir, traducir, codificar y entregar— se apoya en un recurso concreto del inventario: los derechos, las personas, la CDN y la marca."},
+  {a:"rec",     b:"valor",l:"sostienen",  d:"El catálogo con derechos, la marca y los datos de 21 millones de cuentas son lo que convierte una tarea operativa en una promesa que el usuario puede creer."},
+  {a:"act",     b:"valor",l:"entregan",  d:"La propuesta de valor no es una frase de marketing: es el resultado del simulcast, del doblaje, del reproductor y de la entrega global."},
+  {a:"valor",   b:"clientes", l:"se comunica en", d:"La relación con clientes es el vehículo de la propuesta: listas, notificaciones, recomendaciones y soporte son los puntos de contacto donde el usuario la percibe."},
+  {a:"clientes",b:"segmentos", l:"gana y retiene", d:"Cada segmento —estudiante, coleccionista, fan de cine— exige una relación distinta, y las campañas de retención se diseñan para el segmento cuyo margen más pesa."},
+  {a:"canales",  b:"valor",l:"llegan por", d:"La misma propuesta se entrega con distinta fidelidad en cada canal: máxima en la web, comoda en la tele y limitada en el móvil cuando se descarga."},
+  {a:"canales",  b:"segmentos", l:"distribuyen a", d:"El canal determina la audiencia: la tele lleva al hogar, la consola al jugador y el cine al evento, y cada una captura un segmento distinto."},
+  {a:"segmentos",b:"ingresos", l:"pagan a", d:"Cada plan y cada línea de negocio se dirige a un segmento concreto, y el nivel de gasto de ese segmento fija el precio que se puede pedir."},
+  {a:"rec",     b:"costos", l:"consumen",  d:"El catálogo, el equipo y la infraestructura son, a la vez, la ventaja competitiva y la principal partida de gasto del modelo."},
+  {a:"costos",  b:"ingresos", l:"limitan", d:"El margen entre lo que se cobra y lo que se paga por cada suscriptor es la restricción real del crecimiento, más que la demanda."}
+];
+
+const VISTAS = {
+  todos: [],
+  creacion: ["aliados","act","rec","valor"],
+  ingreso: ["segmentos","valor","clientes","canales","ingresos"],
+  riesgo: ["costos","ingresos","aliados","rec"]
+};
+
+
+/* ============================ LÓGICA ============================ */
+
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const canvas = $("#canvas"), graph = $("#graph"), panel = $("#panel"), search = $("#search");
+const porId = id => BLOQUES.find(b => b.id === id);
+const relDe = id => RELACIONES.map((r,i)=>({r,i})).filter(x => x.r.a === id || x.r.b === id);
+
+let abierto = null, relActiva = null, vista = "todos", consulta = "";
+
+/* --- integridad: toda relación y vista debe apuntar a un bloque real --- */
+(function validar(){
+  const ids = new Set(BLOQUES.map(b => b.id));
+  const malos = [];
+  RELACIONES.forEach(r => { if (!ids.has(r.a) || !ids.has(r.b)) malos.push(`relación "${r.l}": ${r.a}→${r.b}`); });
+  Object.values(VISTAS).forEach(v => v.forEach(id => { if (!ids.has(id)) malos.push(`vista: ${id}`); }));
+  BLOQUES.forEach(b => b.rels.forEach(r => { if (!BLOQUES.some(x => x.name === r[0])) malos.push(`chip de "${b.name}": ${r[0]}`); }));
+  if (malos.length) console.error("Referencias rotas:\n" + malos.join("\n"));
+  else console.info("Modelo íntegro: " + BLOQUES.length + " bloques, " + RELACIONES.length + " relaciones.");
+})();
+
+/* --- bloques --- */
+BLOQUES.forEach(b => {
+  const el = document.createElement("button");
+  el.type = "button";
+  el.className = "block";
+  el.id = b.id;
+  el.style.setProperty("--c", b.c);
+  el.style.setProperty("--area", b.area);
+  el.setAttribute("aria-expanded", "false");
+  el.innerHTML =
+    `<span class="bhead">
+       <span class="bico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${b.icon}</svg></span>
+       <span class="bname">${esc(b.name)}</span>
+       <span class="bnum">${b.n}</span>
+     </span>
+     <span class="btag">${esc(b.tag)}</span>
+     <span class="bpeek">Ver todo el detalle <span class="chev">▾</span><b>${b.items.length}</b></span>
+     <span class="openwrap">
+       <span class="otext">${esc(b.texto)}</span>
+       ${b.stats ? `<span class="mini">${b.stats.map(s =>
+          `<div><b>${esc(s.v)}</b><span>${esc(s.l)}</span></div>`).join("")}</span>` : ""}
+       ${b.tabla ? `<span class="tablewrap"><table><thead><tr>${
+          b.tabla.cols.map(c => `<th>${esc(c)}</th>`).join("")}</tr></thead><tbody>${
+          b.tabla.rows.map(r => `<tr>${r.map(c => `<td>${c}</td>`).join("")}</tr>`).join("")
+        }</tbody></table></span>` : ""}
+       <ul class="items">${b.items.map(i =>
+          `<li><b>${esc(i.t)}</b><span>${esc(i.d)}</span></li>`).join("")}</ul>
+       <span class="relbar"><span>Relaciones</span>${b.rels.map(r =>
+          `<span class="rel" data-rel="${esc(r[0])}"><b>${b.n} →</b> ${esc(r[1])}</span>`).join("")}</span>
+     </span>`;
+  el.dataset.text = (b.name + " " + b.tag + " " + b.texto + " " + b.items.map(i => i.t + " " + i.d).join(" ")).toLowerCase();
+  el.onclick = ev => {
+    if (ev.target.closest(".rel")) return;
+    abrir(b.id === abierto ? null : b.id);
+  };
+  canvas.append(el);
+});
+
+canvas.querySelectorAll(".rel").forEach(r => r.onclick = ev => {
+  ev.stopPropagation();
+  const dst = BLOQUES.find(x => x.name === r.dataset.rel);
+  abrir(dst ? dst.id : null);
+  relActiva = null;
+  pintar();
+});
+
+/* --- vistas rápidas --- */
+$("#controls").querySelectorAll(".chip").forEach(c => c.onclick = () => {
+  vista = c.dataset.v;
+  abrir(null);
+  pintar();
+});
+
+/* --- buscador --- */
+search.oninput = () => { consulta = search.value.trim().toLowerCase(); pintar(); };
+addEventListener("keydown", e => { if (e.key === "Escape"){ abrir(null); relActiva = null; pintar(); } });
+$("#btnTodos").onclick = () => { abrir(null); relActiva = null; consulta = ""; search.value = ""; pintar(); };
+$("#btnLogin").onclick = () => {
+  $("#btnLogin").textContent = "21 M de cuentas";
+  setTimeout(() => { $("#btnLogin").textContent = "Iniciar sesión"; }, 1800);
+};
+
+/* ============================ EXPANSIÓN ============================ */
+function abrir(id){ abierto = id; relActiva = null; pintar(); if (id) canvas.scrollIntoView({ behavior:"smooth", block:"nearest" }); }
+function selRel(i){ relActiva = relActiva === i ? null : i; abierto = null; pintar(); }
+
+function pintar(){
+  const focoVista = VISTAS[vista] || [];
+  const foco = focoVista.length ? focoVista : [];
+  const hayFoco = foco.length > 0;
+
+  canvas.querySelectorAll(".block").forEach(el => {
+    const b = porId(el.id);
+    const visible = !consulta || el.dataset.text.includes(consulta);
+    el.classList.toggle("off", !visible);
+    el.classList.toggle("open", el.id === abierto);
+    el.setAttribute("aria-expanded", el.id === abierto ? "true" : "false");
+    el.classList.toggle("sel", el.id === abierto ||
+      (hayFoco && foco.includes(el.id)) ||
+      (relActiva !== null && (RELACIONES[relActiva].a === el.id || RELACIONES[relActiva].b === el.id)));
+    el.classList.toggle("dim", (hayFoco && !foco.includes(el.id)) || (abierto && el.id !== abierto));
+  });
+  $("#controls").querySelectorAll(".chip").forEach(c => c.setAttribute("aria-pressed", c.dataset.v === vista ? "true" : "false"));
+
+  panel.innerHTML = abierto ? panelBloque(abierto)
+                : relActiva !== null ? panelRel(relActiva)
+                : hayFoco ? panelVista()
+                : panelInicio();
+  dibujar();
+}
+
+/* ============================ PANEL ============================ */
+const g = (t, c) => `<div class="pg"><h4>${esc(t)}</h4>${c}</div>`;
+const ul = xs => `<ul class="plist">${xs.map(x => `<li>${x}</li>`).join("")}</ul>`;
+
+function panelInicio(){
+  return `<span class="pill">Business Model Canvas</span>
+    <h3>Todo Crunchyroll en nueve bloques</h3>
+    <p class="psum">El lienzo completo del modelo de negocio del mayor servicio de anime por suscripción del mundo,
+      con su cadena de aliados, sus nueve bloques y sus cifras públicas.</p>
+    ${g("Cómo se lee", `<p class="ptext">Haz <b style="color:#fff">clic en un bloque</b> del lienzo y se expandirá a lo ancho
+      con todo su contenido, sus cifras y su tabla. Toca después una de las <b style="color:#fff">curvas</b> para leer qué
+      significa esa relación. <kbd>Esc</kbd> cierra.</p>`)}
+    ${g("Los nueve bloques", ul(BLOQUES.map(b =>
+      `<b>${b.n}. ${esc(b.name)}</b> — ${b.items.length} elementos`)))}
+    ${g("Restricción principal", `<p class="ptext">El margen entre lo que se cobra y lo que se paga por
+      cada suscriptor. Con 21 M de cuentas y sin plan gratuito, el modelo compensa su coste de contenido con recurrencia,
+      no con volumen de usuarios.</p>`)}
+    <p class="note">Fuente: datos públicos divulgados por Sony Group y Sony Pictures Entertainment en el ejercicio
+      cerrado a marzo de 2026, y por la comunicación de precios de Crunchyroll de febrero de 2026.
+      Documento académico: no utiliza información financiera interna.</p>`;
+}
+
+function panelBloque(id){
+  const b = porId(id);
+  panel.style.setProperty("--pc", b.c);
+  return `<span class="pill">Bloque ${b.n} de 9</span>
+    <h3>${esc(b.name)}</h3>
+    <p class="psum">${esc(b.tag)}</p>
+    ${g("La idea", `<p class="ptext">${esc(b.texto)}</p>`)}
+    ${b.stats ? g("En cifras", `<div class="mini" style="margin:0">${b.stats.map(s =>
+      `<div><b>${esc(s.v)}</b><span>${esc(s.l)}</span></div>`).join("")}</div>`) : ""}
+    ${g(`Contenido (${b.items.length})`, ul(b.items.map(i => `<b>${esc(i.t)}</b> — ${esc(i.d)}`)))}
+    ${g("Relaciones de este bloque", ul(relDe(id).map(({r}) => {
+      const otro = porId(r.a === id ? r.b : r.a);
+      return `<b>${b.n} → ${otro.n} · ${esc(r.l)}</b> — ${esc(r.d)}`;
+    })))}
+    <p class="note">${b.items.length} elementos con cifras y tabla dentro del lienzo.
+      Pulsa cualquier relación para saltar al bloque correspondiente.</p>`;
+}
+
+function panelRel(i){
+  const r = RELACIONES[i], a = porId(r.a), b = porId(r.b);
+  panel.style.setProperty("--pc", "#f47521");
+  return `<span class="pill">Relación ${i+1} de ${RELACIONES.length}</span>
+    <h3>${a.n}. ${esc(a.name)} → ${b.n}. ${esc(b.name)}</h3>
+    <p class="psum">${esc(r.l)}</p>
+    ${g("Qué significa", `<p class="ptext">${esc(r.d)}</p>`)}
+    ${g("Extremos", ul([`<b>${a.n}. ${esc(a.name)}</b> — ${a.items.length} elementos`,
+                       `<b>${b.n}. ${esc(b.name)}</b> — ${b.items.length} elementos`]))}
+    ${g("Atajo", `<p class="ptext">Pulsa <b style="color:#fff">${esc(r.l)}</b> en la lista de relaciones del bloque
+      o haz clic en la curva para volver aquí.</p>`)}`;
+}
+
+function panelVista(){
+  const foco = (VISTAS[vista] || []).map(id => porId(id));
+  panel.style.setProperty("--pc", "#ffa054");
+  return `<span class="pill">Foco guiado</span>
+    <h3>${vista === "creacion" ? "Creación de valor"
+        : vista === "ingreso" ? "Cadena del ingreso"
+        : "Costos y riesgos"}</h3>
+    <p class="psum">${vista === "creacion"
+      ? "Cómo se construye el producto: los aliados que lo permiten, las tareas que lo ejecutan y los recursos que las sostienen."
+      : vista === "ingreso"
+      ? "Cómo un usuario desconocido se convierte en ingreso recurrente: segmento, promesa, canal, relación y cobro."
+      : "Dónde se lleva el dinero: qué recursos se consumen, qué socios los financian y qué margen queda al final."}</p>
+    ${g("Bloques implicados", ul(foco.map(b => `<b>${b.n}. ${esc(b.name)}</b> — ${b.items.length} elementos`)))}
+    ${g("Siguiente paso", `<p class="ptext">Haz clic en cualquiera de estos bloques en el lienzo para leer su detalle completo.</p>`)}`;
+}
+
+/* ============================ CURVAS ============================ */
+function dibujar(){
+  graph.querySelectorAll(".draw").forEach(x => x.remove());
+  if (getComputedStyle(graph).display === "none") return;
+  const c = canvas.getBoundingClientRect();
+  const p = id => {
+    const el = document.getElementById(id);
+    if (!el || el.classList.contains("off") || !el.offsetParent) return null;
+    const r = el.getBoundingClientRect();
+    return [r.left + r.width/2 - c.left, r.top + r.height/2 - c.top, r.width, r.height];
+  };
+  const focoVista = (VISTAS[vista] || []);
+
+  RELACIONES.forEach((r, i) => {
+    const A = p(r.a), B = p(r.b);
+    if (!A || !B) return;
+    const on = relActiva === i || abierto === r.a || abierto === r.b ||
+      (focoVista.length && focoVista.includes(r.a) && focoVista.includes(r.b));
+    // origen y punto de control perpendiculares
+    const [x1,y1] = [A[0], A[1] + A[3]/2 + 6];
+    const [x2,y2] = [B[0], B[1] - B[3]/2 - 8];
+    const mx = (x1+x2)/2, my = (y1+y2)/2;
+    const dx = x2-x1, dy = y2-y1, len = Math.hypot(dx,dy) || 1;
+    const k = 0.16;
+    const cx = mx - dy/len * len*k, cy = my + dx/len * len*k;
+
+    const gEl = document.createElementNS("http://www.w3.org/2000/svg","g");
+    gEl.setAttribute("class","draw");
+    const path = document.createElementNS(gEl.namespaceURI,"path");
+    path.setAttribute("d", `M${x1},${y1} Q${cx},${cy} ${x2},${y2}`);
+    path.setAttribute("class","edge" + (on ? " on" : ""));
+    path.setAttribute("marker-end", on ? "url(#ar-on)" : "url(#ar)");
+
+    const t = document.createElementNS(gEl.namespaceURI,"text");
+    t.setAttribute("x", 0.25*x1 + 0.5*cx + 0.25*x2);
+    t.setAttribute("y", 0.25*y1 + 0.5*cy + 0.25*y2 - 5);
+    t.setAttribute("text-anchor","middle");
+    t.setAttribute("class","elab" + (on ? " on" : ""));
+    t.textContent = r.l;
+
+    gEl.style.cursor = "pointer";
+    gEl.onclick = () => selRel(i);
+    gEl.append(path, t);
+    graph.append(gEl);
+  });
+}
+
+const ro = new ResizeObserver(dibujar);
+ro.observe(canvas);
+BLOQUES.forEach(b => ro.observe(document.getElementById(b.id)));
+addEventListener("resize", dibujar);
+
+pintar();
+</script>
+</body>
+</html>

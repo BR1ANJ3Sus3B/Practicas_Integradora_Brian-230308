@@ -1,0 +1,500 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AnimeHub · Modelo Canvas (7 componentes)</title>
+<style>
+:root{
+  --ink:#162036;--muted:#59657a;--paper:#f7f8fc;--line:#cfd6e5;--focus:#15213d;
+  --card:#fff;--soft:#eef1f7;--edge:#a4b0c5;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);
+  font:15px/1.55 Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.app{max-width:1660px;margin:auto;padding:18px}
+h1{margin:0;font-size:25px;letter-spacing:-.2px}
+.sub{margin:2px 0 0;color:var(--muted);font-size:13px}
+
+.top{display:flex;gap:16px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-bottom:14px}
+.search{width:min(340px,100%);border:1px solid #b8c2d5;border-radius:9px;padding:10px 12px;
+  font:inherit;background:var(--card);color:var(--ink);outline-offset:3px}
+.hintbar{color:var(--muted);font-size:12px}
+.hintbar kbd{background:var(--soft);border:1px solid var(--line);border-radius:5px;
+  padding:1px 5px;font:600 11px ui-monospace,SFMono-Regular,Consolas,monospace}
+
+.views{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px}
+.view{border:1px solid #cbd3e1;background:var(--card);padding:8px 12px;border-radius:999px;
+  color:var(--ink);font:600 12px inherit;cursor:pointer}
+.view:hover,.view:focus-visible{border-color:var(--focus);outline:2px solid var(--focus);outline-offset:2px}
+.view[aria-pressed=true]{background:var(--focus);border-color:var(--focus);color:#fff}
+
+.legend{display:flex;flex-wrap:wrap;gap:7px 12px;margin:0 0 12px;font-size:11px;font-weight:700}
+.legend span:before{content:"";display:inline-block;width:9px;height:9px;border-radius:2px;
+  background:var(--c);margin-right:5px}
+
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:16px;align-items:start}
+
+/* ---------- tablero ---------- */
+.board{position:relative;isolation:isolate;border:1px solid #d8deea;border-radius:16px;
+  background:var(--card);padding:16px;min-height:360px}
+.graph{position:absolute;inset:0;z-index:0;width:100%;height:100%;pointer-events:none;overflow:visible}
+.edge{pointer-events:stroke;stroke:var(--edge);stroke-width:2;fill:none;cursor:pointer}
+.edge.active{stroke:var(--focus);stroke-width:4}
+.edge-label{font:700 11px Inter,ui-sans-serif,system-ui,sans-serif;fill:#5a6780;paint-order:stroke;
+  stroke:#fff;stroke-width:4;stroke-linejoin:round;pointer-events:all;cursor:pointer}
+.edge-label.active{fill:var(--focus)}
+
+.nodes{position:relative;z-index:1;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:22px;align-items:start}
+.node{--c:#64748b;position:relative;min-height:104px;border:2px solid var(--c);border-radius:13px;
+  background:var(--card);padding:12px;box-shadow:0 3px 10px #1620360d;cursor:pointer;text-align:left;
+  transition:transform .24s ease,box-shadow .24s ease,opacity .2s ease,border-color .2s ease}
+.node:hover{transform:translateY(-2px);box-shadow:0 9px 20px #1620361a}
+.node:focus-visible{outline:3px solid var(--focus);outline-offset:3px}
+.node.dim{opacity:.4}
+.node.active{border-color:var(--c);box-shadow:0 12px 28px #16203626;transform:translateY(-3px);z-index:3}
+/* el nodo clickeado se expands a todo el ancho y sube al inicio de la rejilla */
+.node.expanded{grid-column:1/-1;order:-1;min-height:0;transform:none;padding:16px 18px}
+.node.expanded .toggle{transform:rotate(45deg)}
+
+.head{display:flex;align-items:center;gap:9px}
+.num{display:grid;place-items:center;width:29px;height:29px;border-radius:8px;background:var(--c);
+  color:#fff;font-size:14px;font-weight:800;flex:none}
+.name{font-size:14px;font-weight:800;line-height:1.15}
+.toggle{margin-left:auto;font-size:19px;line-height:1;color:var(--c);transition:transform .2s ease}
+.resumen{display:block;margin-top:9px;font-size:12px;line-height:1.4;color:var(--muted)}
+.node.expanded .resumen{font-size:13px;color:#3f4c64}
+
+.detail{display:none;margin-top:12px;border-top:1px solid #dde3ee;padding-top:11px}
+.expanded .detail{display:grid;gap:9px;animation:reveal .24s ease both}
+.item-title{font-size:12.5px;font-weight:800}
+.item-desc{display:block;font-size:12px;line-height:1.4;color:#3f4c64;margin-top:2px}
+.ev{display:inline-block;margin-left:6px;background:var(--soft);border:1px solid var(--line);
+  border-radius:5px;padding:0 5px;font:600 10px ui-monospace,SFMono-Regular,Consolas,monospace;
+  color:var(--muted);vertical-align:1px}
+.relchip{display:inline-flex;align-items:center;gap:6px;margin:2px 6px 0 0;background:#f7f9fc;
+  border:1px solid var(--line);border-radius:999px;padding:3px 10px;font-size:11.5px;font-weight:600}
+@keyframes reveal{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+
+/* celda de ayuda: ocupa el hueco libre de la segunda fila de la rejilla */
+.hintcell{border:1px dashed #c6cfdd;border-radius:13px;background:#fbfcfe;
+  padding:12px;color:var(--muted);font-size:12px;line-height:1.45;align-self:stretch}
+.sel .hintcell{display:none}
+.node.off{display:none}
+
+/* ---------- panel de detalle ---------- */
+.panel{position:sticky;top:18px;border:1px solid #d8deea;border-radius:16px;background:var(--card);
+  padding:16px;max-height:calc(100vh - 36px);overflow:auto}
+.panel h2{margin:0 0 2px;font-size:15px}
+.panel .psum{margin:0 0 12px;font-size:12.5px;line-height:1.45;color:var(--muted)}
+.pgroup{margin:0 0 12px}
+.pgroup h3{margin:0 0 6px;font-size:11px;letter-spacing:.6px;text-transform:uppercase;color:var(--muted)}
+.plist{margin:0;padding-left:17px;font-size:12.5px;line-height:1.45}
+.plist li+li{margin-top:5px}
+.pempty{color:var(--muted);font-size:12.5px}
+.src{margin:14px 0 0;padding-top:10px;border-top:1px solid #e6eaf2;font-size:11px;color:var(--muted)}
+.pill{display:inline-block;background:var(--soft);border:1px solid var(--line);border-radius:999px;
+  padding:2px 9px;font:600 11px inherit;margin-bottom:8px}
+
+/* ---------- tarjetas ---------- */
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin-top:16px}
+.card{border:1px solid #d8deea;background:var(--card);border-left:4px solid var(--c,#cbd3e1);
+  border-radius:12px;padding:12px 14px;text-align:left;font:inherit;color:inherit;cursor:pointer;
+  transition:transform .15s ease,box-shadow .15s ease,border-color .15s ease}
+.card:hover{transform:translateY(-2px);box-shadow:0 8px 18px #16203614}
+.card:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+.card h2{margin:0 0 7px;font-size:12.5px}
+.card ul{margin:0;padding-left:16px;font-size:11.5px;line-height:1.45;color:#3f4c64}
+.card li+li{margin-top:3px}
+.card[aria-pressed=true]{border-color:var(--focus);box-shadow:0 10px 22px #1620361f}
+
+footer{margin-top:22px;color:var(--muted);font-size:12px}
+footer code{font:600 11.5px ui-monospace,SFMono-Regular,Consolas,monospace}
+
+@media(max-width:1180px){.layout{grid-template-columns:minmax(0,1fr)}.panel{position:static;max-height:none}}
+@media(max-width:880px){
+  .nodes{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .hintcell{display:none}
+}
+@media(max-width:560px){.nodes{grid-template-columns:1fr}.graph{display:none}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<main class="app" id="app">
+  <div class="top">
+    <div>
+      <h1>AnimeHub</h1>
+      <p class="sub">Modelo Canvas · 7 componentes · haz clic en un bloque para expandirlo</p>
+    </div>
+    <input class="search" id="search" type="search" placeholder="Buscar en el modelo…" aria-label="Buscar en el modelo">
+  </div>
+
+  <nav class="views" id="views" aria-label="Vistas guiadas"></nav>
+  <div class="legend" id="legend" aria-label="Leyenda"></div>
+
+  <div class="layout">
+    <section class="board" id="board">
+      <svg class="graph" id="graph" aria-hidden="true">
+        <defs>
+          <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+            <path d="M0,0 L0,6 L7,3z" fill="#a4b0c5"/>
+          </marker>
+          <marker id="arrow-on" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+            <path d="M0,0 L0,6 L7,3z" fill="#15213d"/>
+          </marker>
+        </defs>
+      </svg>
+      <div class="nodes" id="nodes"></div>
+    </section>
+
+    <aside class="panel" id="panel" aria-live="polite" aria-label="Detalle"></aside>
+  </div>
+
+  <section class="cards" id="cards" aria-label="Resumen por componente"></section>
+
+  <footer>
+    Fuente de verdad del contenido:
+    <code id="fuente">Practica03/business-model-canvas/analisis-proyecto.md</code>.
+    <kbd>Esc</kbd> para cerrar la selección.
+  </footer>
+</main>
+
+<script>
+const FUENTE = "Practica03/business-model-canvas/analisis-proyecto.md";
+
+/* id · número · tipo · nombre · resumen · [ [título, descripción, evidencia], ... ] */
+const BLOQUES = [
+  { id:"problema", n:1, t:"external", name:"Problema / Necesidad",
+    sum:"La oferta de anime está fragmentada por plataforma, región e idioma, y no deja decidir antes de pagar.",
+    items:[
+      ["C1 · Catálogo fragmentado","La oferta está repartida en plataformas separadas por región, idioma y disponibilidad.","§2 · C1"],
+      ["C2 · Barrera de pago inicial","No hay opción gratuita ni período de prueba: se paga desde el primer capítulo para poder decidir.","§2 · C2"],
+      ["C3 · Descubrimiento deficiente","La búsqueda no permite filtrar por género, año, estudio, idioma o estado de emisión.","§2 · C3"],
+      ["C4 · Pérdida de progreso","El avance del capítulo no se conserva al cambiar de dispositivo ni al cerrar la sesión.","§2 · C4"],
+      ["C5 · Gestión manual","El alta de catálogo y la gestión de cuentas se hacen a mano y sin trazabilidad.","§2 · C5"],
+      ["Consecuencias actuales","Abandono temprano · alta carga de soporte · consumo en fuentes no oficiales · ingresos no capturados · sin trazabilidad.","§2 · Consecuencias"]
+    ]},
+  { id:"usuarios", n:2, t:"frontend", name:"Usuarios o beneficiarios",
+    sum:"Espectadores que consumen por capítulos y un equipo administrador que opera el catálogo y la plataforma.",
+    items:[
+      ["U1 · Espectador / estudiante","Consume anime por capítulos desde escritorio y móvil. Quiere encontrar el título con filtros claros, empezar sin pagar y retomar el capítulo exacto donde se quedó.","§3 · U1"],
+      ["U2 · Suscriptor Premium","Paga un plan mensual o anual. Espera reproducción sin interrupciones, calidad HD, historial de visualización y descarga para ver sin conexión.","§3 · U2"],
+      ["U3 · Usuario registrado gratuito","Se registra para crear su lista o aprovechar la prueba, sin plan de pago. Necesita registro rápido con verificación por correo y acceso limitado pero suficiente para valorar el catálogo.","§3 · U3"],
+      ["U4 · Administrador de catálogo","Da de alta series, episodios y metadatos: alta masiva, edición de portada y sinopsis, clasificación por género y control de publicación.","§3 · U4"],
+      ["U5 · Administrador de plataforma","Gestiona usuarios, planes, métricas y soporte: panel de reproducción y conversión, gestión de planes y estados, y registro de auditoría.","§3 · U5"]
+    ]},
+  { id:"propuesta", n:3, t:"cloud", name:"Propuesta de valor",
+    sum:"AnimeHub reúne el catálogo de anime en un solo lugar, con prueba gratuita, navegación por capítulos y progreso que se conserva en cualquier dispositivo.",
+    items:[
+      ["Un solo lugar","Un único login y un único catálogo, sin saltar entre plataformas. Ataca C1.","§4"],
+      ["Decidir antes de pagar","Período de prueba gratuito para valorar el contenido. Ataca C2.","§4"],
+      ["Progreso que te sigue","El capítulo y el segundo exactos se guardan en la cuenta y se retoman en cualquier dispositivo. Ataca C4.","§4"],
+      ["Descubrimiento real","Filtros por género, año, estudio, idioma y estado de emisión. Ataca C3.","§4"]
+    ]},
+  { id:"solucion", n:4, t:"backend", name:"Solución propuesta",
+    sum:"Siete módulos que se agrupan en tres bloques: cuenta y catálogo, reproductor y seguimiento, suscripciones y pagos.",
+    items:[
+      ["M1 · Cuenta y autenticación","Registro, inicio de sesión, verificación por correo, perfil, roles (RBAC) y recuperación de contraseña.","§5 · M1"],
+      ["M2 · Catálogo y búsqueda","Listado de series y películas, filtros por género/año/estudio/idioma/estado, portada, sinopsis y detalle de episodios.","§5 · M2"],
+      ["M3 · Reproductor","Reproducción de video, calidad seleccionable, subtítulos, control de avance y marcadores.","§5 · M3"],
+      ["M4 · Seguimiento y lista","Lista de seguimiento por usuario, historial de visualización, reanudación del capítulo y marcas de tiempo.","§5 · M4"],
+      ["M5 · Suscripciones y pagos","Planes mensual y anual, período de prueba, cobro, estado de la suscripción y baja.","§5 · M5"],
+      ["M6 · Notificaciones","Aviso de nuevos episodios de la lista y de caducidad de la prueba o del plan.","§5 · M6"],
+      ["M7 · Administración y métricas","Gestión de catálogo, usuarios y planes; métricas de reproducción, conversión y retención; auditoría.","§5 · M7"]
+    ]},
+  { id:"procesos", n:5, t:"messagebus", name:"Actividades y procesos clave",
+    sum:"Siete procesos: del registro del usuario al cobro, el alta de contenido y la lectura de métricas.",
+    items:[
+      ["A1 · Registro e inicio de sesión","El usuario se registra, verifica su correo e inicia sesión; el sistema emite el token y asigna su rol.","§6 · A1"],
+      ["A2 · Consulta del catálogo y búsqueda","El usuario navega el catálogo y aplica filtros; el sistema devuelve resultados y el detalle de cada título.","§6 · A2"],
+      ["A3 · Reproducción y control de calidad","El reproductor solicita el episodio, aplica calidad y subtítulos, y reporta el avance.","§6 · A3"],
+      ["A4 · Cálculo de progreso y reanudación","El sistema guarda el capítulo, el segundo y la marca; al volver, propone retomar desde ese punto.","§6 · A4"],
+      ["A5 · Gestión de la lista de seguimiento","El usuario añade o quita títulos; el sistema notifica la salida de nuevos episodios.","§6 · A5"],
+      ["A6 · Suscripción, cobro y prueba","Se activa la prueba o el plan, se cobra, se controla la vigencia y se gestiona la baja.","§6 · A6"],
+      ["A7 · Administración de contenido y métricas","El equipo administrador da de alta series y episodios, edita metadatos y revisa las métricas.","§6 · A7"]
+    ]},
+  { id:"recursos", n:6, t:"security", name:"Recursos y tecnologías clave",
+    sum:"Stack aprobado por el equipo, más las personas que lo construyen y lo mantienen.",
+    items:[
+      ["React (Vite) + React Router + Tailwind","SPA responsive: catálogo, detalle, reproductor y panel de administración.","§7 · Frontend"],
+      ["Node.js + Express","API REST que sirve catálogo, reproducción, listas y suscripciones.","§7 · Backend"],
+      ["MongoDB + Mongoose","Persistencia de usuarios, catálogo, episodios, listas, suscripciones y auditoría.","§7 · Datos"],
+      ["JWT + bcrypt + RBAC","Autenticación stateless, hash de contraseñas y control de acceso por rol.","§7 · Identidad"],
+      ["HLS sobre HTTP + almacenamiento de objetos","Empaquetado y servido del video; también de portadas y subtítulos.","§7 · Multimedia"],
+      ["Pasarela de pago con webhooks","Cobro de los planes mensual y anual, y confirmación de la prueba.","§7 · Pagos"],
+      ["Docker + Docker Compose","Empaquetado y orquestación de API, base de datos y entorno de desarrollo.","§7 · Infraestructura"],
+      ["Git + GitHub (issues, PR, CI)","Control de versiones, revisión de código y despliegue.","§7 · Entrega"],
+      ["Pruebas automatizadas + ESLint","Verificación de la API y de los componentes críticos.","§7 · Calidad"],
+      ["Equipo humano","Desarrollo (frontend, backend y base de datos) · análisis y diseño · perfil de contenido · calidad y soporte.","§7 · Recursos humanos"]
+    ]},
+  { id:"resultados", n:7, t:"database", name:"Resultados, beneficios e impacto",
+    sum:"Siete resultados esperados, cada uno con su indicador de verificación.",
+    items:[
+      ["R1 · Adquisición sin fricción","Registros completos con correo verificado.","§8 · R1"],
+      ["R2 · Conversión de prueba a suscripción","Porcentaje de cuentas que pasan del plan gratuito a un plan de pago tras la prueba.","§8 · R2"],
+      ["R3 · Retención por continuidad","Usuarios que vuelven a retomar un capítulo en los 7 días siguientes.","§8 · R3"],
+      ["R4 · Ingresos recurrentes","Renovaciones de los planes mensual y anual.","§8 · R4"],
+      ["R5 · Menor carga de soporte","Consultas sobre disponibilidad, calidad y cobro resueltas por el propio catálogo.","§8 · R5"],
+      ["R6 · Catálogo operable por el equipo","Altas de contenido y métricas revisadas sin proceso manual.","§8 · R6"],
+      ["R7 · Impacto en la comunidad","Acceso organizado a anime por capítulos, con progreso que se conserva.","§8 · R7"]
+    ]}
+];
+
+/* [desde, hasta, etiqueta, significado, evidencia] */
+const RELACIONES = [
+  ["problema","usuarios","viven el problema","C1–C5 producen consecuencias en U1–U3 y carga operativa en U4–U5.","§9"],
+  ["usuarios","propuesta","motivan la propuesta","Cada elemento de la propuesta —catálogo único, prueba, progreso, filtros— cubre una necesidad declarada en U1–U3.","§9"],
+  ["propuesta","solucion","se materializa en","Prueba gratuita → M5 · progreso que te sigue → M3 y M4 · filtros → M2 · un solo lugar → M1 y M2.","§9"],
+  ["solucion","procesos","se opera mediante","M1–M7 se ejecutan a través de A1–A7.","§9"],
+  ["procesos","recursos","se apoya en","Cada proceso depende de una o más tecnologías del stack aprobado por el equipo.","§9"],
+  ["procesos","resultados","produce","A1–A4 sostienen R1–R3 y R7 · A6 sostiene R2 y R4 · A7 sostiene R5 y R6.","§9"],
+  ["solucion","resultados","entrega el beneficio","Los módulos M1–M7 hacen observables los resultados R1–R7; sin ellos el beneficio no llega al usuario.","§9"]
+];
+
+const VISTAS = [
+  ["1-2 · Problema y usuarios",["problema","usuarios"],"Las cinco causas del mercado y los cinco tipos de usuario que las sufren."],
+  ["2-4 · Cadena de valor",["usuarios","propuesta","solucion"],"De la necesidad del usuario a los módulos que la atienden."],
+  ["4-6 · Solución y operación",["solucion","procesos","recursos"],"Los siete módulos, los siete procesos y el stack que los ejecuta."],
+  ["5-7 · Operación y resultados",["procesos","recursos","resultados"],"Procesos y recursos que se traducen en adquisición, conversión e ingresos."],
+  ["Ingresos y conversión",["usuarios","propuesta","solucion","procesos","resultados"],"Cómo la prueba gratuita y los planes de pago convierten usuarios en ingresos recurrentes."],
+  ["Plataforma y tecnología",["solucion","procesos","recursos"],"Stack del producto: React, Express, MongoDB, JWT, HLS, Docker y GitHub."]
+];
+
+/* [id del bloque, título, [ítems]] */
+const TARJETAS = [
+  ["problema","1 · Problema / Necesidad",["C1 Catálogo fragmentado","C2 Cobro sin prueba previa","C3 Búsqueda sin filtros","C4 Progreso que se pierde","C5 Gestión manual"]],
+  ["usuarios","2 · Usuarios o beneficiarios",["U1 Espectador / estudiante","U2 Suscriptor Premium","U3 Registrado gratuito","U4 Administrador de catálogo","U5 Administrador de plataforma"]],
+  ["propuesta","3 · Propuesta de valor",["Un solo lugar","Decidir antes de pagar","Progreso que te sigue","Descubrimiento real"]],
+  ["solucion","4 · Solución propuesta",["M1 Cuenta y autenticación","M2 Catálogo y búsqueda","M3 Reproductor","M4 Seguimiento y lista","M5 Suscripciones y pagos","M6 Notificaciones","M7 Administración y métricas"]],
+  ["procesos","5 · Actividades y procesos",["A1 Registro e inicio de sesión","A2 Catálogo y búsqueda","A3 Reproducción y calidad","A4 Progreso y reanudación","A5 Lista de seguimiento","A6 Suscripción, cobro y prueba","A7 Administración y métricas"]],
+  ["recursos","6 · Recursos y tecnologías",["React (Vite) + Tailwind","Node.js + Express","MongoDB + Mongoose","JWT + bcrypt + RBAC","HLS + pasarela de pago","Docker + GitHub + CI"]],
+  ["resultados","7 · Resultados e impacto",["R1 Adquisición sin fricción","R2 Conversión de prueba","R3 Retención a 7 días","R4 Ingresos recurrentes","R5 Menor carga de soporte","R6 Catálogo operable","R7 Impacto en la comunidad"]]
+];
+
+const $ = s => document.querySelector(s);
+const app = $("#app"), nodesBox = $("#nodes"), graph = $("#graph"),
+      board = $("#board"), panel = $("#panel"), search = $("#search"),
+      legend = $("#legend"), views = $("#views"), cards = $("#cards");
+
+const porId = id => BLOQUES.find(b => b.id === id);
+const relDe = id => RELACIONES.map((r,i)=>({r,i})).filter(x=>x.r[0]===id||x.r[1]===id);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+let activo = null, relActiva = null, focoVista = [], vistaActiva = -1, consulta = "";
+
+/* ---------- construcción ---------- */
+BLOQUES.forEach(b => {
+  const e = document.createElement("button");
+  e.type = "button";
+  e.className = "node " + b.t;
+  e.id = b.id;
+  e.setAttribute("aria-expanded", "false");
+  e.style.setProperty("--c", colorDe(b.t));
+  e.innerHTML =
+    `<span class="head"><span class="num">${b.n}</span><span class="name">${esc(b.name)}</span>` +
+    `<span class="toggle" aria-hidden="true">+</span></span>` +
+    `<span class="resumen">${esc(b.sum)}</span>` +
+    `<span class="detail">${b.items.map(i =>
+        `<span><span class="item-title">${esc(i[0])}<span class="ev">${esc(i[2])}</span></span>` +
+        `<span class="item-desc">${esc(i[1])}</span></span>`).join("")}` +
+      `<span class="relchips">${relDe(b.id).map(({r,i}) =>
+        `<span class="relchip">${r[0]===b.id?"→":"←"} ${esc(r[2])}</span>`).join("")}</span>` +
+    `</span>`;
+  e.dataset.text = (b.name + " " + b.sum + " " + b.items.flat().join(" ")).toLowerCase();
+  e.onclick = () => selNodo(b.id);
+  e.onkeydown = ev => { if (ev.key === "Enter" || ev.key === " ") { ev.preventDefault(); selNodo(b.id); } };
+  nodesBox.append(e);
+});
+
+nodesBox.insertAdjacentHTML("beforeend",
+  `<div class="hintcell"><b>Cómo leerlo.</b> Cada bloque se expande con un clic y muestra sus
+   causas, módulos, procesos o tecnologías, con la sección del análisis del proyecto de la que
+   sale. Haz clic en una flecha para leer qué significa esa relación.</div>`);
+
+function colorDe(t){
+  return { external:"#e8794b", frontend:"#2979d9", cloud:"#6a55d8", backend:"#00a67c",
+           messagebus:"#ca7a0a", security:"#ca3c70", database:"#397a60" }[t] || "#64748b";
+}
+
+legend.innerHTML = BLOQUES.map(b =>
+  `<span style="--c:${colorDe(b.t)}">${b.n} ${esc(b.name)}</span>`).join("");
+
+views.innerHTML = VISTAS.map((v,i) =>
+  `<button class="view" type="button" data-v="${i}" aria-pressed="false" title="${esc(v[2])}">${esc(v[0])}</button>`).join("");
+views.querySelectorAll(".view").forEach(btn => btn.onclick = () => {
+  const i = +btn.dataset.v;
+  vistaActiva = vistaActiva === i ? -1 : i;
+  focoVista = vistaActiva === i ? VISTAS[i][1] : [];
+  selNodo(null);
+});
+
+cards.innerHTML = TARJETAS.map(([id,titulo,items]) => {
+  const b = porId(id);
+  return `<button class="card ${b.t}" type="button" data-id="${id}" aria-pressed="false" style="--c:${colorDe(b.t)}">` +
+    `<h2>${esc(titulo)}</h2><ul>${items.map(i => `<li>${esc(i)}</li>`).join("")}</ul></button>`;
+}).join("");
+cards.querySelectorAll(".card").forEach(c => c.onclick = () => {
+  selNodo(c.dataset.id);
+  document.getElementById(c.dataset.id).scrollIntoView({ behavior:"smooth", block:"nearest" });
+});
+
+/* ---------- selección ---------- */
+function selNodo(id){
+  relActiva = null;
+  activo = activo === id ? null : id;
+  if (activo) { vistaActiva = -1; focoVista = []; }
+  pintar();
+  if (activo) document.getElementById(activo).scrollIntoView({ behavior:"smooth", block:"nearest" });
+}
+function selRel(i){ relActiva = relActiva === i ? null : i; activo = null; vistaActiva = -1; focoVista = []; pintar(); }
+
+function pintar(){
+  const conVista = !activo && relActiva === null && focoVista.length > 0;
+  app.classList.toggle("sel", !!activo || relActiva !== null || conVista);
+  nodesBox.querySelectorAll(".node").forEach(e => {
+    const suyo = relDe(e.id).some(({r,i}) => i === relActiva) || (activo && e.id === activo);
+    const vecino = activo && relDe(activo).some(({r}) => r[0] === e.id || r[1] === e.id);
+    const enVista = conVista && focoVista.includes(e.id);
+    const apagado = (activo || relActiva !== null || conVista) && !suyo && !vecino && !enVista;
+    e.classList.toggle("expanded", e.id === activo);
+    e.classList.toggle("active", !!suyo || !!enVista);
+    e.classList.toggle("dim", !!apagado);
+    e.setAttribute("aria-expanded", e.id === activo ? "true" : "false");
+  });
+  cards.querySelectorAll(".card").forEach(c => c.setAttribute("aria-pressed", c.dataset.id === activo ? "true" : "false"));
+  views.querySelectorAll(".view").forEach((b,i) => b.setAttribute("aria-pressed", i === vistaActiva ? "true" : "false"));
+  panel.innerHTML = activo ? panelNodo(activo) : relActiva !== null ? panelRel(relActiva) : conVista ? panelVista() : panelInicio();
+  dibujar();
+}
+
+const grupo = (t, cuerpo) => `<div class="pgroup"><h3>${esc(t)}</h3>${cuerpo}</div>`;
+const lista = items => `<ul class="plist">${items.map(i => `<li>${esc(i)}</li>`).join("")}</ul>`;
+
+function panelInicio(){
+  return `<h2>Cómo se lee el modelo</h2>` +
+    `<p class="psum">Los 7 componentes del enunciado encadenan el problema de mercado hasta los
+     resultados medibles del proyecto AnimeHub.</p>` +
+    grupo("Al hacer clic", `<p class="pempty">Un bloque se expande a todo el ancho y muestra su detalle
+     con la sección del análisis de la que sale. Un clic en una flecha explica esa relación.
+     <kbd>Esc</kbd> cierra la selección.</p>`) +
+    grupo("Los 7 componentes", lista(BLOQUES.map(b => `${b.n}. ${b.name} — ${b.items.length} elementos`))) +
+    grupo("Cadena lógica", lista(["Problema → Usuarios → Propuesta → Solución → Procesos → Recursos → Resultados"])) +
+    `<p class="src">Todo el contenido sale de <code>${esc(FUENTE)}</code>. Crunchyroll es el modelo de
+     referencia de mercado, no el sujeto de este lienzo.</p>`;
+}
+
+function panelNodo(id){
+  const b = porId(id);
+  return `<span class="pill">${b.n} · ${esc(b.name)}</span>` +
+    `<h2>${esc(b.name)}</h2><p class="psum">${esc(b.sum)}</p>` +
+    grupo(`Detalle (${b.items.length})`,
+      `<ul class="plist">${b.items.map(i =>
+        `<li><b>${esc(i[0])}</b><br>${esc(i[1])} <span class="ev">${esc(i[2])}</span></li>`).join("")}</ul>`) +
+    grupo("Relaciones", lista(relDe(id).map(({r}) =>
+      `${porId(r[0]).n} → ${porId(r[1]).n} · ${r[2]}`))) +
+    `<p class="src">Evidencia: <code>${esc(FUENTE)}</code> · ${esc(b.items[0][2].split(" · ")[0])}</p>`;
+}
+
+function panelRel(i){
+  const r = RELACIONES[i], a = porId(r[0]), b = porId(r[1]);
+  return `<span class="pill">Relación ${i+1} de ${RELACIONES.length}</span>` +
+    `<h2>${a.n}. ${esc(a.name)} → ${b.n}. ${esc(b.name)}</h2>` +
+    `<p class="psum">${esc(r[2])}</p>` +
+    grupo("Qué significa", `<p class="pempty">${esc(r[3])}</p>`) +
+    grupo("Extremos", lista([`${a.n}. ${a.name} — ${a.items.length} elementos`,
+                             `${b.n}. ${b.name} — ${b.items.length} elementos`])) +
+    `<p class="src">Evidencia: <code>${esc(FUENTE)}</code> · ${esc(r[4])}</p>`;
+}
+
+function panelVista(){
+  const v = VISTAS[vistaActiva];
+  return `<span class="pill">Vista guiada</span>` +
+    `<h2>${esc(v[0])}</h2><p class="psum">${esc(v[2])}</p>` +
+    grupo("Bloques que enfoca", lista(v[1].map(id => {
+      const b = porId(id);
+      return `${b.n}. ${b.name} — ${b.items.length} elementos`;
+    }))) +
+    `<p class="src">Haz clic en cualquier bloque para leer su detalle completo.</p>`;
+}
+
+/* ---------- flechas ---------- */
+function dibujar(){
+  graph.querySelectorAll(".draw").forEach(x => x.remove());
+  const br = board.getBoundingClientRect();
+  const centro = id => { const r = document.getElementById(id).getBoundingClientRect();
+    return [r.left + r.width/2 - br.left, r.top + r.height/2 - br.top]; };
+  RELACIONES.forEach((r,i) => {
+    const ea = document.getElementById(r[0]), eb = document.getElementById(r[1]);
+    if (ea.classList.contains("off") || eb.classList.contains("off")) return;
+    const [x1,y1] = centro(r[0]), [x2,y2] = centro(r[1]);
+    const on = relActiva === i ||
+      (relActiva === null && activo && (r[0] === activo || r[1] === activo)) ||
+      (focoVista.includes(r[0]) && focoVista.includes(r[1]));
+    const g = document.createElementNS("http://www.w3.org/2000/svg","g");
+    g.setAttribute("class","draw");
+    const p = document.createElementNS(g.namespaceURI,"path");
+    p.setAttribute("d",`M${x1},${y1} L${x2},${y2}`);
+    p.setAttribute("class","edge" + (on ? " active" : ""));
+    p.setAttribute("marker-end", on ? "url(#arrow-on)" : "url(#arrow)");
+    const t = document.createElementNS(g.namespaceURI,"text");
+    t.setAttribute("x",(x1+x2)/2); t.setAttribute("y",(y1+y2)/2 - 7);
+    t.setAttribute("text-anchor","middle");
+    t.setAttribute("class","edge-label" + (on ? " active" : ""));
+    t.textContent = r[2];
+    g.append(p,t);
+    g.style.cursor = "pointer";
+    g.onclick = () => selRel(i);
+    graph.append(g);
+  });
+}
+
+/* ---------- búsqueda, zoom y panes ---------- */
+search.oninput = () => {
+  consulta = search.value.trim().toLowerCase();
+  let primero = null;
+  nodesBox.querySelectorAll(".node").forEach(e => {
+    const off = !!consulta && !e.dataset.text.includes(consulta);
+    e.classList.toggle("off", off);
+    if (!off && !primero) primero = e.id;
+  });
+  relActiva = null;
+  vistaActiva = -1;
+  focoVista = [];
+  activo = consulta ? primero : null;
+  pintar();
+};
+addEventListener("keydown", e => { if (e.key === "Escape") { activo = null; relActiva = null; pintar(); } });
+
+let scale = 1, panX = 0, panY = 0, arrastre = null;
+function camara(){
+  const t = `translate(${panX}px,${panY}px) scale(${scale})`;
+  [nodesBox, graph].forEach(x => { x.style.transform = t; x.style.transformOrigin = "0 0"; });
+}
+board.addEventListener("wheel", e => {
+  e.preventDefault();
+  scale = Math.max(.7, Math.min(1.45, scale + (e.deltaY < 0 ? .1 : -.1)));
+  camara();
+}, { passive:false });
+board.addEventListener("pointerdown", e => {
+  if (e.target === board || e.target === graph || e.target.classList.contains("hintcell")) {
+    arrastre = [e.clientX, e.clientY];
+    board.setPointerCapture(e.pointerId);
+  }
+});
+board.addEventListener("pointermove", e => {
+  if (!arrastre) return;
+  panX += e.clientX - arrastre[0]; panY += e.clientY - arrastre[1];
+  arrastre = [e.clientX, e.clientY];
+  camara();
+});
+board.addEventListener("pointerup", () => arrastre = null);
+
+const ro = new ResizeObserver(dibujar);
+ro.observe(board);
+nodesBox.querySelectorAll(".node").forEach(n => ro.observe(n));
+
+$("#fuente").textContent = FUENTE;
+pintar();
+</script>
+</body>
+</html>
