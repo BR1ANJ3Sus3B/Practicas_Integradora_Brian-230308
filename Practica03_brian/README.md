@@ -8,7 +8,8 @@ cualquiera, se expanden a lo ancho del lienzo con todo su contenido, sus cifras 
 
 ## Ver el proyecto
 
-- **En línea:** <https://br1anj3sus3b.github.io/Practicas_Integradora_Brian-230308/>
+- **En línea:** <https://br1anj3sus3b.github.io/Practicas_Integradora_Brian-230308/Practica03_brian/bmc-crunchyroll-brian.html>
+- **Desde el portafolio:** <https://br1anj3sus3b.github.io/Practicas_Integradora_Brian-230308/>
 - **En local:** abre [`bmc-crunchyroll-brian.html`](./bmc-crunchyroll-brian.html) con doble clic.
   No necesita servidor, conexión ni instalación: todo el CSS y el JavaScript van dentro del archivo.
 
@@ -65,12 +66,13 @@ En total, **75 elementos** unidos por **11 relaciones** que se dibujan como curv
 
 ## Cómo se publica
 
-El sitio se despliega con GitHub Actions (`/.github/workflows/pages.yml`):
+El sitio se despliega con GitHub Actions (`/.github/workflows/deploy-pages.yml`):
 
-1. Cada `push` a la rama `Practica03-Brian` ejecuta el flujo.
+1. Cada `push` a `main` o a `Practica03-Brian` ejecuta el flujo.
 2. `actions/configure-pages` habilita GitHub Pages si el repositorio aún no lo tenía.
-3. `bmc-crunchyroll-brian.html` se copia como `index.html` y se sube como artefacto de Pages.
-4. Queda publicado en <https://br1anj3sus3b.github.io/Practicas_Integradora_Brian-230308/>.
+3. Se sube la raíz del repositorio como artefacto de Pages, de modo que el `index.html` de la raíz
+   funciona como portafolio y este lienzo queda accesible dentro de él.
+4. El resultado queda en <https://br1anj3sus3b.github.io/Practicas_Integradora_Brian-230308/>.
 
 Para probarlo igual que en producción, sin subir nada:
 
