@@ -707,12 +707,10 @@ function pintar(){
       (relActiva !== null && (RELACIONES[relActiva].a === el.id || RELACIONES[relActiva].b === el.id)));
     el.classList.toggle("dim", (hayFoco && !foco.includes(el.id)) || (abierto && el.id !== abierto));
   });
-  $(".lines").querySelectorAll(".line").forEach(b => b.setAttribute("aria-pressed", b.dataset.l === lineaActiva ? "true" : "false"));
   $("#controls").querySelectorAll(".chip").forEach(c => c.setAttribute("aria-pressed", c.dataset.v === vista ? "true" : "false"));
 
   panel.innerHTML = abierto ? panelBloque(abierto)
                 : relActiva !== null ? panelRel(relActiva)
-                : lineaActiva ? panelLinea()
                 : hayFoco ? panelVista()
                 : panelInicio();
   dibujar();
