@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "AnimeHub",
+    "output": "animehub-business-model-canvas.html",
+    "quality_profile": "showcase",
+    "visual_preset": "classic",
+    "viewBox": [1440, 760],
+    "legend": {
+      "mode": "all",
+      "entries": {
+        "external": { "label": "1 Problema" },
+        "frontend": { "label": "2 Usuarios" },
+        "cloud": { "label": "3 Propuesta de valor" },
+        "backend": { "label": "4 Solución" },
+        "messagebus": { "label": "5 Procesos" },
+        "security": { "label": "6 Recursos y tecnologías" },
+        "database": { "label": "7 Resultados" }
+      }
+    },
+    "views": [
+      { "id": "problema-necesidad", "label": "Problema / Necesidad", "focus": ["problema", "usuarios", "propuesta"] },
+      { "id": "solucion-propuesta", "label": "Solución propuesta", "focus": ["propuesta", "solucion", "procesos", "recursos"] },
+      { "id": "resultados-beneficios-impacto", "label": "Resultados, beneficios e impacto", "focus": ["solucion", "procesos", "resultados"] }
+    ]
+  },
+  "components": [
+    { "id": "problema", "type": "external", "label": "1. Problema / Necesidad", "sublabel": "Causas del problema — Catálogo fragmentado · cobro sin prueba · búsqueda sin filtros\nConsecuencias actuales — Abandono temprano · soporte manual ·fuentes no oficiales", "pos": [55, 95], "size": [310, 118] },
+    { "id": "usuarios", "type": "frontend", "label": "2. Usuarios o beneficiarios", "sublabel": "Espectador / estudiante — Capítulos, lista, calidad y subtítulos\nSuscriptor Premium — Sin anuncios · HD · historial y descarga\nEquipo administrador — Alta de catálogo · usuarios · métricas", "pos": [440, 55], "size": [330, 150] },
+    { "id": "propuesta", "type": "cloud", "label": "3. Propuesta de valor", "sublabel": "Todo el anime en un solo lugar — Un solo login y un catálogo completo\nPrueba gratuita — Decide antes de pagar\nProgreso que te sigue — Retoma el capítulo en cualquier dispositivo", "pos": [845, 55], "size": [330, 150] },
+    { "id": "solucion", "type": "backend", "label": "4. Solución propuesta", "sublabel": "Cuenta y catálogo — Registro, login y búsqueda con filtros\nReproductor y seguimiento — Calidad, subtítulos, progreso y lista\nSuscripciones y pagos — Planes mensual y anual con prueba", "pos": [845, 330], "size": [330, 150] },
+    { "id": "procesos", "type": "messagebus", "label": "5. Actividades y procesos clave", "sublabel": "Consumo del usuario — Registro → explorar → reproducir → continuar\nOperación y contenido — Cobro, prueba, alta de catálogo y métricas", "pos": [440, 330], "size": [330, 118] },
+    { "id": "recursos", "type": "security", "label": "6. Recursos y tecnologías clave", "sublabel": "React (Vite) + Tailwind — SPA responsive de catálogo y reproductor\nNode.js + Express + MongoDB — API REST y persistencia con Mongoose\nJWT + HLS + Docker + GitHub — Identidad, video, despliegue y CI", "pos": [55, 330], "size": [310, 150] },
+    { "id": "resultados", "type": "database", "label": "7. Resultados, beneficios e impacto", "sublabel": "Adquisición — Registro gratuito con correo verificado\nConversión y retención — Prueba → suscripción y regreso en 7 días\nIngresos y operación — Suscripciones recurrentes y menor soporte", "pos": [845, 600], "size": [330, 150] }
+  ],
+  "connections": [
+    { "id": "problema-usuarios", "from": "problema", "to": "usuarios", "label": "viven el problema", "variant": "emphasis" },
+    { "id": "usuarios-propuesta", "from": "usuarios", "to": "propuesta", "label": "motivan la propuesta", "variant": "emphasis" },
+    { "id": "propuesta-solucion", "from": "propuesta", "to": "solucion", "label": "se materializa en", "variant": "emphasis" },
+    { "id": "solucion-procesos", "from": "solucion", "to": "procesos", "label": "se opera mediante", "variant": "emphasis" },
+    { "id": "procesos-recursos", "from": "procesos", "to": "recursos", "label": "se apoya en", "variant": "emphasis" },
+    { "id": "procesos-resultados", "from": "procesos", "to": "resultados", "label": "produce", "variant": "emphasis" },
+    { "id": "solucion-resultados", "from": "solucion", "to": "resultados", "label": "entrega el beneficio", "variant": "emphasis" }
+  ],
+  "cards": [
+    { "dot": "cyan", "title": "Problema / Necesidad", "items": ["Causas del problema — Catálogo fragmentado · cobro sin prueba · búsqueda sin filtros", "Consecuencias actuales — Abandono temprano · soporte manual ·fuentes no oficiales"] },
+    { "dot": "violet", "title": "Solución propuesta", "items": ["Cuenta y catálogo — Registro, login y búsqueda con filtros", "Reproductor y seguimiento — Calidad, subtítulos, progreso y lista", "Suscripciones y pagos — Planes mensual y anual con prueba"] },
+    { "dot": "emerald", "title": "Resultados, beneficios e impacto", "items": ["Adquisición — Registro gratuito con correo verificado", "Conversión y retención — Prueba → suscripción y regreso en 7 días", "Ingresos y operación — Suscripciones recurrentes y menor soporte"] }
+  ]
+}

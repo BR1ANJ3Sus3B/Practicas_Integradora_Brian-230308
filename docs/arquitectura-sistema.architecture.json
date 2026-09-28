@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "Arquitectura del sistema",
+    "quality_profile": "showcase",
+    "viewBox": [1360, 800],
+    "legend": {
+      "mode": "all",
+      "entries": {
+        "frontend": { "label": "Clientes" },
+        "backend": { "label": "Aplicación" },
+        "database": { "label": "Datos" },
+        "cloud": { "label": "Infraestructura" },
+        "security": { "label": "Seguridad" },
+        "external": { "label": "Servicios externos" }
+      }
+    },
+    "views": [
+      { "id": "resumen", "label": "Resumen", "focus": ["mobile", "pwa", "api", "database", "external", "infrastructure"], "note": "Capas principales y relaciones esenciales." },
+      { "id": "clientes", "label": "Canales cliente", "focus": ["mobile", "pwa", "api"], "note": "Las aplicaciones cliente consumen la API segura." },
+      { "id": "nucleo", "label": "Núcleo de negocio", "focus": ["api", "database", "external"], "note": "La API centraliza lógica, persistencia e integraciones." },
+      { "id": "operacion", "label": "Operación", "focus": ["api", "infrastructure", "external"], "note": "La infraestructura aloja y observa los servicios." }
+    ]
+  },
+  "components": [
+    { "id": "mobile", "type": "frontend", "label": "Aplicación móvil", "sublabel": "Flutter · Android / iOS", "tag": "Clientes", "pos": [90, 350], "size": [220, 84] },
+    { "id": "pwa", "type": "frontend", "label": "PWA / panel web", "sublabel": "Monitoreo y administración", "tag": "Clientes", "pos": [90, 120], "size": [220, 84] },
+    { "id": "api", "type": "backend", "label": "API / Backend", "sublabel": "FastAPI · REST · negocio", "tag": "Núcleo", "pos": [570, 350], "size": [240, 84] },
+    { "id": "database", "type": "database", "label": "Base de datos", "sublabel": "PostgreSQL · MongoDB", "tag": "Datos", "pos": [1060, 350], "size": [230, 84] },
+    { "id": "external", "type": "external", "label": "Servicios externos", "sublabel": "Keycloak · Leaflet · GitHub", "tag": "Integraciones", "pos": [570, 610], "size": [240, 84] },
+    { "id": "infrastructure", "type": "cloud", "label": "Infraestructura", "sublabel": "Docker · Compose · CI/CD", "tag": "Operación", "pos": [1060, 120], "size": [230, 84] }
+  ],
+  "connections": [
+    { "id": "mobile-api", "from": "mobile", "to": "api", "label": "HTTPS / REST", "variant": "emphasis" },
+    { "id": "pwa-api", "from": "pwa", "to": "api", "label": "HTTPS / REST", "variant": "emphasis", "fromSide": "bottom", "toSide": "top" },
+    { "id": "api-database", "from": "api", "to": "database", "label": "lectura y escritura", "variant": "emphasis" },
+    { "id": "api-external", "from": "api", "to": "external", "label": "OIDC · mapas", "variant": "security", "fromSide": "bottom", "toSide": "top", "labelAt": [690, 448] },
+    { "id": "infrastructure-api", "from": "infrastructure", "to": "api", "label": "contenedores y entrega", "variant": "dashed", "fromSide": "bottom", "toSide": "top" }
+  ],
+  "cards": [
+    { "dot": "cyan", "title": "Principio de navegación", "items": ["Resumen primero; detalle bajo demanda.", "Seleccione una capa para consultar su ficha técnica."] },
+    { "dot": "emerald", "title": "Ruta principal", "items": ["Aplicación móvil y PWA → API / Backend → persistencia.", "La API integra identidad, mapas y operación."] },
+    { "dot": "violet", "title": "Alcance", "items": ["Diagrama conceptual; confirme proveedores y entorno antes de un despliegue productivo."] }
+  ]
+}
