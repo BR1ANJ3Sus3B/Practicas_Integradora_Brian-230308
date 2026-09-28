@@ -1,0 +1,95 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "Business Model Canvas — AnimeHub (7 componentes)",
+    "output": "bmc-animehub-v1.html",
+    "quality_profile": "showcase",
+    "animation": "none",
+    "viewBox": [1285, 616],
+    "legend": {
+      "mode": "all",
+      "entries": {
+        "external": { "label": "1 Problema" },
+        "frontend": { "label": "2 Usuarios" },
+        "cloud": { "label": "3 Propuesta de valor" },
+        "backend": { "label": "4 Solución" },
+        "messagebus": { "label": "5 Procesos" },
+        "security": { "label": "6 Recursos y tecnologías" },
+        "database": { "label": "7 Resultados" }
+      }
+    },
+    "views": [
+      {
+        "id": "problema-y-usuarios",
+        "label": "Problema y usuarios",
+        "focus": ["prob-causas-raiz", "prob-causas-busqueda", "prob-efectos", "usr-espectador", "usr-suscriptor", "usr-admin"],
+        "note": "El problema del mercado y los tipos de usuario que lo sufren."
+      },
+      {
+        "id": "cadena-de-valor",
+        "label": "Cadena de valor",
+        "focus": ["usr-espectador", "usr-suscriptor", "usr-admin", "pv-catalogo", "pv-prueba", "pv-progreso", "sol-cuenta", "sol-reproductor", "sol-pagos"],
+        "note": "De la necesidad del usuario a los módulos que la atienden."
+      },
+      {
+        "id": "operacion-y-resultados",
+        "label": "Operación y resultados",
+        "focus": ["act-consumo", "act-operacion", "act-medicion", "rec-frontend", "rec-backend", "rec-infra", "res-adquisicion", "res-conversion", "res-ingresos"],
+        "note": "Procesos y recursos que operan la solución y se traducen en adquisición, conversión e ingresos."
+      }
+    ]
+  },
+  "components": [
+    { "id": "prob-causas-raiz", "type": "external", "label": "Causas de raíz", "sublabel": "Catálogo fragmentado y cobro inicial", "pos": [40, 56], "size": [200, 56] },
+    { "id": "prob-causas-busqueda", "type": "external", "label": "Causas de búsqueda", "sublabel": "Sin filtros por género, año o idioma", "pos": [40, 122], "size": [200, 56] },
+    { "id": "prob-efectos", "type": "external", "label": "Consecuencias actuales", "sublabel": "Abandono temprano y soporte manual", "pos": [40, 188], "size": [200, 56] },
+
+    { "id": "usr-espectador", "type": "frontend", "label": "Espectador / estudiante", "sublabel": "Capítulos, lista y subtítulos", "pos": [375, 56], "size": [200, 56] },
+    { "id": "usr-suscriptor", "type": "frontend", "label": "Suscriptor Premium", "sublabel": "Sin anuncios, HD e historial", "pos": [375, 122], "size": [200, 56] },
+    { "id": "usr-admin", "type": "frontend", "label": "Equipo administrador", "sublabel": "Alta de catálogo, usuarios y métricas", "pos": [375, 188], "size": [200, 56] },
+
+    { "id": "pv-catalogo", "type": "cloud", "label": "Todo el anime en un lugar", "sublabel": "Un solo login y catálogo completo", "pos": [710, 56], "size": [200, 56] },
+    { "id": "pv-prueba", "type": "cloud", "label": "Prueba gratuita", "sublabel": "Decide antes de pagar", "pos": [710, 122], "size": [200, 56] },
+    { "id": "pv-progreso", "type": "cloud", "label": "Progreso que te sigue", "sublabel": "Retoma el capítulo donde lo dejaste", "pos": [710, 188], "size": [200, 56] },
+
+    { "id": "sol-cuenta", "type": "backend", "label": "Cuenta y catálogo", "sublabel": "Registro, login y filtros", "pos": [1045, 56], "size": [200, 56] },
+    { "id": "sol-reproductor", "type": "backend", "label": "Reproductor y seguimiento", "sublabel": "Calidad, subtítulos y progreso", "pos": [1045, 122], "size": [200, 56] },
+    { "id": "sol-pagos", "type": "backend", "label": "Suscripciones y pagos", "sublabel": "Planes mensual y anual con prueba", "pos": [1045, 188], "size": [200, 56] },
+
+    { "id": "act-consumo", "type": "messagebus", "label": "Consumo del usuario", "sublabel": "Registro, explorar y reproducir", "pos": [1045, 336], "size": [200, 56] },
+    { "id": "act-operacion", "type": "messagebus", "label": "Operación y contenido", "sublabel": "Cobro, prueba y alta de catálogo", "pos": [1045, 402], "size": [200, 56] },
+    { "id": "act-medicion", "type": "messagebus", "label": "Medición y soporte", "sublabel": "Métricas de uso y conversión", "pos": [1045, 468], "size": [200, 56] },
+
+    { "id": "rec-frontend", "type": "security", "label": "React (Vite) + Tailwind", "sublabel": "Catálogo, reproductor y panel", "pos": [710, 336], "size": [200, 56] },
+    { "id": "rec-backend", "type": "security", "label": "Node.js + Express + MongoDB", "sublabel": "API REST y persistencia", "pos": [710, 402], "size": [200, 56] },
+    { "id": "rec-infra", "type": "security", "label": "JWT + HLS + Docker + GitHub", "sublabel": "Identidad, video, despliegue y CI", "pos": [710, 468], "size": [200, 56] },
+
+    { "id": "res-adquisicion", "type": "database", "label": "Adquisición", "sublabel": "Registro gratuito verificado", "pos": [375, 336], "size": [200, 56] },
+    { "id": "res-conversion", "type": "database", "label": "Conversión y retención", "sublabel": "Prueba a suscripción en 7 días", "pos": [375, 402], "size": [200, 56] },
+    { "id": "res-ingresos", "type": "database", "label": "Ingresos y operación", "sublabel": "Suscripciones recurrentes", "pos": [375, 468], "size": [200, 56] }
+  ],
+  "boundaries": [
+    { "kind": "region", "label": "1 · Problema / Necesidad", "wraps": ["prob-causas-raiz", "prob-causas-busqueda", "prob-efectos"] },
+    { "kind": "region", "label": "2 · Usuarios o beneficiarios", "wraps": ["usr-espectador", "usr-suscriptor", "usr-admin"] },
+    { "kind": "region", "label": "3 · Propuesta de valor", "wraps": ["pv-catalogo", "pv-prueba", "pv-progreso"] },
+    { "kind": "region", "label": "4 · Solución propuesta", "wraps": ["sol-cuenta", "sol-reproductor", "sol-pagos"] },
+    { "kind": "region", "label": "5 · Actividades y procesos clave", "wraps": ["act-consumo", "act-operacion", "act-medicion"] },
+    { "kind": "region", "label": "6 · Recursos y tecnologías clave", "wraps": ["rec-frontend", "rec-backend", "rec-infra"] },
+    { "kind": "region", "label": "7 · Resultados, beneficios e impacto", "wraps": ["res-adquisicion", "res-conversion", "res-ingresos"] }
+  ],
+  "connections": [
+    { "id": "rel-problema-usuarios", "from": "prob-causas-raiz", "to": "usr-espectador", "label": "viven el problema", "variant": "emphasis", "fromSide": "right", "toSide": "left" },
+    { "id": "rel-usuarios-propuesta", "from": "usr-suscriptor", "to": "pv-prueba", "label": "motivan la propuesta", "variant": "emphasis", "fromSide": "right", "toSide": "left" },
+    { "id": "rel-propuesta-solucion", "from": "pv-progreso", "to": "sol-cuenta", "label": "se materializa en", "variant": "emphasis", "fromSide": "right", "toSide": "left", "labelSegment": 1 },
+    { "id": "rel-solucion-procesos", "from": "sol-pagos", "to": "act-consumo", "label": "se opera mediante", "fromSide": "bottom", "toSide": "top", "labelDy": 32 },
+    { "id": "rel-procesos-recursos", "from": "act-consumo", "to": "rec-frontend", "label": "se apoya en", "fromSide": "left", "toSide": "right" },
+    { "id": "rel-recursos-resultados", "from": "rec-backend", "to": "res-conversion", "label": "habilita", "fromSide": "left", "toSide": "right" },
+    { "id": "rel-procesos-resultados", "from": "act-medicion", "to": "res-ingresos", "label": "produce", "variant": "emphasis", "fromSide": "bottom", "toSide": "bottom", "via": [[1145, 576], [475, 576]], "labelSegment": 1 }
+  ],
+  "cards": [
+    { "dot": "orange", "title": "Problema", "items": ["Catálogo fragmentado", "Cobro sin prueba"] },
+    { "dot": "cyan", "title": "Solución", "items": ["Cuenta, catálogo y reproductor", "Planes con prueba gratuita"] },
+    { "dot": "emerald", "title": "Resultado", "items": ["Prueba a suscripción", "Ingresos recurrentes"] }
+  ]
+}
