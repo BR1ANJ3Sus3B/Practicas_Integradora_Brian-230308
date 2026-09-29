@@ -2,7 +2,10 @@
 
 Lienzo interactivo del modelo de negocio de **Crunchyroll**, construido como un único archivo HTML
 autónomo. Los nueve bloques del Business Model Canvas se leen de un vistazo y, al hacer clic en
-cualquiera, se expanden a lo ancho del lienzo con todo su contenido, sus cifras y sus relaciones.
+cualquiera, se expanden a lo ancho del lienzo con su ilustración, todo su contenido y sus relaciones.
+
+El documento es **cualitativo**: no incluye cifras económicas, precios ni información financiera. Cada
+bloque lleva su propia ilustración vectorial, dibujada en el propio archivo.
 
 ![Nueve bloques](https://img.shields.io/badge/bloques-9-f47521) ![Elementos](https://img.shields.io/badge/elementos-75-2ec4f0) ![Relaciones](https://img.shields.io/badge/relaciones-11-7c5cff) ![Sin dependencias](https://img.shields.io/badge/dependencias-0-37d67a)
 
@@ -17,7 +20,7 @@ cualquiera, se expanden a lo ancho del lienzo con todo su contenido, sus cifras 
 
 | Acción | Resultado |
 | --- | --- |
-| Clic en un bloque | Se expande a `grid-column: 1/-1` y el panel lateral muestra su detalle |
+| Clic en un bloque | Se expande a `grid-column: 1/-1`, la página sube hasta el lienzo y el panel lateral muestra su detalle |
 | Segundo clic | Vuelve a su tamaño original en la retícula |
 | `Esc` | Cierra el bloque abierto |
 | Clic en una curva | Se ilumina la relación y el panel explica qué significa |
@@ -42,20 +45,39 @@ Los nueve bloques canónicos que aparecen en el lienzo:
 | 5 | Relación con clientes | Autónoma y personalizada, con comunidad y eventos | 8 |
 | 6 | Canales | Web, apps, televisores, consolas, cine, canal gratis y redes | 8 |
 | 7 | Segmentos de clientes | Fans de anime, estudiantes, coleccionistas, cine y licencias | 8 |
-| 8 | Estructura de costos | Licencias, traducción, tecnología, nóminas y teatro | 9 |
+| 8 | Estructura de costos | Licencias, traducción, tecnología, personal y cine: todo lo que consume el modelo | 9 |
 | 9 | Fuentes de ingresos | Suscripciones como núcleo, con cine, tienda, juegos, manga y licencias | 9 |
 
 En total, **75 elementos** unidos por **11 relaciones** que se dibujan como curvas en el lienzo.
 
+## Ilustraciones
+
+Cada bloque tiene una ilustración propia, dibujada en SVG dentro del mismo archivo y sin dependencias:
+
+- al **abrir** un bloque, la ilustración aparece como banda ancha sobre su contenido;
+- en el **panel lateral** se muestra la miniatura del bloque seleccionado, o un contacto con las nueve
+  ilustraciones cuando no hay nada abierto;
+- la **portada** lleva una banda ilustrada con el motivo de fondo del lienzo.
+
+La tarjeta cerrada nunca lleva imagen detrás del texto: solo color, icono y etiqueta, para que la
+lectura siga limpia.
+
 ## Decisiones de diseño
 
-- **Un solo archivo.** Sin frameworks, sin CDN y sin paso de compilación. Se abre con doble clic y
-  funciona sin conexión, lo que evita problemas en una defensa o en un aula sin wifi.
+- **Un solo archivo.** Sin frameworks, sin CDN, sin paso de compilación y sin imágenes externas: se abre
+  con doble clic y funciona sin conexión, lo que evita problemas en una defensa o en un aula sin wifi.
+- **Ilustraciones vectoriales propias.** Los nueve dibujos y la banda de la portada son SVG dibujados a
+  mano en el archivo, con trazo blanco y el tinte de cada bloque puesto por CSS, así que no hay IDs
+  duplicados ni recursos que puedan fallar.
 - **Estética de aplicación.** Fondo oscuro, naranja Crunchyroll `#f47521`, degradados, píldoras,
   tarjetas redondeadas y una barra de navegación pegajosa que imita la app real.
 - **El modelo vive en datos, no en el marcado.** Los bloques, las relaciones y las vistas guiadas
   son arreglos de JavaScript al principio del `<script>`. Añadir información es añadir un objeto, no
   tocar la interfaz.
+- **Sin huecos al abrir un bloque.** Al expandirse, las ocho tarjetas restantes pasan a una retícula
+  compacta de cuatro columnas con altura fija y etiqueta recortada a dos líneas, de modo que ninguna
+  fila deja espacio muerto. En móvil se recupera la altura natural porque en una columna no hay
+  huecos que tapar.
 - **Curvas calculadas, no dibujadas a mano.** Cada relación se traza en SVG midiendo la posición real
   de los bloques, así que se mantiene correcta cuando el lienzo se reordena o un bloque se expande.
 - **Validación de integridad.** Al cargar, un validador comprueba que toda relación, vista y etiqueta
@@ -93,13 +115,13 @@ Practica03_brian/
 
 Los datos provienen de información pública y se citan dentro del propio panel lateral:
 
-- **Sony Group Corporation**, resultados del ejercicio cerrado a marzo de 2026.
-- **Sony Pictures Entertainment**, informe de resultados.
-- **Crunchyroll**, comunicación de precios de 2 de febrero de 2026 y fin del plan gratuito el
-  31 de diciembre de 2025.
+- **Sony Group Corporation**, información corporativa pública.
+- **Sony Pictures Entertainment**, información corporativa pública.
+- **Crunchyroll**, comunicación oficial y fin del plan gratuito el 31 de diciembre de 2025.
 - Prensa sectorial para los antecedentes societarios.
 
-Documento académico: no utiliza información financiera interna.
+Documento académico de revisión cualitativa: no incluye cifras económicas ni información financiera
+interna.
 
 ---
 
