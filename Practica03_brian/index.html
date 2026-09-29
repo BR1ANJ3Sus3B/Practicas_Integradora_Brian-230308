@@ -80,6 +80,21 @@ h1{margin:14px 0 0;font-size:clamp(30px,4.6vw,50px);line-height:1.03;letter-spac
 h1 em{font-style:normal;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
 .lead{margin:13px 0 0;max-width:74ch;color:var(--muted);font-size:15.5px}
 
+/* banda ilustrada de la portada */
+.heroart{
+  position:relative;margin:22px 0 0;height:210px;border-radius:22px;overflow:hidden;
+  border:1px solid var(--line-2);background:linear-gradient(180deg,#150f2a,#0a0714);
+  box-shadow:0 22px 50px rgba(0,0,0,.5);
+}
+.heroart svg{position:absolute;inset:0;width:100%;height:100%;display:block}
+.heroart figcaption{
+  position:absolute;left:0;right:0;bottom:0;padding:26px 20px 15px;
+  background:linear-gradient(0deg,rgba(7,7,11,.92),transparent);
+  font-size:12.5px;font-weight:700;letter-spacing:.4px;color:var(--muted);
+}
+.heroart figcaption b{color:#fff}
+@media(max-width:700px){.heroart{height:150px}}
+
 /* ---------------- controles ---------------- */
 .controls{display:flex;flex-wrap:wrap;align-items:center;gap:9px;margin:26px 0 14px}
 .controls h2{margin:0 4px 0 0;font-size:12px;letter-spacing:1px;text-transform:uppercase;color:var(--muted-2)}
@@ -97,13 +112,13 @@ kbd{background:var(--surf-2);border:1px solid var(--line-2);border-radius:5px;pa
   font:700 11px ui-monospace,Consolas,monospace;color:var(--muted)}
 
 /* ---------------- layout principal ---------------- */
-.layout{display:grid;grid-template-columns:minmax(0,1fr) 372px;gap:18px;align-items:start}
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 372px;gap:10px;align-items:start}
 .stage{position:relative}
 
 /* ---------------- el canvas ---------------- */
 .canvas{
   position:relative; isolation:isolate;
-  display:grid; gap:11px;
+  display:grid; gap:5px;
   grid-template-columns:repeat(5,minmax(0,1fr));
   grid-template-areas:
     "aliados  act     act     valor     valor"
@@ -127,7 +142,7 @@ kbd{background:var(--surf-2);border:1px solid var(--line-2);border-radius:5px;pa
   position:relative; text-align:left; font:inherit; color:inherit; cursor:pointer;
   border:1px solid var(--line); border-radius:var(--r);
   background:linear-gradient(170deg,var(--surf-2) 0%,var(--surf) 62%);
-  padding:13px 14px; display:flex; flex-direction:column; gap:8px;
+  padding:10px 11px; display:flex; flex-direction:column; gap:5px;
   transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease,opacity .2s ease;
   overflow:hidden;
 }
@@ -147,6 +162,9 @@ kbd{background:var(--surf-2);border:1px solid var(--line-2);border-radius:5px;pa
 .block.dim{opacity:.26}
 .block.off{display:none}
 
+/* la ilustración solo aparece cuando el bloque está abierto, nunca tras el texto */
+.art{pointer-events:none}
+
 .bhead{display:flex;align-items:center;gap:10px}
 .bico{
   display:grid;place-items:center;width:32px;height:32px;flex:none;border-radius:10px;
@@ -165,26 +183,65 @@ kbd{background:var(--surf-2);border:1px solid var(--line-2);border-radius:5px;pa
   font:800 10.5px/1.6 ui-monospace,Consolas,monospace;color:var(--muted)}
 
 /* estado expandido */
-.block.open{grid-area:auto;grid-column:1/-1;order:-1;padding:18px 20px 20px;border-color:var(--c);
+/* Cuando un bloque está abierto, compactamos los demás para evitar huecos
+   grandes provocados por las áreas fijas del grid. */
+.canvas.has-open{
+  grid-template-areas:none;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  grid-auto-flow:dense;
+  gap:4px;
+  row-gap:0;
+  column-gap:4px;
+  align-items:start;
+}
+.canvas.has-open .block{grid-area:auto !important}
+.canvas.has-open .block.open{grid-column:1/-1 !important; width:100%; min-width:0; margin-top:4px}
+
+/* las tarjetas cerradas miden lo mismo, para que ninguna fila deje un hueco */
+.canvas.has-open .block:not(.open){min-height:118px}
+.canvas.has-open .block:not(.open) .btag{
+  display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;line-clamp:2;overflow:hidden;
+}
+@media(max-width:700px){
+  .canvas.has-open .block:not(.open){min-height:0}
+  .canvas.has-open .block:not(.open) .btag{display:block;overflow:visible}
+}
+
+.block.open{grid-area:auto;grid-column:1/-1;order:99;padding:13px 15px 15px;margin-top:0;border-color:var(--c);
   background:linear-gradient(170deg,var(--surf-3) 0%,var(--surf) 60%)}
 .block.open::after{opacity:.8}
 .block.open .chev{transform:rotate(180deg)}
 .block.open .bname{font-size:19px;letter-spacing:-.4px}
 .block.open .bico{width:40px;height:40px;border-radius:13px}
 .block.open .bico svg{width:22px;height:22px}
-.openwrap{display:none}
+.openwrap{display:none;min-width:0;width:100%}
 .block.open .openwrap{display:block;animation:unfold .26s cubic-bezier(.2,.8,.2,1) both}
 @keyframes unfold{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
 
-.otext{margin:11px 0 0;font-size:13.5px;line-height:1.55;color:#dcdce6;max-width:96ch}
-.items{display:grid;grid-template-columns:repeat(auto-fit,minmax(272px,1fr));gap:10px;margin:15px 0 0;padding:0;list-style:none}
+/* ilustración grande del bloque abierto */
+.openart{
+  position:relative;margin:12px 0 0;height:172px;border-radius:14px;overflow:hidden;
+  border:1px solid var(--line-2);
+  background:linear-gradient(120deg,color-mix(in srgb,var(--c) 26%,#12121b) 0%,#0b0b12 68%);
+}
+.openart svg{position:absolute;inset:0;width:100%;height:100%;display:block;pointer-events:none}
+.openart figcaption{
+  position:absolute;left:0;bottom:0;padding:24px 16px 12px;max-width:70ch;
+  background:linear-gradient(0deg,rgba(8,8,13,.92),transparent);
+  font-size:12.5px;line-height:1.4;color:var(--muted);
+}
+.openart figcaption b{color:#fff}
+@media(max-width:700px){.openart{height:132px}}
+
+.otext{margin:7px 0 0;font-size:13.5px;line-height:1.5;color:#dcdce6;max-width:96ch}
+.items{display:grid;grid-template-columns:repeat(auto-fit,minmax(272px,1fr));gap:6px;margin:8px 0 0;padding:0;list-style:none}
 .items li{
   border:1px solid var(--line);border-left:3px solid var(--c);border-radius:12px;
-  background:rgba(255,255,255,.028);padding:11px 13px;
+  background:rgba(255,255,255,.028);padding:8px 10px;
 }
 .items li b{display:block;font-size:13px;letter-spacing:-.1px}
 .items li span{display:block;margin-top:4px;font-size:12.2px;line-height:1.5;color:var(--muted)}
-.relbar{display:flex;flex-wrap:wrap;gap:8px;margin:15px 0 0;align-items:center}
+.relbar{display:flex;flex-wrap:wrap;gap:5px;margin:8px 0 0;align-items:center}
 .relbar>span{font-size:10.5px;font-weight:800;letter-spacing:.9px;text-transform:uppercase;color:var(--muted-2)}
 .rel{
   display:inline-flex;align-items:center;gap:7px;border-radius:999px;padding:6px 13px;
@@ -195,16 +252,16 @@ kbd{background:var(--surf-2);border:1px solid var(--line-2);border-radius:5px;pa
 .rel b{color:var(--c);font-weight:800}
 
 /* tablas y stats dentro del bloque abierto */
-.tablewrap{margin:15px 0 0;border:1px solid var(--line);border-radius:12px;overflow:hidden}
-table{width:100%;border-collapse:collapse;font-size:12.5px}
-th,td{padding:9px 12px;text-align:left;border-bottom:1px solid var(--line)}
+.tablewrap{margin:15px 0 0;border:1px solid var(--line);border-radius:12px;overflow-x:auto;overflow-y:hidden;max-width:100%;width:100%}
+table{width:100%;min-width:620px;border-collapse:collapse;font-size:12.5px}
+th,td{padding:9px 12px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top;overflow-wrap:anywhere}
 th{background:rgba(255,255,255,.05);font-size:10.5px;letter-spacing:.7px;text-transform:uppercase;color:var(--muted-2)}
 tr:last-child td{border-bottom:0}
 td b{color:#fff}
 td .up{color:#5fd6a4;font-weight:800}
-.mini{display:flex;flex-wrap:wrap;gap:9px;margin:14px 0 0}
+.mini{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 0}
 .mini div{
-  flex:1 1 130px;border:1px solid var(--line);border-radius:12px;padding:10px 12px;background:rgba(255,255,255,.03)
+  flex:1 1 130px;border:1px solid var(--line);border-radius:12px;padding:8px 10px;background:rgba(255,255,255,.03)
 }
 .mini b{display:block;font-size:18px;letter-spacing:-.5px;color:var(--c)}
 .mini span{display:block;margin-top:2px;font-size:11px;color:var(--muted);line-height:1.35}
@@ -232,10 +289,23 @@ td .up{color:#5fd6a4;font-weight:800}
 .ptext{margin:0;font-size:12.6px;line-height:1.5;color:var(--muted)}
 .note{margin:15px 0 0;padding-top:11px;border-top:1px solid var(--line);font-size:11px;line-height:1.5;color:var(--muted-2)}
 
-footer{margin:34px 0 0;padding-top:18px;border-top:1px solid var(--line);
-  color:var(--muted-2);font-size:11.5px;line-height:1.6}
+/* miniatura ilustrada del panel */
+.panelart{
+  position:relative;margin:0 0 13px;height:92px;border-radius:14px;overflow:hidden;
+  border:1px solid var(--line);
+  background:linear-gradient(120deg,color-mix(in srgb,var(--pc,var(--cr)) 24%,#12121b) 0%,#0b0b12 70%);
+}
+.panelart svg{position:absolute;inset:0;width:100%;height:100%;display:block;pointer-events:none}
 
-footer{margin:44px 0 0;padding-top:18px;border-top:1px solid var(--line);
+/*-contacto de miniaturas ilustradas del panel */
+.collage{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:0 0 14px}
+.collage div{
+  position:relative;aspect-ratio:16/10;border-radius:10px;overflow:hidden;border:1px solid var(--line);
+  background:linear-gradient(130deg,color-mix(in srgb,var(--c) 34%,#12121b) 0%,#0b0b12 74%);
+}
+.collage svg{position:absolute;inset:0;width:100%;height:100%;display:block;pointer-events:none}
+
+footer{margin:34px 0 0;padding-top:18px;border-top:1px solid var(--line);
   color:var(--muted-2);font-size:11.5px;line-height:1.6}
 
 @media(max-width:1220px){
@@ -257,6 +327,13 @@ footer{margin:44px 0 0;padding-top:18px;border-top:1px solid var(--line);
   .search{width:100%;order:9}
   .navin{flex-wrap:wrap;height:auto;padding:10px 0}
   .hint{margin-left:0;width:100%}
+}
+
+@media(max-width:980px){
+  .canvas.has-open{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:700px){
+  .canvas.has-open{grid-template-columns:minmax(0,1fr)}
 }
 @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
@@ -292,8 +369,56 @@ footer{margin:44px 0 0;padding-top:18px;border-top:1px solid var(--line);
     <span class="eyebrow">Business Model Canvas · 9 bloques</span>
     <h1>Todo <em>Crunchyroll</em>, en un solo lienzo</h1>
     <p class="lead">El modelo de negocio completo del mayor servicio de streaming de anime del mundo,
-      con sus nueve bloques y las cifras públicas que lo respaldan.
+      con sus nueve bloques ilustrados y las relaciones que los conectan.
       <b style="color:#fff">Haz clic en cualquier bloque</b> para que se expanda y muestre todo su detalle.</p>
+    <figure class="heroart">
+      <svg viewBox="0 0 1200 240" preserveAspectRatio="xMidYMid slice" role="img"
+           aria-label="Ilustración del lienzo: una pantalla de anime al atardecer frente a montañas y un portal torii">
+        <defs>
+          <linearGradient id="hsky" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#241540"/><stop offset=".55" stop-color="#4a2350"/><stop offset="1" stop-color="#c25a1c"/>
+          </linearGradient>
+          <linearGradient id="hmoon" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#ffd9a0"/><stop offset="1" stop-color="#f47521"/>
+          </linearGradient>
+          <linearGradient id="hscreen" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#20233a"/><stop offset="1" stop-color="#0d0d18"/>
+          </linearGradient>
+          <linearGradient id="hfade" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".55"/>
+          </linearGradient>
+        </defs>
+        <rect width="1200" height="240" fill="url(#hsky)"/>
+        <circle cx="905" cy="86" r="46" fill="url(#hmoon)" opacity=".95"/>
+        <circle cx="905" cy="86" r="64" fill="url(#hmoon)" opacity=".16"/>
+        <g fill="#fff" opacity=".55">
+          <circle cx="120" cy="40" r="1.6"/><circle cx="230" cy="72" r="1.2"/><circle cx="330" cy="34" r="1.5"/>
+          <circle cx="452" cy="58" r="1.2"/><circle cx="560" cy="26" r="1.6"/><circle cx="662" cy="66" r="1.3"/>
+          <circle cx="762" cy="30" r="1.5"/><circle cx="980" cy="24" r="1.2"/><circle cx="1035" cy="44" r="1.3"/>
+          <circle cx="1130" cy="72" r="1.6"/>
+        </g>
+        <path d="M0 196 L118 118 L214 176 L318 108 L432 190 L540 132 L668 208 L782 126 L906 198 L1030 140 L1140 200 L1200 166 V240 H0Z" fill="#1a1230" opacity=".9"/>
+        <path d="M0 226 L104 168 L226 214 L352 158 L470 220 L596 172 L724 226 L860 166 L986 220 L1112 174 L1200 214 V240 H0Z" fill="#0d0a1c"/>
+        <g stroke="#f47521" stroke-width="4" stroke-linecap="round" opacity=".9" fill="none">
+          <path d="M196 208V126M262 208V126"/>
+          <path d="M176 138h104M182 168h92"/>
+        </g>
+        <g transform="translate(470,52)">
+          <rect x="0" y="0" width="260" height="146" rx="14" fill="url(#hscreen)" stroke="#f47521" stroke-width="3"/>
+          <path d="M96 146h68M130 130v16" stroke="#f47521" stroke-width="3" stroke-linecap="round" fill="none"/>
+          <polygon points="112,44 160,73 112,102" fill="#f47521" opacity=".92"/>
+          <rect x="0" y="112" width="260" height="34" fill="url(#hfade)"/>
+        </g>
+        <g fill="#ffa054" opacity=".5">
+          <ellipse cx="330" cy="96" rx="4" ry="2.4" transform="rotate(-24 330 96)"/>
+          <ellipse cx="150" cy="150" rx="3.4" ry="2" transform="rotate(30 150 150)"/>
+          <ellipse cx="770" cy="150" rx="3.4" ry="2" transform="rotate(-32 770 150)"/>
+          <ellipse cx="820" cy="86" rx="3.6" ry="2.2" transform="rotate(18 820 86)"/>
+          <ellipse cx="1090" cy="120" rx="4.2" ry="2.4" transform="rotate(-14 1090 120)"/>
+        </g>
+      </svg>
+      <figcaption>Nueve bloques, <b>una sola promesa</b>: el mismo anime recién emitido, en legal y sin anuncios, en cualquier pantalla.</figcaption>
+    </figure>
   </header>
 
   <div class="controls" id="controls">
@@ -325,9 +450,9 @@ footer{margin:44px 0 0;padding-top:18px;border-top:1px solid var(--line);
   </div>
 
   <footer>
-    <b>Fuentes.</b> Sony Group (resultados del ejercicio cerrado a marzo de 2026) · Sony Pictures Entertainment
-    (informe de resultados) · Crunchyroll (comunicación de precios de 2 feb 2026 y fin del plan gratuito el
-    31 dic 2025) · prensa sectorial para los antecedentes societarios.
+    <b>Fuentes.</b> Sony Group · Sony Pictures Entertainment · Crunchyroll (comunicación oficial y
+    fin del plan gratuito el 31 dic 2025) · prensa sectorial para los antecedentes societarios.
+    <br>    Documento académico de revisión cualitativa: no incluye cifras económicas ni información financiera interna.
   </footer>
 </main>
 
@@ -341,13 +466,13 @@ const BLOQUES = [
     tag:"La cadena vertical de Sony y los socios que traen el contenido.",
     texto:"Crunchyroll no alquila contenido: lo produce, lo licencia y lo distribuye dentro del mismo grupo. Esa integración con Sony es la ventaja estructural más difícil de copiar, porque permite participar en varias etapas de la misma fuente de ingresos en lugar de pagar regalías a un tercero.",
     stats:[
-      {v:"$1.175 B", l:"Precio que Sony pagó a AT&T (cierre ago 2021)"},
+      {v:"1", l:"Grupo propietario: Sony, desde la compra de AT&T (ago 2021)"},
       {v:"2", l:"Socios de la sociedad: Sony Pictures + Aniplex"},
       {v:"4", l:"Estudios propios y mixtos: Crunchyroll Studios, Syco, Southrup, Hayate"}
     ],
     items:[
       {t:"Aniplex (Sony Music Entertainment Japan)", d:"Produce, financia y distribuye las series más estratégicas, y es la contraparte de las coproducciones. Aporta la mitad de la propiedad intelectual de primera mano."},
-      {t:"Sony Pictures Entertainment y Sony Pictures Releasing", d:"Lleva las películas de anime a cines bajo la marca Crunchyroll Movie Night. La película de Demon Slayer «Infinity Castle» repartió unos 741 M USD en taquilla mundial, y Sony participa de toda la cadena."},
+      {t:"Sony Pictures Entertainment y Sony Pictures Releasing", d:"Lleva las películas de anime a cines bajo la marca Crunchyroll Movie Night. La película de Demon Slayer «Infinity Castle» llegó a cines de todo el mundo y Sony participa de toda la cadena."},
       {t:"Filiales de anime de Sony", d:"A-1 Pictures, CloverWorks, Wit Studio y otros estudios del perímetro del grupo, que alimentan el pipeline de simulcast."},
       {t:"Estudios propios y societies mixtas", d:"Crunchyroll Studios (Los Ángeles), Syco, Southrup y Hayate Inc. —la sociedad de coproducción de Aniplex y Crunchyroll que en abril de 2026 absorbió al estudio Lay-duce—."},
       {t:"Game Show Network", d:"Socio de la operación del canal gratuito Crunchyroll Channel (FAST), LANZADO en Roku Channel, LG Channels, Vizio, Freevee y Pluto TV."},
@@ -359,9 +484,9 @@ const BLOQUES = [
       cols:["Socio","Rol","Valor para el modelo"],
       rows:[
         ["Aniplex","Producción y coproducción","Contenido de primera mano y control del pipeline"],
-        ["Sony Pictures","Cine y marketing global","Segunda fuente de ingresos: taquilla"],
-        ["Game Show Network","Canal FAST compartido","Monetización publicitaria sin coste de app"],
-        ["Telecos y dispositivos","Empaquetado y OEM","Adquisición a coste bajo, retención más larga"]
+        ["Sony Pictures","Cine y comunicación global","Estrenos en salas de todo el mundo"],
+        ["Game Show Network","Canal FAST compartido","Audiencia sin desarrollo de app propia"],
+        ["Telecos y dispositivos","Empaquetado y OEM","Adquisición en volumen, retención más larga"]
       ]
     },
     rels:[["Actividades clave","habilitan"],["Estructura de costos","pagan"]]
@@ -377,7 +502,7 @@ const BLOQUES = [
       {t:"Doblaje y subtitulado", d:"Producir o subcontratar subtítulos y doblajes para más de veinte idiomas, con control de calidad y adaptaciones culturales por mercado."},
       {t:"Ingesta, codificación y entrega global", d:"Normalizar cada episodio a varios perfiles de bitrate, protegerlo con DRM y servirlo desde una CDN con el mínimo buffering posible."},
       {t:"Desarrollo de producto", d:"Mantener las aplicaciones de móvil, escritorio y televisión, el reproductor, el sistema de recomendaciones y las integraciones en consolas y en televisores con Android TV."},
-      {t:"Marketing y marca", d:"Campañas como Ani-May, que en 2026 ofrecieron tres meses de Fan por 1,99 USD y Mega Fan por 2,99 USD en más de 35 países."},
+      {t:"Marketing y marca", d:"Campañas como Ani-May, que en 2026 ofrecieron meses de acceso promocional a los planes de pago en más de 35 países."},
       {t:"Cine y eventos en vivo", d:"Producir Crunchyroll Movie Night y evaluar la presencia en convenciones como Crunchyroll Expo."},
       {t:"Comunidad, premios y soporte", d:"Los Crunchyroll Anime Awards, la comunidad en Discord y las redes, y el centro de ayuda."}
     ],
@@ -391,16 +516,16 @@ const BLOQUES = [
     stats:[
       {v:"1.000+", l:"Series de anime disponibles"},
       {v:"200+", l:"Dramas de Asia Oriental en catálogo"},
-      {v:"$9,99", l:"Precio de entrada tras la subida de febrero de 2026"}
+      {v:"20+", l:"Idiomas con doblaje o subtitulado profesional"}
     ],
     items:[
       {t:"Catálogo y derechos de biblioteca", d:"Más de mil series de anime y más de doscientas obras de drama de Asia Oriental bajo licencia, con contratos de renovación en distintas etapas de su vida útil."},
       {t:"Acuerdos de simultaneidad", d:"La red de relaciones con estudios japoneses que permite el estreno casi simultáneo, un bien escaso que ningún actor nuevo puede replicar rápido."},
       {t:"Marca Crunchyroll", d:"Nombre de referencia mundial del anime como formato de consumo, con presencia en redes sociales, en la cultura pop y en el comercio."},
-      {t:"Base de 21 M de suscriptores", d:"Masa crítica de datos de consumo que alimenta las recomendaciones, la negociación de licencias y el poder de fijación de precios."},
+      {t:"Base de 21 M de suscriptores", d:"Masa crítica de datos de consumo que alimenta las recomendaciones, la negociación de licencias y el peso de la marca frente a los estudios."},
       {t:"Motor de recomendación y datos", d:"Historial de visualización, favoritos y comportamiento real de la audiencia, que son la base del descubrimiento en la app."},
       {t:"Infraestructura de streaming", d:"CDN, DRM, codificación multi-perfil y reproducción fiable en redes móviles de larga latencia."},
-      {t:"Equipo humano", d:"Más de mil empleados repartidos en quince oficinas. En marzo de 2026 Sony ejecutó una reestructuración con despidos, y la entidad japonesa pasó de un beneficio neto de 1.239 M a 453 M de yenes (−63 %)."},
+      {t:"Equipo humano", d:"Más de mil empleados repartidos en quince oficinas. En marzo de 2026 Sony ejecutó una reestructuración con despidos y la entidad japonesa recortó su estructura de plantilla."},
       {t:"Portafolio de apps adyacentes", d:"Crunchyroll Manga, Crunchyroll Games y la tienda oficial, que amplía la relación con el usuario más allá del vídeo."},
       {t:"Identidad de la plataforma", d:"El logotipo y el sistema de diseño que hacen reconocible la marca en la app, la web, la tele y el cine."}
     ],
@@ -423,7 +548,7 @@ const BLOQUES = [
     items:[
       {t:"Simulcast: recién emitido", d:"Los nuevos capítulos llegan poco después de su emisión en Japón, con horas de diferencia y no meses. Es la diferencia que la competencia no puede igualar sin cambiar de estrategia."},
       {t:"Sin anuncios en planes de pago", d:"Desde el 1 de enero de 2026 no queda ni un solo plan gratuito: todo el catálogo exige suscripción de pago. La publicidad solo sobrevive en el canal FAST."},
-      {t:"Hasta seis pantallas simultáneas", d:"El plan Ultimate Fan permite seis flujos simultáneos, por encima de los cuatro del Mega Fan y del único dispositivo del Fan."},
+      {t:"Hasta seis pantallas simultáneas", d:"El plan de máxima gama permite seis flujos simultáneos, por encima de los cuatro del plan intermedio y del único dispositivo del plan de entrada."},
       {t:"Ver sin conexión", d:"Descargas para móvil, tablet y escritorio, con el progreso guardado que se respeta al cambiar de dispositivo."},
       {t:"Subtítulos y doblajes profesionales", d:"Más de veinte idiomas de subtítulos y doblaje en los principales mercados, con control de calidad y opciones de imagen en imagen."},
       {t:"Descubrimiento que funciona", d:"Categorías por género, estacionalidad, recomendaciones personalizadas y listas guardadas, resueltos con datos reales de 21 millones de cuentas."},
@@ -445,7 +570,7 @@ const BLOQUES = [
       {t:"Comunidad y pertenencia", d:"Discord, Crunchyroll Anime Awards y la conversación diaria en redes, que mantienen la marca presente entre episodios."},
       {t:"Eventos y experiencias", d:"Congresos, sesiones de cine y encuentros con la comunidad, que convierten la suscripción en una identidad cultural."},
       {t:"Soporte multicanal", d:"Centro de ayuda, correo, X, Discord y soporte dentro de la app, con tiempos de respuesta medidos."},
-      {t:"Programas de retención", d:"Descuentos anuales y campañas como Ani-May, que reactivan cuentas inactivas y capturan clientes potenciales a cambio de un primer año barato."}
+      {t:"Programas de retención", d:"Descuentos anuales y campañas como Ani-May, que reactivan cuentas inactivas y capturan clientes potenciales con una primera temporada promocional."}
     ],
     rels:[["Propuesta de valor","se entrega en"],["Segmentos de clientes","gana y retiene"],["Canales","se contacta por"]]
   },
@@ -453,7 +578,7 @@ const BLOQUES = [
     id:"canales", area:"can", n:6, c:"#37d67a", icon:'<circle cx="12" cy="12" r="2"/><path d="M16.24 7.76a6 6 0 0 1 0 8.49"/><path d="M7.76 16.24a6 6 0 0 1 0-8.49"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M4.93 19.07a10 10 0 0 1 0-14.14"/>',
     name:"Canales",
     tag:"Web, apps, televisores, consolas, cine, canal gratis y redes.",
-    texto:"El canal es la parte del modelo que más se ha ensanchado: de ser un sitio web con una app de móvil a estar presente en cada tele, cada consola y cada sistema operativo. Y desde 2023, también en un canal gratuito de televisión abierta que monetize sin coste de desarrollo de app.",
+    texto:"El canal es la parte del modelo que más se ha ensanchado: de ser un sitio web con una app de móvil a estar presente en cada tele, cada consola y cada sistema operativo. Y desde 2023, también en un canal gratuito de televisión abierta que se sostiene con publicidad sin necesidad de desarrollar una app propia.",
     items:[
       {t:"Web de escritorio", d:"El reproductor principal, con máxima calidad, picture-in-picture y controles avanzados."},
       {t:"Apps móviles y de escritorio", d:"iOS, iPadOS, Android y Windows, con descarga para ver sin conexión y control remoto desde el móvil."},
@@ -470,17 +595,17 @@ const BLOQUES = [
     id:"segmentos", area:"seg", n:7, c:"#ffd23f", icon:'<path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>',
     name:"Segmentos de clientes",
     tag:"Fans de anime, estudiantes, coleccionistas, cine y licencias.",
-    texto:"El núcleo es joven, digital y muy fandom, pero la estructura de precios crea segmentos muy distintos entre sí. Cada uno tiene una elasticidad distinta: el estudiante compra un año barato y no renueva; el coleccionista paga el plan más alto sin mirar la factura.",
+    texto:"El núcleo es joven, digital y muy fandom, pero la estructura de planes crea segmentos muy distintos entre sí. Cada uno tiene una elasticidad distinta: el estudiante contrata una temporada promocional y no renueva; el coleccionista elige el plan más completo sin comparar condiciones.",
     stats:[
       {v:"4,4 B", l:"Minutos streamados en EE. UU. (ene 2026, Nielsen), más del doble que en 2024"}
     ],
     items:[
       {t:"Fans de anime de 15 a 34 años", d:"Núcleo principal. Consumo diario, muy recurrente y muy enredado en redes sociales; sostiene la posición de referencia de la marca."},
-      {t:"Estudiantes y familias de presupuesto ajustado", d:"Altamente sensibles al precio. Responden al plan anual promocional de 66,99 USD y a las ofertas de reingreso de Ani-May."},
+      {t:"Estudiantes y familias con recursos limitados", d:"Estudian el precio más que ninguna otra cosa. Responden al plan anual promocional y a las ofertas de reingreso de Ani-May."},
       {t:"Otaku y coleccionistas", d:"Compran en la tienda oficial, presupuestan la edición limitada y consumen en los planes que incluyen Manga."},
       {t:"Fans de doblaje en español", d:"Segmento clave en Latinoamérica y España, con una oferta de doblaje adaptado al mercado y pago local."},
       {t:"Amantes del cine de anime", d:"Audiencia de los estrenos teatrales, que compra entradas y además se suscribe para ver el resto del catálogo."},
-      {t:"Cuentas inactivas reactivables", d:"Base de suscripciones que se recuperan con descuentos de primer año, y cuyo valor depende del coste de adquisición."},
+      {t:"Cuentas inactivas reactivables", d:"Base de suscripciones que se recupera con descuentos de primer año y depende del esfuerzo de captación."},
       {t:"Hogares con varias pantallas", d:"Familias y grupos de amigos que necesitan el plan de varios flujos simultáneos para no pelearse por el dispositivo."},
       {t:"Clientes B2B de licencia", d:"Cadenas de televisión, plataformas y distribuidores que compran ventanas de biblioteca después de su pase en el servicio."}
     ],
@@ -489,18 +614,23 @@ const BLOQUES = [
   {
     id:"costos", area:"costos", n:8, c:"#8b93a7", icon:'<rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/>',
     name:"Estructura de costos",
-    tag:"Licencias, traducción, tecnología, nóminas y teatro.",
-    texto:"Es un modelo de costos fijos con economía de escala: el mismo catálogo, la misma marca y la misma infraestructura dan servicio a 21 millones de clientes con un coste de contenido idéntico. Por eso el margen mejora tanto con el crecimiento de suscriptores, y por eso un año flojo de licencias se nota tanto en la cuenta.",
+    tag:"Licencias, traducción, tecnología, personal y cine: todo lo que consume el modelo.",
+    texto:"Es un modelo con una enorme economía de escala: el mismo catálogo, la misma marca y la misma infraestructura dan servicio a millones de clientes sin consumo adicional por usuario. Por eso la capacidad de la plataforma crece casi sin añadir recursos, y por eso un año flojo de licencias se nota tanto en el catálogo disponible.",
+    stats:[
+      {v:"1.000+", l:"Personas en plantilla, en quince oficinas"},
+      {v:"20+", l:"Idiomas con doblaje o subtitulado"},
+      {v:"9", l:"Partidas que consumen recursos cada año"}
+    ],
     items:[
-      {t:"Compra de licencias (la partida dominante)", d:"Anticipos, regalías y compromisos de renovación con estudios. Es el mayor componente del coste y el que más directamente condiciona el margen."},
+      {t:"Compra de licencias (la partida dominante)", d:"Anticipos, regalías y compromisos de renovación con estudios. Es el mayor consumo de recursos del modelo y el que más directamente condiciona el crecimiento."},
       {t:"Producción y coproducción", d:"Aportaciones a series de Aniplex y a sociedades mixtas como Hayate. El contenido de primera mano cuesta más hoy y mañana cuesta menos en regalías."},
       {t:"Doblaje y subtitulado", d:"Producción o subcontratación en más de veinte idiomas, con control de calidad y adaptación por mercado."},
       {t:"Tecnología y CDN", d:"Ancho de banda, servidores, DRM, almacenamiento, construcción y mantenimiento de las aplicaciones de cada plataforma."},
-      {t:"Personal", d:"Más de mil empleados en quince oficinas. En marzo de 2026 se ejecutó una reestructuración con despidos, y la entidad japonesa cerró el ejercicio 2025 con un beneficio neto de 453 M de yenes, un 63 % menos que el año anterior."},
+      {t:"Personal", d:"Más de mil empleados en quince oficinas. En marzo de 2026 Sony ejecutó una reestructuración con despidos y la entidad japonesa recortó su estructura de plantilla."},
       {t:"Marketing y eventos", d:"Campañas globales como Ani-May, los Crunchyroll Anime Awards, presencia en congresos y activaciones en retailers."},
-      {t:"Distribución cinematográfica", d:"Alquiler de salas, copia, doblaje para salas y marketing de estrenos regionales."},
+      {t:"Distribución cinematográfica", d:"Alquiler de salas, copia, doblaje para salas y comunicación de estrenos regionales."},
       {t:"Gastos legales y de cumplimiento", d:"Negociación de licencias, defensa frente a la piratería, protección de datos y cumplimiento normativo en cada país."},
-      {t:"Comisiones de tienda y otros", d:"Recargo de App Store y Google Play sobre las ventas de la tienda oficial y de las apps."}
+      {t:"Comisiones de tienda y otros", d:"Comisiones de App Store y Google Play sobre las ventas de la tienda oficial y de las apps."}
     ],
     rels:[["Recursos clave","consumen"],["Aliados clave","invierten con"],["Fuentes de ingresos","limitan"]]
   },
@@ -508,34 +638,36 @@ const BLOQUES = [
     id:"ingresos", area:"ingresos", n:9, c:"#43e0c0", icon:'<polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/>',
     name:"Fuentes de ingresos",
     tag:"Suscripciones como núcleo, con cine, tienda, juegos, manga y licencias.",
-    texto:"La suscripción es la base y la fuente de ingresos recurrentes que Sony persigue; todo lo demás la acompaña. La decisión de eliminar el plan gratuito en 2025 y subir los precios en 2026 señala un giro explícito: menos usuarios, más ingreso por usuario, en un momento en que la marca ya no necesita comprar volumen.",
+    texto:"La suscripción es la base y el hilo recurrente que sostiene todo lo demás. La decisión de retirar el plan gratuito a finales de 2025 y dejar toda la oferta en planes de pago señala un giro explícito: una comunidad más pequeña, más fiel y mucho más enredada con la marca, en un momento en que el crecimiento ya no depende de captar volumen.",
     stats:[
-      {v:"$9,99", l:"Fan, el plan de entrada tras la subida de febrero de 2026"},
-      {v:"+25 %", l:"Crecimiento interanual de suscriptores de pago"},
-      {v:"$741 M", l:"Taquilla mundial de la película de Demon Slayer en cines"}
+      {v:"9", l:"Líneas de negocio distintas sobre la misma marca"},
+      {v:"21 M", l:"Cuentas de cliente de una sola cuenta"},
+      {v:"6", l:"Pantallas simultáneas en el plan de máxima gama"}
     ],
     items:[
-      {t:"Suscripciones de pago", d:"La fuente principal y recurrente. Tres planes mensuales en Estados Unidos tras la subida de febrero de 2026, más un plan anual promocional de 66,99 USD."},
-      {t:"Venta minorista oficial", d:"La tienda de Crunchyroll (merchandising, ediciones limitadas, figuras y ropa), con mayor margen por venta que el vídeo."},
-      {t:"Cine y eventos", d:"Entradas de Crunchyroll Movie Night, con la película de anime como producto de evento de alto impacto y márgenes separados."},
-      {t:"Crunchyroll Games", d:"Publicación de videojuegos con estudios externos, que monetiza el fandom más allá de la pantalla y abre una vía de ingresos por volumen de unidades."},
+      {t:"Suscripciones de pago", d:"La fuente principal y recurrente. Tres niveles mensuales en Estados Unidos tras la subida de febrero de 2026, más un plan anual promocional."},
+      {t:"Venta minorista oficial", d:"La tienda de Crunchyroll (merchandising, ediciones limitadas, figuras y ropa), con más valor por venta que el vídeo."},
+      {t:"Cine y eventos", d:"Entradas de Crunchyroll Movie Night, con la película de anime como producto de evento de alto impacto."},
+      {t:"Crunchyroll Games", d:"Publicación de videojuegos con estudios externos, que extiende el fandom más allá de la pantalla y abre una vía de ingreso por volumen de unidades."},
       {t:"Crunchyroll Music", d:"Bandas sonoras en streaming y vinilos, conectados a la música de Sony."},
-      {t:"Manga", d:"La app de Crunchyroll Manga, incluida en el plan Ultimate Fan, que amplía el tiempo de uso diario y eleva la disposición a pagar."},
+      {t:"Manga", d:"La app de Crunchyroll Manga, incluida en el plan de máxima gama, que amplía el tiempo de uso diario y eleva la disposición a contratar el plan completo."},
       {t:"Licencias a terceros (B2B)", d:"Venta de ventanas de la biblioteca a televisiones, plataformas y distribuidores tras su pase en el servicio."},
-      {t:"Canal FAST con publicidad", d:"El canal Crunchyroll Channel monetiza inventario publicitario, único resto de la publicidad tras el fin del plan gratuito."},
-      {t:"Venta a Sony y al grupo", d:"Ingresos reportados dentro del segmento Media Networks de Sony Pictures, que subió un 13 % hasta 3.170 M de dólares."}
+      {t:"Canal FAST con publicidad", d:"El canal Crunchyroll Channel monetiza inventario publicitario, único resto de la publicidad tras la retirada del plan gratuito."},
+      {t:"Venta interna al grupo", d:"Las cifras de Crunchyroll se reportan dentro del segmento Media Networks de Sony Pictures, junto al resto de negocios del grupo."}
     ],
     tabla:{
-      cols:["Plan (EE. UU., 2026)","Precio","Qué incluye"],
+      cols:["Línea de negocio","En qué consiste","Qué aporta al modelo"],
       rows:[
-        ["<b>Fan</b>","<b>$9,99</b> / mes","Sin anuncios, catálogo completo, 1 dispositivo, ver sin conexión"],
-        ["<b>Mega Fan</b>","<b>$13,99</b> / mes","Hasta 4 dispositivos simultáneos"],
-        ["<b>Ultimate Fan</b>","<b>$17,99</b> / mes","Hasta 6 dispositivos + app de Manga"],
-        ["<b>Fan Anual</b>","<b>$66,99</b> / año","Promoción limitada, equivale a $5,58 al mes"],
-        ["<span class='up'>Plan gratuito</span>","<span class='up'>Eliminado</span>","31 de diciembre de 2025: todo el catálogo exige pago"]
+        ["<b>Suscripciones</b>","Acceso al catálogo completo sin anuncios","Base recurrente y relación de larga duración"],
+        ["<b>Tienda oficial</b>","Merchandising y ediciones limitadas","Profundiza la relación con el fan"],
+        ["<b>Cine y eventos</b>","Entradas de Movie Night en salas","Momento de comunidad alrededor del estreno"],
+        ["<b>Juegos y música</b>","Publicación con estudios y bandas sonoras","Fans fuera de la pantalla"],
+        ["<b>Manga</b>","App propia incluida en el plan de máxima gama","Más tiempo de uso diario"],
+        ["<b>Licencias B2B</b>","Ventas de la biblioteca a terceros","Alcance más allá del servicio"],
+        ["<b>Canal FAST</b>","Canal gratuito sostenido con publicidad","Presencia sin desarrollo de app propia"]
       ]
     },
-    rels:[["Segmentos de clientes","pagan a"],["Actividades clave","producen"],["Estructura de costos","consumen"]]
+    rels:[["Segmentos de clientes","atienden"],["Actividades clave","producen"],["Estructura de costos","consumen"]]
   }
 ];
 
@@ -545,12 +677,12 @@ const RELACIONES = [
   {a:"rec",     b:"valor",l:"sostienen",  d:"El catálogo con derechos, la marca y los datos de 21 millones de cuentas son lo que convierte una tarea operativa en una promesa que el usuario puede creer."},
   {a:"act",     b:"valor",l:"entregan",  d:"La propuesta de valor no es una frase de marketing: es el resultado del simulcast, del doblaje, del reproductor y de la entrega global."},
   {a:"valor",   b:"clientes", l:"se comunica en", d:"La relación con clientes es el vehículo de la propuesta: listas, notificaciones, recomendaciones y soporte son los puntos de contacto donde el usuario la percibe."},
-  {a:"clientes",b:"segmentos", l:"gana y retiene", d:"Cada segmento —estudiante, coleccionista, fan de cine— exige una relación distinta, y las campañas de retención se diseñan para el segmento cuyo margen más pesa."},
+  {a:"clientes",b:"segmentos", l:"gana y retiene", d:"Cada segmento —estudiante, coleccionista, fan de cine— exige una relación distinta, y las campañas de retención se diseñan para el segmento que más sostiene la marca."},
   {a:"canales",  b:"valor",l:"llegan por", d:"La misma propuesta se entrega con distinta fidelidad en cada canal: máxima en la web, comoda en la tele y limitada en el móvil cuando se descarga."},
   {a:"canales",  b:"segmentos", l:"distribuyen a", d:"El canal determina la audiencia: la tele lleva al hogar, la consola al jugador y el cine al evento, y cada una captura un segmento distinto."},
-  {a:"segmentos",b:"ingresos", l:"pagan a", d:"Cada plan y cada línea de negocio se dirige a un segmento concreto, y el nivel de gasto de ese segmento fija el precio que se puede pedir."},
-  {a:"rec",     b:"costos", l:"consumen",  d:"El catálogo, el equipo y la infraestructura son, a la vez, la ventaja competitiva y la principal partida de gasto del modelo."},
-  {a:"costos",  b:"ingresos", l:"limitan", d:"El margen entre lo que se cobra y lo que se paga por cada suscriptor es la restricción real del crecimiento, más que la demanda."}
+  {a:"segmentos",b:"ingresos", l:"se dirigen a", d:"Cada línea de negocio se dirige a un segmento concreto, y las expectativas de cada segmento marcan hasta dónde puede llegar la oferta y qué planes tienen que existir."},
+  {a:"rec",     b:"costos", l:"consumen",  d:"El catálogo, el equipo y la infraestructura son, a la vez, la ventaja competitiva y la mayor partida de recursos del modelo."},
+  {a:"costos",  b:"ingresos", l:"limitan", d:"La capacidad de la plataforma para absorber más fans sin degradar la experiencia es la restricción real del crecimiento, más que la demanda de los usuarios."}
 ];
 
 const VISTAS = {
@@ -559,6 +691,111 @@ const VISTAS = {
   ingreso: ["segmentos","valor","clientes","canales","ingresos"],
   riesgo: ["costos","ingresos","aliados","rec"]
 };
+
+/* ============================ ILUSTRACIONES ============================ */
+/* Una ilustración vectorial por bloque. Sin archivos externos ni colores con
+   identificadores duplicados: el trazo es blanco y el tinte lo pone el CSS. */
+const LN  = 'fill="none" stroke="#fff" stroke-opacity=".92" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"';
+const LN2 = 'fill="none" stroke="#fff" stroke-opacity=".55" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"';
+const RLL = 'fill="#fff" fill-opacity=".16"';
+const SOL = 'fill="#fff" fill-opacity=".92"';
+
+const ARTE = {
+  /* 1 · Aliados clave: una red de socios alrededor del mismo centro */
+  aliados: `<g ${LN}>
+      <circle cx="160" cy="74" r="18"/>
+      <circle cx="64" cy="42" r="10"/><circle cx="256" cy="42" r="10"/>
+      <circle cx="64" cy="112" r="10"/><circle cx="256" cy="112" r="10"/>
+      <path d="M74 46 145 67M246 46 175 67M74 108 145 83M246 108 175 83"/>
+    </g>
+    <g ${SOL}><circle cx="160" cy="74" r="6"/><circle cx="64" cy="42" r="4"/><circle cx="256" cy="42" r="4"/>
+      <circle cx="64" cy="112" r="4"/><circle cx="256" cy="112" r="4"/></g>`,
+
+  /* 2 · Actividades clave: reproducir y encadenar tareas */
+  act: `<g ${LN}><rect x="122" y="46" width="76" height="76" rx="20" ${RLL}/>
+      <polyline points="110,96 122,108 134,96"/><polyline points="210,72 222,84 210,96"/>
+      <path d="M18 130h48a18 18 0 0 0 18-18v-6M302 40h-48a18 18 0 0 0-18 18v6"/></g>
+    <polygon points="152,66 188,84 152,102" ${SOL}/>`,
+
+  /* 3 · Recursos clave: el archivo que sostiene todo lo demás */
+  rec: `<g ${LN}>
+      <ellipse cx="102" cy="42" rx="38" ry="13"/>
+      <path d="M64 42v48c0 7.2 17 13 38 13s38-5.8 38-13V42"/>
+      <path d="M64 66c0 7.2 17 13 38 13s38-5.8 38-13"/>
+      <path d="M64 90c0 7.2 17 13 38 13s38-5.8 38-13"/>
+    </g>
+    <g ${LN2}><path d="M186 108h86M186 122h56"/></g>
+    <polygon points="232,32 241,56 265,56 246,70 254,94 232,80 210,94 218,70 199,56 223,56" ${SOL}/>`,
+
+  /* 4 · Propuesta de valor: la promesa en una pantalla */
+  valor: `<g ${LN}><rect x="84" y="36" width="152" height="90" rx="12" ${RLL}/>
+      <path d="M138 144h44M160 126v18"/></g>
+    <polygon points="142,62 180,81 142,100" ${SOL}/>
+    <g ${SOL} opacity=".85">
+      <path d="M258 24c0 10 5 15 15 15-10 0-15 5-15 15 0-10-5-15-15-15 10 0 15-5 15-15z"/>
+      <path d="M56 84c0 7 3.5 10.5 10.5 10.5C59 94.5 56 98 56 105c0-7-3.5-10.5-10.5-10.5C52.5 94.5 56 91 56 84z"/>
+    </g>`,
+
+  /* 5 · Relación con clientes: conversación y comunidad */
+  clientes: `<g ${LN}><path d="M32 34h108a16 16 0 0 1 16 16v42a16 16 0 0 1-16 16H92l-30 26v-26H32a16 16 0 0 1-16-16V50a16 16 0 0 1 16-16z" ${RLL}/></g>
+    <g ${SOL}><circle cx="52" cy="68" r="5"/><circle cx="74" cy="68" r="5"/><circle cx="96" cy="68" r="5"/></g>
+    <g ${LN}><path d="M188 84h94a16 16 0 0 1 16 16v30a16 16 0 0 1-16 16h-6v22l-26-22h-62a16 16 0 0 1-16-16v-30a16 16 0 0 1 16-16z" ${RLL}/></g>
+    <g transform="translate(224,100) scale(1.5)">
+      <path d="M12 21s-6-4.35-9-8C.5 9.5.5 5 3.5 2.5 6.5 0 10 1 12 4c2-3 5.5-4 8.5-1.5C23.5 5 23.5 9.5 21 13c-3 3.65-9 8-9 8z" ${SOL}/>
+    </g>`,
+
+  /* 6 · Canales: la misma historia en todas las pantallas */
+  canales: `<g ${LN}><rect x="20" y="40" width="136" height="84" rx="10" ${RLL}/>
+      <path d="M62 142h52M88 124v18"/></g>
+    <polygon points="68,66 96,82 68,98" ${SOL}/>
+    <g ${LN}><rect x="172" y="48" width="54" height="106" rx="13" ${RLL}/><path d="M188 62h22"/></g>
+    <g ${LN}><rect x="240" y="66" width="60" height="80" rx="10" ${RLL}/><path d="M254 86h32M254 100h18"/></g>
+    <g ${LN2}><path d="M212 22a20 20 0 0 1 0 40"/><path d="M228 10a34 34 0 0 1 0 64"/></g>`,
+
+  /* 7 · Segmentos de clientes: una comunidad muy distinta entre sí */
+  segmentos: `<g ${LN}><circle cx="160" cy="52" r="20"/><path d="M122 134a38 38 0 0 1 76 0"/></g>
+    <g ${LN2}><circle cx="76" cy="66" r="15"/><path d="M46 134a30 30 0 0 1 60 0"/>
+      <circle cx="244" cy="66" r="15"/><path d="M214 134a30 30 0 0 1 60 0"/>
+      <path d="M20 134h280"/></g>`,
+
+  /* 8 · Estructura de costos: los recursos que consume el modelo */
+  costos: `<g ${LN}><rect x="26" y="30" width="268" height="28" rx="14" ${RLL}/></g>
+    <g ${LN2}><rect x="26" y="66" width="228" height="28" rx="14" fill="#fff" fill-opacity=".13"/>
+      <rect x="26" y="102" width="168" height="28" rx="14" fill="#fff" fill-opacity=".09"/></g>
+    <g ${SOL}><circle cx="56" cy="44" r="6"/><circle cx="78" cy="44" r="6"/><circle cx="100" cy="44" r="6"/></g>
+    <g ${LN2}><path d="M280 30v100M292 30v100"/></g>`,
+
+  /* 9 · Fuentes de ingresos: una pantalla que alimenta muchas líneas */
+  ingresos: `<g ${LN}><rect x="112" y="94" width="96" height="54" rx="12" ${RLL}/><path d="M160 148v10"/>
+      <path d="M160 88V62M126 90 84 62M194 90l42-28"/>
+      <polyline points="72,48 84,62 98,60"/><polyline points="224,48 236,62 224,74"/></g>
+    <polygon points="146,106 178,121 146,136" ${SOL}/>
+    <g ${LN2}>
+      <rect x="46" y="16" width="76" height="40" rx="10" ${RLL}/>
+      <path d="M72 50h26l-4-16H76zM79 34a6 6 0 0 1 12 0"/>
+      <rect x="132" y="8" width="60" height="40" rx="10" ${RLL}/>
+      <path d="M152 20v16M172 20v16"/>
+      <rect x="202" y="16" width="76" height="40" rx="10" ${RLL}/>
+      <circle cx="240" cy="36" r="12"/><circle cx="240" cy="36" r="2.6"/>
+    </g>`
+};
+
+/* Etiqueta corta que acompaña a cada ilustración en el bloque abierto */
+const PIE = {
+  aliados:"Los socios no aportan solo producto: también la cadena que hace posible el estreno simultáneo.",
+  act:"Un circuito de tareas encadenadas, desde la negociación del derecho hasta la entrega en la tele del salón.",
+  rec:"El archivo con derechos, la marca y el equipo: lo que un competidor no puede montar en un trimestre.",
+  valor:"La promesa, en una sola frase y en una sola imagen.",
+  clientes:"La relación es sobre todo automática; lo humano llega con la comunidad y los eventos.",
+  canales:"Un mismo capítulo, leído en diez sitios distintos y con distinta fidelidad.",
+  segmentos:"Cada fan llega con hábitos distintos, y por eso cada grupo pide una relación distinta.",
+  costos:"Los recursos que se consumen por dentro para sostener la experiencia de fuera.",
+  ingresos:"Nueve líneas de negocio alimentadas por una misma marca y una misma comunidad."
+};
+
+function arte(b, par){
+  return `<svg class="art" viewBox="0 0 320 160" preserveAspectRatio="${par || "xMidYMid meet"}" aria-hidden="true">${ARTE[b.id] || ""}</svg>`;
+}
 
 
 /* ============================ LÓGICA ============================ */
@@ -601,6 +838,10 @@ BLOQUES.forEach(b => {
      <span class="btag">${esc(b.tag)}</span>
      <span class="bpeek">Ver todo el detalle <span class="chev">▾</span><b>${b.items.length}</b></span>
      <span class="openwrap">
+       <figure class="openart">
+         ${arte(b, "xMidYMid slice")}
+         <figcaption><b>${esc(b.name)}.</b> ${esc(PIE[b.id] || "")}</figcaption>
+       </figure>
        <span class="otext">${esc(b.texto)}</span>
        ${b.stats ? `<span class="mini">${b.stats.map(s =>
           `<div><b>${esc(s.v)}</b><span>${esc(s.l)}</span></div>`).join("")}</span>` : ""}
@@ -646,10 +887,24 @@ $("#btnLogin").onclick = () => {
 };
 
 /* ============================ EXPANSIÓN ============================ */
-function abrir(id){ abierto = id; relActiva = null; pintar(); if (id) canvas.scrollIntoView({ behavior:"smooth", block:"nearest" }); }
+const suave = () => !matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+/* Al abrir un bloque se sube la página hasta el lienzo, que el bloque expandido
+   queda a la vista sin tener que buscarla con la rueda. */
+function subirAlLienzo(){
+  const nav = document.querySelector(".nav");
+  const y = canvas.getBoundingClientRect().top + scrollY - (nav ? nav.offsetHeight + 14 : 14);
+  if (y > scrollY) scrollTo({ top: y, behavior: suave() ? "smooth" : "auto" });
+}
+
+function abrir(id){ abierto = id; relActiva = null; pintar(); if (id) subirAlLienzo(); }
 function selRel(i){ relActiva = relActiva === i ? null : i; abierto = null; pintar(); }
 
 function pintar(){
+  // Activa un layout compacto mientras un bloque está expandido.
+  // Así los otros 8 bloques se reorganizan y no dejan espacios vacíos.
+  canvas.classList.toggle("has-open", Boolean(abierto));
+
   const focoVista = VISTAS[vista] || [];
   const foco = focoVista.length ? focoVista : [];
   const hayFoco = foco.length > 0;
@@ -679,38 +934,41 @@ const g = (t, c) => `<div class="pg"><h4>${esc(t)}</h4>${c}</div>`;
 const ul = xs => `<ul class="plist">${xs.map(x => `<li>${x}</li>`).join("")}</ul>`;
 
 function panelInicio(){
-  return `<span class="pill">Business Model Canvas</span>
+  return `<div class="collage">${BLOQUES.map(b =>
+    `<div style="--c:${b.c}" title="${esc(b.name)}">${arte(b, "xMidYMid slice")}</div>`).join("")}</div>
+    <span class="pill">Business Model Canvas</span>
     <h3>Todo Crunchyroll en nueve bloques</h3>
     <p class="psum">El lienzo completo del modelo de negocio del mayor servicio de anime por suscripción del mundo,
-      con su cadena de aliados, sus nueve bloques y sus cifras públicas.</p>
+      con su cadena de aliados, sus nueve bloques y las relaciones que los conectan.</p>
     ${g("Cómo se lee", `<p class="ptext">Haz <b style="color:#fff">clic en un bloque</b> del lienzo y se expandirá a lo ancho
-      con todo su contenido, sus cifras y su tabla. Toca después una de las <b style="color:#fff">curvas</b> para leer qué
+      con su ilustración, todo su contenido y su tabla. Toca después una de las <b style="color:#fff">curvas</b> para leer qué
       significa esa relación. <kbd>Esc</kbd> cierra.</p>`)}
     ${g("Los nueve bloques", ul(BLOQUES.map(b =>
       `<b>${b.n}. ${esc(b.name)}</b> — ${b.items.length} elementos`)))}
-    ${g("Restricción principal", `<p class="ptext">El margen entre lo que se cobra y lo que se paga por
-      cada suscriptor. Con 21 M de cuentas y sin plan gratuito, el modelo compensa su coste de contenido con recurrencia,
-      no con volumen de usuarios.</p>`)}
-    <p class="note">Fuente: datos públicos divulgados por Sony Group y Sony Pictures Entertainment en el ejercicio
-      cerrado a marzo de 2026, y por la comunicación de precios de Crunchyroll de febrero de 2026.
-      Documento académico: no utiliza información financiera interna.</p>`;
+    ${g("El eje del modelo", `<p class="ptext">Todo gira en torno a una promesa: el mismo anime que se emite
+      en Japón, en legal y sin anuncios, en el móvil o en la tele del salón. Cada bloque existe para sostenerla
+      y para llevarla a más sitios y a más fans.</p>`)}
+    <p class="note">Fuente: información corporativa pública de Sony Group, Sony Pictures Entertainment
+      y Crunchyroll, y prensa sectorial para los antecedentes societarios.
+      Documento académico: sin cifras económicas ni datos financieros internos.</p>`;
 }
 
 function panelBloque(id){
   const b = porId(id);
   panel.style.setProperty("--pc", b.c);
-  return `<span class="pill">Bloque ${b.n} de 9</span>
+  return `<div class="panelart">${arte(b, "xMidYMid slice")}</div>
+    <span class="pill">Bloque ${b.n} de 9</span>
     <h3>${esc(b.name)}</h3>
     <p class="psum">${esc(b.tag)}</p>
     ${g("La idea", `<p class="ptext">${esc(b.texto)}</p>`)}
-    ${b.stats ? g("En cifras", `<div class="mini" style="margin:0">${b.stats.map(s =>
+    ${b.stats ? g("En números", `<div class="mini" style="margin:0">${b.stats.map(s =>
       `<div><b>${esc(s.v)}</b><span>${esc(s.l)}</span></div>`).join("")}</div>`) : ""}
     ${g(`Contenido (${b.items.length})`, ul(b.items.map(i => `<b>${esc(i.t)}</b> — ${esc(i.d)}`)))}
     ${g("Relaciones de este bloque", ul(relDe(id).map(({r}) => {
       const otro = porId(r.a === id ? r.b : r.a);
       return `<b>${b.n} → ${otro.n} · ${esc(r.l)}</b> — ${esc(r.d)}`;
     })))}
-    <p class="note">${b.items.length} elementos con cifras y tabla dentro del lienzo.
+    <p class="note">${b.items.length} elementos con ilustración, contenido y tabla dentro del lienzo.
       Pulsa cualquier relación para saltar al bloque correspondiente.</p>`;
 }
 
@@ -730,15 +988,17 @@ function panelRel(i){
 function panelVista(){
   const foco = (VISTAS[vista] || []).map(id => porId(id));
   panel.style.setProperty("--pc", "#ffa054");
-  return `<span class="pill">Foco guiado</span>
+  return `<div class="collage">${foco.map(b =>
+    `<div style="--c:${b.c}" title="${esc(b.name)}">${arte(b, "xMidYMid slice")}</div>`).join("")}</div>
+    <span class="pill">Foco guiado</span>
     <h3>${vista === "creacion" ? "Creación de valor"
         : vista === "ingreso" ? "Cadena del ingreso"
         : "Costos y riesgos"}</h3>
     <p class="psum">${vista === "creacion"
       ? "Cómo se construye el producto: los aliados que lo permiten, las tareas que lo ejecutan y los recursos que las sostienen."
       : vista === "ingreso"
-      ? "Cómo un usuario desconocido se convierte en ingreso recurrente: segmento, promesa, canal, relación y cobro."
-      : "Dónde se lleva el dinero: qué recursos se consumen, qué socios los financian y qué margen queda al final."}</p>
+      ? "Cómo un usuario desconocido se convierte en fan recurrente: segmento, promesa, canal y relación."
+      : "Dónde está la carga del modelo: qué recursos se consumen, qué socios los respaldan y qué limita el crecimiento."}</p>
     ${g("Bloques implicados", ul(foco.map(b => `<b>${b.n}. ${esc(b.name)}</b> — ${b.items.length} elementos`)))}
     ${g("Siguiente paso", `<p class="ptext">Haz clic en cualquiera de estos bloques en el lienzo para leer su detalle completo.</p>`)}`;
 }
@@ -790,12 +1050,20 @@ function dibujar(){
   });
 }
 
-const ro = new ResizeObserver(dibujar);
+/* el panel se limita a la altura del lienzo para que no quede hueco debajo */
+const stage = document.querySelector(".stage");
+function ajustarPanel(){
+  if (getComputedStyle(panel).position === "static"){ panel.style.maxHeight = ""; return; }
+  panel.style.maxHeight = stage.offsetHeight + "px";
+}
+
+const ro = new ResizeObserver(() => { ajustarPanel(); dibujar(); });
 ro.observe(canvas);
 BLOQUES.forEach(b => ro.observe(document.getElementById(b.id)));
-addEventListener("resize", dibujar);
+addEventListener("resize", ajustarPanel);
 
 pintar();
+ajustarPanel();
 </script>
 </body>
 </html>
