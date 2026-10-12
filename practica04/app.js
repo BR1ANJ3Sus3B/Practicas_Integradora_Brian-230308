@@ -656,12 +656,20 @@
     }
   }
 
+  function setHash(h) {
+    var cur = location.hash.replace(/^#/, "");
+    if (cur === (h || "")) return;
+    try { history.replaceState(null, "", location.pathname + location.search + (h ? "#" + h : "")); }
+    catch (e) { location.hash = h || ""; }
+  }
+
   function selectBlock(id, openModal) {
     state.selectedBlock = id;
     state.selectedArch = null;
     applyBlockHighlight(id);
     if (openModal !== false && id) openModalFor(id);
     if (!id) closeModal(false);
+    setHash(id || "");
   }
 
   function clearSelection() {
@@ -669,6 +677,8 @@
     state.selectedArch = null;
     applyBlockHighlight(null);
     setArchHighlight(null);
+    var cur = location.hash.replace(/^#/, "");
+    if (byId[cur] || cur.indexOf("arch-") === 0) setHash("");
   }
 
   function selectArchNode(id) {
@@ -681,6 +691,54 @@
     document.querySelectorAll(".arch-node").forEach(function (n) {
       n.classList.toggle("is-active", n.getAttribute("data-node") === id);
     });
+    setHash("arch-" + id);
+  }
+
+  function hashTarget(h) {
+    h = decodeURIComponent(h || "");
+    if (byId[h]) return { type: "block", id: h };
+    if (h.indexOf("arch-") === 0 && ARCH_NODES[h.slice(5)]) return { type: "arch", id: h.slice(5) };
+    return null;
+  }
+
+  function applyHash(scroll) {
+    var t = hashTarget(location.hash.replace(/^#/, ""));
+    if (!t) { clearSelection(); return; }
+    if (t.type === "block") {
+      if (state.selectedBlock !== t.id) selectBlock(t.id);
+    } else {
+      if (state.selectedArch !== t.id) selectArchNode(t.id);
+      if (scroll) {
+        var sec = document.getElementById("arquitectura");
+        if (sec && sec.scrollIntoView) sec.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    }
+  }
+
+  function copyLink(el) {
+    var url = location.href;
+    function done() {
+      var s = el.querySelector("span");
+      if (!s || el.getAttribute("data-busy") === "1") return;
+      el.setAttribute("data-busy", "1");
+      var old = s.textContent;
+      s.textContent = "Enlace copiado";
+      el.classList.add("is-copied");
+      setTimeout(function () { s.textContent = old; el.classList.remove("is-copied"); el.removeAttribute("data-busy"); }, 1600);
+    }
+    function fallback() {
+      try {
+        var ta = document.createElement("textarea");
+        ta.value = url; ta.setAttribute("readonly", "");
+        ta.style.position = "absolute"; ta.style.left = "-9999px";
+        document.body.appendChild(ta); ta.select();
+        document.execCommand("copy");
+        document.body.removeChild(ta); done();
+      } catch (e) { /* sin portapapeles disponible */ }
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(url).then(done).catch(fallback);
+    } else { fallback(); }
   }
 
   function resetAll() {
@@ -715,7 +773,9 @@
   function buildModal(block) {
     var head = '<div class="mb-head" style="--c:' + block.color + '">' +
       '<div class="mb-eyebrow"><span class="mb-ico">' + icon(block.icon) + "</span>" +
-      '<span class="mb-num">Componente ' + String(block.n).padStart(2, "0") + "</span></div>" +
+      '<span class="mb-num">Componente ' + String(block.n).padStart(2, "0") + "</span>" +
+      '<button class="mb-link" type="button" data-copy-link aria-label="Copiar enlace a este componente">' +
+      icon("clipboard") + "<span>Copiar enlace</span></button></div>" +
       "<h2 id=\"modalTitle\">" + esc(block.title) + "</h2>" +
       '<p class="mb-tagline">' + esc(block.tagline) + "</p></div>";
 
@@ -820,6 +880,8 @@
       if (card) { selectBlock(card.getAttribute("data-block")); return; }
       var rib = e.target.closest && e.target.closest(".ribbon-node");
       if (rib) { selectBlock(rib.getAttribute("data-block")); return; }
+      var copy = e.target.closest && e.target.closest("[data-copy-link]");
+      if (copy) { copyLink(copy); return; }
       var goto = e.target.closest && e.target.closest("[data-goto]");
       if (goto) { selectBlock(goto.getAttribute("data-goto")); return; }
       if (e.target.closest && (e.target.closest("[data-close]"))) { closeModal(); clearSelection(); return; }
@@ -876,6 +938,7 @@
     document.getElementById("btnReset").addEventListener("click", resetAll);
     document.getElementById("btnAchievement").addEventListener("click", showAchievement);
     document.getElementById("canvasSearch").addEventListener("input", function (e) { filterCanvas(e.target.value); });
+    window.addEventListener("hashchange", function () { applyHash(false); });
 
     // redibujado de curvas
     var raf = null;
@@ -915,6 +978,7 @@
     // posicionar curvas cuando el layout esté listo
     requestAnimationFrame(function () { redraw(); setTimeout(redraw, 120); });
     window.addEventListener("load", function () { setTimeout(redraw, 60); });
+    applyHash(true);
   }
 
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);
