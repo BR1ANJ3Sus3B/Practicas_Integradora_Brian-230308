@@ -1,0 +1,149 @@
+{
+    "schema_version":  1,
+    "diagram_type":  "architecture",
+    "meta":  {
+                 "title":  "TI: Soporte en Acción · Canvas",
+                 "quality_profile":  "showcase",
+                 "viewBox":  [
+                                 1380,
+                                 650
+                             ],
+                 "legend":  {
+                                "mode":  "hidden"
+                            }
+             },
+    "components":  [
+                       {
+                           "id":  "necesidad",
+                           "type":  "external",
+                           "label":  "1 · Problema",
+                           "sublabel":  "Brecha entre teoría y práctica",
+                           "pos":  [
+                                       50,
+                                       70
+                                   ],
+                           "size":  [
+                                        290,
+                                        90
+                                    ]
+                       },
+                       {
+                           "id":  "beneficiarios",
+                           "type":  "external",
+                           "label":  "2 · Usuarios",
+                           "sublabel":  "Estudiantes y equipo educativo",
+                           "pos":  [
+                                       550,
+                                       70
+                                   ],
+                           "size":  [
+                                        290,
+                                        90
+                                    ]
+                       },
+                       {
+                           "id":  "valor",
+                           "type":  "external",
+                           "label":  "3 · Propuesta de valor",
+                           "sublabel":  "Aprender TI en un entorno seguro",
+                           "pos":  [
+                                       1050,
+                                       70
+                                   ],
+                           "size":  [
+                                        290,
+                                        90
+                                    ]
+                       },
+                       {
+                           "id":  "plataformas",
+                           "type":  "external",
+                           "label":  "4 · Solución",
+                           "sublabel":  "Videojuego y aplicaciones de apoyo",
+                           "pos":  [
+                                       1050,
+                                       290
+                                   ],
+                           "size":  [
+                                        290,
+                                        90
+                                    ]
+                       },
+                       {
+                           "id":  "operacion",
+                           "type":  "external",
+                           "label":  "5 · Procesos",
+                           "sublabel":  "Resolver, evaluar y retroalimentar",
+                           "pos":  [
+                                       550,
+                                       290
+                                   ],
+                           "size":  [
+                                        290,
+                                        90
+                                    ]
+                       },
+                       {
+                           "id":  "tecnologias",
+                           "type":  "external",
+                           "label":  "6 · Tecnologías",
+                           "sublabel":  "Servicios e infraestructura",
+                           "pos":  [
+                                       50,
+                                       290
+                                   ],
+                           "size":  [
+                                        290,
+                                        90
+                                    ]
+                       },
+                       {
+                           "id":  "beneficios",
+                           "type":  "external",
+                           "label":  "7 · Resultados",
+                           "sublabel":  "Preparación para escenarios reales",
+                           "pos":  [
+                                       550,
+                                       510
+                                   ],
+                           "size":  [
+                                        290,
+                                        90
+                                    ]
+                       }
+                   ],
+    "connections":  [
+                        {
+                            "from":  "necesidad",
+                            "to":  "beneficiarios",
+                            "label":  "afecta a"
+                        },
+                        {
+                            "from":  "beneficiarios",
+                            "to":  "valor",
+                            "label":  "necesitan"
+                        },
+                        {
+                            "from":  "valor",
+                            "to":  "plataformas",
+                            "label":  "se concreta en",
+                            "labelDy":  78
+                        },
+                        {
+                            "from":  "plataformas",
+                            "to":  "operacion",
+                            "label":  "permite"
+                        },
+                        {
+                            "from":  "tecnologias",
+                            "to":  "operacion",
+                            "label":  "sostienen"
+                        },
+                        {
+                            "from":  "operacion",
+                            "to":  "beneficios",
+                            "label":  "contribuye a",
+                            "labelDy":  78
+                        }
+                    ]
+}

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://br1anj3sus3b.github.io/Practicas_Integradora_Brian-230308/sitemap.xml
