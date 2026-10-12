@@ -527,3 +527,4 @@ PostgreSQL
 Proyecto educativo enfocado en la aplicación práctica de conocimientos de Tecnologías de la Información mediante simulación, resolución de problemas y gamificación.
 
 **Práctica 04 — Business Model Canvas Interactivo con Archify**
+- [BMC Completo Interactivo](https://br1anj3sus3b.github.io/Practicas_Integradora_Brian-230308/practica04/canvas-bmc/index.html)
