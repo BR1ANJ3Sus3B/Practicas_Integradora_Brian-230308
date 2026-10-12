@@ -469,7 +469,7 @@ Los archivos HTML funcionan como sitios web estáticos y no requieren un servido
 
 ### 🎨 Lienzo interactivo
 
-[Ver Lienzo Interactivo](https://br1anj3sus3b.github.io/Practicas_Integradora_Brian-230308/practica04/canvas/canvas.html)
+[Ver Lienzo Interactivo](https://br1anj3sus3b.github.io/Practicas_Integradora_Brian-230308/)
 
 ### 🤖 Canvas generado con Archify
 
