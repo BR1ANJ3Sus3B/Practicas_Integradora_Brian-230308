@@ -1,0 +1,101 @@
+{
+  "status": "passed",
+  "files": {
+    "index.html": {
+      "sha256": "86d9a5a4d071744d91ddafd1c059b117f8b0bcbda2748dcfebc92d264f754a49",
+      "bytes": 9318
+    },
+    "styles.css": {
+      "sha256": "fed81aa31cffe9329cef16f5f31bcffdfa5ab426a4782cc2069505819878b1f2",
+      "bytes": 21626
+    },
+    "canvas.js": {
+      "sha256": "3bf665cdce2b283fdb6aea4c8765731f84d8d8542a224663b33ee44a1f0df1be",
+      "bytes": 30706
+    }
+  },
+  "viewports": [
+    {
+      "width": 1440,
+      "height": 900,
+      "scrollWidth": 1440,
+      "cards": 7,
+      "edges": 6
+    },
+    {
+      "width": 1600,
+      "height": 1000,
+      "scrollWidth": 1600,
+      "cards": 7,
+      "edges": 6
+    },
+    {
+      "width": 1920,
+      "height": 1080,
+      "scrollWidth": 1920,
+      "cards": 7,
+      "edges": 6
+    },
+    {
+      "width": 2048,
+      "height": 1320,
+      "scrollWidth": 2048,
+      "cards": 7,
+      "edges": 6
+    },
+    {
+      "width": 1024,
+      "height": 768,
+      "scrollWidth": 1024,
+      "cards": 7,
+      "edges": 6
+    },
+    {
+      "width": 768,
+      "height": 1024,
+      "scrollWidth": 768,
+      "cards": 7,
+      "edges": 6
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "scrollWidth": 390,
+      "cards": 7,
+      "edges": 6
+    },
+    {
+      "width": 320,
+      "height": 740,
+      "scrollWidth": 320,
+      "cards": 7,
+      "edges": 6
+    }
+  ],
+  "interactions": [
+    "Solución resalta aplicaciones, API y conexiones",
+    "Usuario jugador conecta Unity y Flutter",
+    "Administrador conecta React PWA",
+    "Docente no recibe una plataforma no definida",
+    "Modal completo: problema",
+    "Modal completo: usuarios",
+    "Modal completo: valor",
+    "Modal completo: solucion",
+    "Modal completo: procesos",
+    "Modal completo: recursos",
+    "Modal completo: resultados",
+    "Tarjeta expandible recalcula conexiones",
+    "Restablecer contrae tarjetas y selecciona propuesta",
+    "Flujo completo: jugador",
+    "Flujo completo: administracion",
+    "Flujo completo: contenido",
+    "Flujo completo: autenticacion",
+    "Navegación por teclado entre procesos",
+    "Avance y reinicio del flujo",
+    "Siete personajes, separados de roles",
+    "Modal de Richar conserva personalidad",
+    "Demostración de logro y cierre",
+    "Respeta movimiento reducido"
+  ],
+  "visualReview": "pending"
+}

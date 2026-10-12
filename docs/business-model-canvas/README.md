@@ -84,24 +84,39 @@ El impacto esperado es reducir la brecha entre formación y primeras experiencia
 
 XP, niveles, progreso, misiones, insignias, logros, estadísticas y retroalimentación. El desbloqueo de logros puede producir una notificación emergente inspirada en plataformas de videojuegos.
 
-## Uso del visor
+## Uso del Canvas web
 
-Abrir `index.html` directamente en un navegador. El artefacto contiene SVG, estilos y JavaScript y no requiere backend. Archify incluye selección de elementos, búsqueda, enfoque de relaciones, zoom, temas y exportación. El contenido autoral está en español; los controles fijos y el atributo de idioma del visor utilizan el fallback inglés de Archify.
+Abrir `index.html` directamente en un navegador manteniendo `styles.css` y `canvas.js` en el mismo directorio. No requiere instalación, compilación, backend, conexión a una API ni fuentes externas. La interfaz principal y su atributo `lang` están en español.
+
+- Seleccionar cualquiera de los **siete** componentes resalta sus relaciones y tecnologías.
+- «Explorar puntos clave» expande una tarjeta; «Ver todos los detalles» abre su modal completo.
+- La propuesta de valor tiene una posición central y un tratamiento visual destacado.
+- La arquitectura permite seleccionar roles y tecnologías, con tooltips, conexiones y descripciones. Jugador se conecta con Unity y Flutter; administrador y editor con React / PWA; todos los roles con Keycloak. No se asigna al docente una aplicación que el equipo no especificó.
+- Los cuatro procesos tienen pasos seleccionables y navegación hacia el siguiente paso. Las pestañas admiten flechas, Inicio y Fin; los modales se cierran con Escape y restituyen el foco.
+- Los siete personajes tienen detalles propios y están separados de los roles de usuario.
+- La notificación de logro es una **demostración de interfaz**, no una misión o logro nuevo del videojuego.
+- En móvil, los componentes siguen verticalmente el orden de sus relaciones. La página respeta la preferencia de movimiento reducido.
+
+Archify se utilizó para el esquema conceptual previo y el diagrama de arquitectura complementario. La nueva interfaz HTML/CSS/JavaScript amplía la presentación y las interacciones requeridas por el equipo. Los visores históricos de Archify conservan sus controles originales en inglés y no se confunden con la interfaz actual.
 
 ## Modificaciones entre versiones
 
 | # | Primera versión | Versión final |
 |---|---|---|
-| 1 | Todos los bloques usan el mismo tipo visual. | Se distinguen semántica y visualmente los siete componentes. |
-| 2 | Usuarios resumidos como equipo educativo. | Se explicitan jugador, docente, administrador y editor. |
-| 3 | Solución genérica. | Se identifican Unity, Flutter y React / PWA. |
-| 4 | Servicios e infraestructura genéricos. | Se identifican API, Keycloak, MongoDB y Docker. |
-| 5 | Procesos centrados en evaluación. | Se hacen visibles diagnóstico, evaluación, XP y logros. |
-| 6 | Sin contexto narrativo complementario. | Se agrega tarjeta de Alex, NovaTech Solutions y Saboteador. |
-| 7 | Sin áreas de aprendizaje complementarias. | Se agrega tarjeta con las disciplinas de TI. |
-| 8 | Sin recursos de operación complementarios. | Se agrega tarjeta de Grafana, Git / GitHub y Pages. |
+| 1 | Diagrama resumido de siete nodos. | Siete componentes con resumen, expansión y modal completo. |
+| 2 | Jerarquía visual uniforme. | Propuesta de valor central, colores por componente e interfaz tecnológica oscura. |
+| 3 | Relaciones generales. | Cadena exacta problema → valor → solución → recursos → procesos → usuarios → resultados. |
+| 4 | Usuarios resumidos como equipo educativo. | Cuatro roles con funciones y conexiones a las aplicaciones definidas. |
+| 5 | Solución genérica. | Arquitectura seleccionable: Unity, Flutter, React / PWA, API, Keycloak y MongoDB. |
+| 6 | Sin procesos paso a paso. | Flujos completos de jugador, administración, contenido y autenticación. |
+| 7 | Sin detalles narrativos. | Siete personajes, incidentes y acciones del Saboteador; roles separados de personajes. |
+| 8 | Sin demostración de gamificación. | Notificación de logro ilustrativa, identificada como demostración y cerrable. |
+| 9 | Visor de diagrama de escritorio. | Reorganización vertical en móvil, navegación por teclado y movimiento reducido. |
+| 10 | Contexto tecnológico resumido. | Tecnologías y funciones completas, con infraestructura, monitoreo y publicación. |
 
-Las capturas `canvas-v1.png` y `canvas-final.png` corresponden a artefactos diferentes y se obtienen mediante el navegador, no mediante imágenes inventadas. Las especificaciones JSON permiten reproducirlas. `entrega-*.json` conserva comprobantes y hashes; `*.visual-check.json` registra las comprobaciones de navegador cuando están disponibles.
+Las capturas `canvas-v1.png` y `canvas-final.png` corresponden a la primera versión Archify y a la página actual, respectivamente. Son capturas reales de navegador. `canvas-movil.png`, `vista-escritorio.png`, `vista-movil.png`, `arquitectura-web.png` y `arquitectura-movil.png` complementan la evidencia actual.
+
+La fuente actual es `index.html` + `styles.css` + `canvas.js`. `verificacion-web.json` identifica sus hashes y registra las pruebas funcionales y de adaptación. `validacion.md` distingue esa evidencia de la validación histórica de Archify. `canvas-final.json` y `preparar.py` pertenecen al diagrama previo; no generan la nueva web.
 
 ## Publicación en GitHub Pages
 
@@ -111,14 +126,17 @@ URL prevista: https://BR1ANJ3Sus3B.github.io/Practicas_Integradora_Brian-230308/
 
 **Estado:** archivos preparados localmente; publicación remota pendiente de incorporar los archivos a una rama que active el flujo existente. No se ha confirmado un despliegue de esta versión.
 
-## Reproducción
+## Verificación y reproducción
 
-Con la habilidad Archify instalada, ejecutar desde el repositorio (sustituir `<ARCHIFY>` por su directorio):
+Para consultar el Canvas, abrir `index.html`. Para repetir las pruebas locales en un equipo con Node, Archify y un navegador Chromium instalado:
 
 ```powershell
-node <ARCHIFY>/bin/archify.mjs validate architecture docs/business-model-canvas/canvas-final.json --quality showcase --json
-node <ARCHIFY>/bin/archify.mjs deliver architecture docs/business-model-canvas/canvas-final.json docs/business-model-canvas/index.html --quality showcase --json
-node <ARCHIFY>/bin/archify.mjs visual-check docs/business-model-canvas/index.html --json
+$env:ARCHIFY_DIR = 'RUTA/DE/ARCHIFY'
+$env:CANVAS_BROWSER = 'RUTA/DEL/NAVEGADOR.exe'
+node --check docs/business-model-canvas/canvas.js
+node docs/business-model-canvas/verificar.mjs
 ```
 
-`preparar.py` reproduce las especificaciones finales a partir de la primera versión; no se necesita Python para consultar la página.
+Las pruebas abren el archivo directamente, comprueban ocho tamaños de 320 a 2048 píxeles y 23 interacciones, y generan las capturas. No hay que instalar estas herramientas para visitar la página publicada.
+
+El artefacto Archify anterior se conserva sin modificar en `canvas-archify.html` y `historial-archify/index.html`, con sus recibos históricos. La arquitectura complementaria sigue en `arquitectura.html`.

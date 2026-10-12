@@ -1,118 +1,478 @@
-# Práctica 04 · Business Model Canvas Interactivo de *TI: Soporte en Acción*
+# 🎮 TI: Soporte en Acción
 
-Business Model Canvas **interactivo** del Proyecto Integrador **TI: Soporte en Acción**, un videojuego
-educativo 2D con estilo pixel art donde el jugador controla a **Alex**, un técnico junior recién egresado
-que resuelve incidentes de soporte, redes, programación, servidores, bases de datos y ciberseguridad en la
-empresa ficticia **NovaTech Solutions**, mientras descubre a un **Saboteador interno** que provoca fallos de
-forma intencional.
+## Business Model Canvas Interactivo
 
-A diferencia del Business Model Canvas tradicional de 9 bloques, este lienzo usa **solo los 7 componentes
-de la práctica académica** y muestra las **relaciones** entre ellos, no tarjetas aisladas.
+Este directorio contiene la documentación correspondiente a la práctica **Business Model Canvas Interactivo** del Proyecto Integrador **TI: Soporte en Acción**.
 
-![Componentes](https://img.shields.io/badge/componentes-7-38bdf8) ![Relaciones](https://img.shields.io/badge/relaciones_macro-6-a78bfa) ![Infra](https://img.shields.io/badge/nodos_de_arquitectura-7-34d399) ![Dependencias](https://img.shields.io/badge/dependencias-0-2dd4bf)
+El objetivo de la práctica es analizar el contexto del proyecto y representar visualmente su problema, usuarios, propuesta de valor, solución, procesos, tecnologías y beneficios utilizando **Archify** como herramienta de apoyo basada en inteligencia artificial.
 
-## Ver el proyecto
+---
 
-- **En línea:** `https://br1anj3sus3b.github.io/Practicas_Integradora_Brian-230308/practica04/`
-- **Desde el portafolio:** `https://br1anj3sus3b.github.io/Practicas_Integradora_Brian-230308/`
-- **En local:** abre [`index.html`](./index.html) con doble clic. No necesita servidor ni instalación.
+## 📖 Descripción del proyecto
 
-## Los 7 componentes
+**TI: Soporte en Acción** es un videojuego educativo 2D con estética pixel art que permite a estudiantes de Tecnologías de la Información enfrentarse a situaciones simuladas similares a las que podrían encontrar dentro de una empresa.
 
-| # | Componente | Enfoque |
-| --- | --- | --- |
-| 1 | Problema / Necesidad | Brecha entre la teoría del aula y los escenarios reales de empresa |
-| 2 | Usuarios o beneficiarios | Jugador/Estudiante, Docente/Evaluador, Administrador y Editor de contenido |
-| 3 | Propuesta de valor | Aprender y practicar TI en un entorno seguro, interactivo y gamificado |
-| 4 | Solución propuesta | Videojuego Unity, app Flutter y React PWA con misiones, logros, XP y estadísticas |
-| 5 | Actividades y procesos clave | Autenticación, investigación, resolución, evaluación, XP, logros y administración |
-| 6 | Recursos y tecnologías clave | Unity, Flutter, React, PWA, API, Keycloak, MongoDB, Docker, Grafana, Git, GitHub, GitHub Pages |
-| 7 | Resultados, beneficios e impacto | Aprendizaje práctico, experiencia simulada y preparación para el entorno laboral |
+El jugador controla a **Alex**, un técnico junior recién egresado que comienza a trabajar dentro de la empresa ficticia **NovaTech Solutions**.
 
-La **propuesta de valor** se destaca como el elemento central del lienzo.
+Durante su primer trabajo deberá resolver incidentes relacionados con soporte técnico, redes, programación, bases de datos, servidores, infraestructura y seguridad informática.
 
-## Relaciones entre componentes
+A medida que avanza descubre que algunos problemas no son simples fallas técnicas, sino que están siendo provocados intencionalmente por un Saboteador interno.
 
-**Cadena macro** (visible en la franja *Flujo del modelo* y como curvas SVG entre las tarjetas):
+El objetivo es combinar aprendizaje, simulación y gamificación para permitir que el jugador aplique conocimientos de TI dentro de un entorno seguro.
 
+---
+
+# 🎯 Objetivo
+
+Desarrollar un Business Model Canvas Interactivo que permita visualizar de manera sencilla el contexto completo de **TI: Soporte en Acción** y mostrar la relación existente entre:
+
+- problema;
+- usuarios;
+- propuesta de valor;
+- solución;
+- procesos;
+- tecnologías;
+- resultados.
+
+Archify se utiliza únicamente como herramienta para organizar y representar visualmente la información previamente definida por el equipo.
+
+---
+
+# 🧩 Componentes del Canvas
+
+El Business Model Canvas está organizado en siete componentes.
+
+## 1. Problema / Necesidad
+
+Los estudiantes de Tecnologías de la Información adquieren conocimientos técnicos durante su formación académica, pero no siempre tienen oportunidades de enfrentarse a escenarios similares a los que encontrarán en un entorno laboral.
+
+Entre las principales necesidades se encuentran:
+
+- obtener experiencia práctica;
+- relacionar teoría y práctica;
+- mejorar habilidades de diagnóstico;
+- practicar resolución de incidentes;
+- desarrollar pensamiento lógico;
+- aprender dentro de un entorno seguro;
+- practicar sin afectar infraestructura real.
+
+---
+
+## 2. Usuarios o beneficiarios
+
+### 🎮 Jugador / Estudiante
+
+Usuario principal del videojuego.
+
+Puede realizar misiones, resolver incidentes, ganar experiencia, subir de nivel y desbloquear logros.
+
+### 👨‍🏫 Docente / Evaluador
+
+Puede utilizar el proyecto como apoyo educativo y consultar el progreso de los estudiantes.
+
+### ⚙️ Administrador
+
+Gestiona usuarios, información general, configuraciones y métricas.
+
+### 📝 Editor de contenido
+
+Gestiona misiones, retos y contenido educativo.
+
+---
+
+# 💎 Propuesta de valor
+
+> Aprender y practicar habilidades de Tecnologías de la Información mediante un videojuego educativo que simula problemas reales de soporte, redes, programación, servidores y ciberseguridad dentro de un entorno seguro, interactivo y gamificado.
+
+---
+
+# 💡 Solución propuesta
+
+El proyecto está compuesto por diferentes plataformas.
+
+## 🎮 Unity
+
+Motor utilizado para desarrollar el videojuego principal.
+
+Incluye:
+
+- escenarios;
+- personajes;
+- NPC;
+- diálogos;
+- misiones;
+- puzzles;
+- incidentes;
+- narrativa;
+- investigación;
+- XP;
+- niveles;
+- logros.
+
+---
+
+## 📱 Flutter
+
+Aplicación móvil complementaria.
+
+Permitirá consultar:
+
+- perfil;
+- progreso;
+- experiencia;
+- niveles;
+- logros;
+- insignias;
+- estadísticas;
+- notificaciones.
+
+---
+
+## 🌐 React / PWA
+
+Aplicación web progresiva utilizada principalmente para tareas administrativas y de consulta.
+
+Permitirá:
+
+- gestión de usuarios;
+- gestión de contenido;
+- administración de misiones;
+- seguimiento;
+- estadísticas;
+- paneles de información.
+
+---
+
+# ⚙️ Actividades y procesos clave
+
+## Flujo principal del jugador
+
+```text
+Jugador
+   ↓
+Inicio de sesión
+   ↓
+Seleccionar misión
+   ↓
+Analizar problema
+   ↓
+Investigar
+   ↓
+Resolver incidente
+   ↓
+Evaluar solución
+   ↓
+Retroalimentación
+   ↓
+Obtener XP
+   ↓
+Actualizar nivel
+   ↓
+Comprobar logro
+   ↓
+Actualizar estadísticas
 ```
-Problema / Necesidad
-→ genera →            Propuesta de valor
-→ se implementa mediante → Solución propuesta
-→ necesita →          Recursos y tecnologías clave
-→ permiten realizar →  Actividades y procesos clave
-→ son utilizados por → Usuarios o beneficiarios
-→ generando →         Resultados, beneficios e impacto
+
+## Flujo de contenido
+
+```text
+Editor
+   ↓
+Crear o modificar misión
+   ↓
+Agregar contenido
+   ↓
+Guardar
+   ↓
+Publicar
+   ↓
+Misión disponible
 ```
 
-**Relaciones específicas** (sección *Arquitectura*):
+## Flujo de autenticación
 
-Jugador → Unity · Jugador → Flutter · Administrador/Editor → React PWA · Usuarios → Keycloak ·
-Unity → API · Flutter → API · React PWA → API · API → MongoDB · Docker → servicios · Grafana → monitoreo.
-
-## Qué se puede hacer
-
-| Acción | Resultado |
-| --- | --- |
-| Hover sobre una tarjeta | Tooltip con el resumen y la idea central del componente |
-| Clic en una tarjeta | Abre el detalle completo y resalta el bloque, sus vecinos y sus curvas |
-| Clic en el nombre del bloque en la franja | Selecciona el componente y abre su detalle |
-| Clic en un nodo de arquitectura | Resalta el nodo y sus conexiones |
-| Clic en un chip de relación | Salta al componente relacionado |
-| Buscador | Filtra las tarjetas por título, causa, consecuencia o tecnología |
-| *Simular logro desbloqueado* | Muestra la notificación emergente de logro (concepto tipo Steam) |
-| `Esc` | Cierra el detalle y limpia el resaltado |
-| *Reiniciar vista* | Limpia selección, búsqueda y resaltados |
-
-Al seleccionar **Solución propuesta** se resaltan **Unity, Flutter, React PWA y API** junto con sus
-conexiones; al seleccionar **Usuarios** se resaltan los sistemas que usa cada rol.
-
-## Secciones de la página
-
-1. **Encabezado** pegajoso + portada del proyecto.
-2. **Lienzo** con la franja de relaciones macro y los 7 componentes.
-3. **Arquitectura simplificada**: Usuarios → Keycloak → Aplicaciones → API → MongoDB, más Docker, Grafana,
-   Git/GitHub y GitHub Pages como infraestructura y publicación.
-4. **Procesos**: flujo del jugador, de administración, de contenido y de autenticación.
-5. **Gamificación y gameplay**: XP, niveles, progreso, insignias, logros, misiones, retos y estadísticas.
-6. **Narrativa**: personajes del videojuego (Alex, Martín, Richar, Marco, Sofía, Elena y el Saboteador).
-7. **Pie de página**: Proyecto Integrador — TI: Soporte en Acción · Desarrollo y Gestión de Software.
-
-## Decisiones de diseño
-
-- **Sin dependencias.** HTML, CSS y JavaScript del lado del cliente. Sin frameworks, sin CDN, sin backend y
-  sin imágenes externas: se abre con doble clic y funciona sin conexión.
-- **GitHub Pages primero.** Todos los recursos son estáticos y relativos, listos para publicarse.
-- **El modelo vive en datos.** Los 7 componentes, las relaciones, los flujos y los personajes son arreglos de
-  JavaScript; añadir información es añadir un objeto, no tocar la interfaz.
-- **Curvas SVG calculadas.** Las relaciones se trazan midiendo la posición real de las tarjetas, así que se
-  mantienen correctas al redimensionar la ventana.
-- **Relaciones, no tarjetas aisladas.** La franja superior y las curvas resaltan el vínculo entre bloques;
-  al seleccionar un componente se atenúan los demás.
-- **Diseño tecnológico y legible.** Tema oscuro con acento propio por componente, rejilla tipo pixel art y
-  contraste alto.
-- **Responsive.** En escritorio se ve el lienzo completo con sus curvas; en tableta y móvil los bloques se
-  reorganizan en columnas y las relaciones se consultan en la franja y en el detalle.
-- **Accesibilidad.** Navegación por teclado, foco visible, `aria-label`, región de notificaciones y respeto de
-  `prefers-reduced-motion`.
-
-## Restricciones respetadas
-
-No se inventaron funcionalidades, tecnologías, personajes ni módulos. Se usa **Unity** para el videojuego,
-**Flutter** para la app móvil, **React/PWA** para la web, **MongoDB** como base de datos, **Keycloak** para
-autenticación, **Docker** como infraestructura, **Grafana** para monitoreo y **GitHub Pages** para publicar.
-**No** se usa Godot ni PostgreSQL.
-
-## Estructura del repositorio
-
-```
-practica04/
-├── index.html    # estructura y contenido base
-├── styles.css    # diseño tecnológico y responsive
-├── app.js        # datos del proyecto + interacción
-└── README.md     # este archivo
+```text
+Usuario
+   ↓
+Keycloak
+   ↓
+Validación
+   ↓
+Rol
+   ↓
+Aplicación
 ```
 
 ---
 
-Práctica 04 · Integradora · Autor: Brian
+# 🛠️ Recursos y tecnologías
+
+El Proyecto Integrador utiliza las siguientes tecnologías:
+
+| Tecnología | Función |
+|---|---|
+| Unity | Desarrollo del videojuego |
+| Flutter | Aplicación móvil |
+| React | Aplicación web |
+| PWA | Experiencia web instalable |
+| API | Comunicación entre aplicaciones |
+| Keycloak | Autenticación y autorización |
+| MongoDB | Persistencia de información |
+| Docker | Contenedores e infraestructura |
+| Grafana | Monitoreo y métricas |
+| Git | Control de versiones |
+| GitHub | Repositorio y colaboración |
+| GitHub Pages | Publicación de documentación |
+
+---
+
+# 🏗️ Arquitectura simplificada
+
+```text
+                ┌─────────────┐
+                │   Usuario   │
+                └──────┬──────┘
+                       │
+                       ▼
+                ┌─────────────┐
+                │  Keycloak   │
+                └──────┬──────┘
+                       │
+       ┌───────────────┼───────────────┐
+       │               │               │
+       ▼               ▼               ▼
+    Unity           Flutter        React / PWA
+       │               │               │
+       └───────────────┼───────────────┘
+                       │
+                       ▼
+                  ┌────────┐
+                  │  API   │
+                  └───┬────┘
+                      │
+                      ▼
+                ┌───────────┐
+                │  MongoDB  │
+                └───────────┘
+```
+
+Servicios adicionales:
+
+```text
+Docker
+   └── Infraestructura y servicios
+
+Grafana
+   └── Monitoreo y métricas
+
+Git / GitHub
+   └── Control de versiones y colaboración
+
+GitHub Pages
+   └── Publicación del Canvas interactivo
+```
+
+---
+
+# 🎮 Personajes principales
+
+## Alex
+
+Protagonista y técnico junior controlado por el jugador.
+
+## Martín
+
+Mentor y especialista experimentado del área de TI.
+
+## Richar
+
+Especialista en redes, servidores, infraestructura y seguridad.
+
+## Marco
+
+Personaje relacionado principalmente con programación y desarrollo de software.
+
+## Sofía
+
+Personaje secundario relacionado con las actividades de NovaTech Solutions.
+
+## Elena
+
+Personaje secundario participante en diferentes situaciones del videojuego.
+
+## Saboteador
+
+Antagonista principal que provoca fallas dentro de la empresa intentando evitar ser descubierto.
+
+---
+
+# 🏆 Gamificación
+
+TI: Soporte en Acción utiliza diferentes elementos para aumentar la motivación del jugador:
+
+- experiencia XP;
+- niveles;
+- progreso;
+- misiones;
+- insignias;
+- logros;
+- estadísticas;
+- retroalimentación.
+
+Cuando un jugador desbloquea un logro puede recibir una notificación emergente inspirada en sistemas de logros de plataformas de videojuegos.
+
+---
+
+# 📈 Resultados y beneficios
+
+El proyecto busca generar:
+
+- aprendizaje práctico;
+- experiencia simulada;
+- mejora en diagnóstico de problemas;
+- pensamiento lógico;
+- toma de decisiones;
+- mayor motivación;
+- aplicación de conocimientos;
+- retroalimentación inmediata;
+- seguimiento del progreso;
+- preparación para escenarios profesionales.
+
+---
+
+# 🌎 Impacto
+
+TI: Soporte en Acción busca reducir la brecha entre el conocimiento adquirido durante una carrera relacionada con Tecnologías de la Información y los problemas que un estudiante puede encontrar durante sus primeras experiencias profesionales.
+
+El videojuego proporciona un entorno controlado donde es posible equivocarse, analizar errores, aprender y volver a intentar una solución sin afectar infraestructura real.
+
+---
+
+# 🤖 Uso de Archify
+
+Archify se utiliza como agente de apoyo para transformar la información analizada por el equipo en una representación visual e interactiva.
+
+Archify no define el contenido del proyecto.
+
+El equipo determina previamente:
+
+- problema;
+- usuarios;
+- propuesta de valor;
+- solución;
+- procesos;
+- tecnologías;
+- beneficios.
+
+Posteriormente, Archify se utiliza para organizar visualmente estos elementos.
+
+---
+
+# 📁 Estructura de archivos
+
+```text
+docs/
+└── business-model-canvas/
+    │
+    ├── index.html
+    ├── README.md
+    ├── prompt-final.md
+    ├── canvas-v1.png
+    ├── canvas-final.png
+    └── enlace-achify.md
+```
+
+---
+
+# 🖼️ Evidencias
+
+## Primera versión
+
+La primera versión generada deberá almacenarse como:
+
+```text
+canvas-v1.png
+```
+
+## Versión final
+
+La versión corregida deberá almacenarse como:
+
+```text
+canvas-final.png
+```
+
+---
+
+# 🔄 Modificaciones realizadas
+
+Entre la primera y la versión final del Canvas se deberán documentar al menos cinco modificaciones.
+
+Ejemplo:
+
+| # | Modificación |
+|---|---|
+| 1 | Se reorganizaron los siete componentes del Canvas |
+| 2 | Se agregaron relaciones visuales entre bloques |
+| 3 | Se diferenciaron usuarios y personajes del videojuego |
+| 4 | Se agregó la arquitectura Unity, Flutter, PWA, API y MongoDB |
+| 5 | Se agregaron interacciones, modales, tooltips y tarjetas expandibles |
+
+---
+
+# 🌐 GitHub Pages
+
+El Business Model Canvas deberá publicarse utilizando GitHub Pages.
+
+El archivo principal será:
+
+```text
+docs/business-model-canvas/index.html
+```
+
+La página deberá funcionar como un sitio web estático sin requerir un servidor backend.
+
+---
+
+# 📌 Restricciones tecnológicas
+
+El proyecto utiliza:
+
+```text
+Unity
+Flutter
+React / PWA
+API
+Keycloak
+MongoDB
+Docker
+Grafana
+Git
+GitHub
+GitHub Pages
+```
+
+No utilizar:
+
+```text
+Godot
+PostgreSQL
+```
+
+---
+
+# 🔗 Business Model Canvas
+
+Una vez publicado mediante GitHub Pages, agregar aquí el enlace:
+
+```text
+https://TU-USUARIO.github.io/TU-REPOSITORIO/business-model-canvas/
+```
+
+---
+
+# 👨‍💻 Proyecto Integrador
+
+**TI: Soporte en Acción**
+
+Proyecto educativo enfocado en la aplicación práctica de conocimientos de Tecnologías de la Información mediante simulación, resolución de problemas y gamificación.
