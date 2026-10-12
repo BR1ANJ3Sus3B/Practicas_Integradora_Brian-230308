@@ -1,46 +1,47 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="es">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="dark">
 <meta name="theme-color" content="#070b12">
-<meta name="description" content="Business Model Canvas interactivo del Proyecto Integrador TI: Soporte en Acción. Videojuego educativo 2D pixel art para practicar habilidades de Tecnologías de la Información.">
+<meta name="description" content="Business Model Canvas interactivo del Proyecto Integrador TI: Soporte en AcciÃ³n. Videojuego educativo 2D pixel art para practicar habilidades de TecnologÃ­as de la InformaciÃ³n.">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="es_ES">
-<meta property="og:site_name" content="TI: Soporte en Acción">
-<meta property="og:title" content="TI: Soporte en Acción · Business Model Canvas Interactivo">
-<meta property="og:description" content="Lienzo interactivo con los 7 componentes del Proyecto Integrador: problema, usuarios, propuesta de valor, solución, procesos, tecnologías y resultados.">
+<meta property="og:site_name" content="TI: Soporte en AcciÃ³n">
+<meta property="og:title" content="TI: Soporte en AcciÃ³n Â· Business Model Canvas Interactivo">
+<meta property="og:description" content="Lienzo interactivo con los 7 componentes del Proyecto Integrador: problema, usuarios, propuesta de valor, soluciÃ³n, procesos, tecnologÃ­as y resultados.">
 <meta property="og:url" content="https://br1anj3sus3b.github.io/Practicas_Integradora_Brian-230308/practica04/">
 <meta property="og:image" content="https://br1anj3sus3b.github.io/Practicas_Integradora_Brian-230308/docs/business-model-canvas/canvas-final.png">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="TI: Soporte en Acción · Business Model Canvas Interactivo">
-<meta name="twitter:description" content="Lienzo interactivo con los 7 componentes del Proyecto Integrador TI: Soporte en Acción.">
+<meta name="twitter:title" content="TI: Soporte en AcciÃ³n Â· Business Model Canvas Interactivo">
+<meta name="twitter:description" content="Lienzo interactivo con los 7 componentes del Proyecto Integrador TI: Soporte en AcciÃ³n.">
 <meta name="twitter:image" content="https://br1anj3sus3b.github.io/Practicas_Integradora_Brian-230308/docs/business-model-canvas/canvas-final.png">
-<title>TI: Soporte en Acción · Business Model Canvas Interactivo</title>
+<title>TI: Soporte en AcciÃ³n Â· Business Model Canvas Interactivo</title>
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<a class="skip-link" href="#canvas">Saltar al lienzo</a>
+<a class="skip-link" href="canvas/canvas.html">Saltar al lienzo</a>
 
 <header class="nav" id="nav">
   <div class="nav-inner">
     <a class="brand" href="#inicio" aria-label="Inicio">
       <span class="brand-mark" aria-hidden="true"></span>
       <span class="brand-text">
-        <strong>TI: Soporte en Acción</strong>
+        <strong>TI: Soporte en AcciÃ³n</strong>
         <small>Business Model Canvas</small>
       </span>
     </a>
-    <nav class="nav-links" aria-label="Secciones">
-      <a href="#canvas">Lienzo</a>
-      <a href="#arquitectura">Arquitectura</a>
+      <nav class="nav-links" aria-label="Secciones">
+      <a href="canvas/canvas.html">Lienzo</a>
+      <a href="archify/canvas-archify.html">Canvas Archify</a>
+      <a href="archify/arquitectura.html">Arquitectura</a>
       <a href="#procesos">Procesos</a>
       <a href="#gamificacion">Gamificación</a>
       <a href="#narrativa">Narrativa</a>
     </nav>
-    <button class="btn btn-ghost" type="button" id="btnReset" title="Cierra el detalle y limpia la selección">
+    <button class="btn btn-ghost" type="button" id="btnReset" title="Cierra el detalle y limpia la selecciÃ³n">
       <span class="btn-ico" data-ico="refresh" aria-hidden="true"></span> Reiniciar vista
     </button>
   </div>
@@ -52,18 +53,18 @@
   <section class="hero">
     <div class="hero-grid">
       <div class="hero-copy">
-        <p class="kicker">Proyecto Integrador · Desarrollo y Gestión de Software</p>
-        <h1>TI: Soporte en Acción</h1>
+        <p class="kicker">Proyecto Integrador Â· Desarrollo y GestiÃ³n de Software</p>
+        <h1>TI: Soporte en AcciÃ³n</h1>
         <p class="hero-sub">Business Model Canvas Interactivo</p>
         <p class="hero-lead">
           Un <strong>videojuego educativo 2D con estilo pixel art</strong> donde el jugador controla a
-          <strong>Alex</strong>, un técnico junior recién egresado que obtiene su primera oportunidad en la empresa
+          <strong>Alex</strong>, un tÃ©cnico junior reciÃ©n egresado que obtiene su primera oportunidad en la empresa
           ficticia <strong>NovaTech Solutions</strong> y debe resolver incidentes reales de soporte, redes,
-          programación, servidores, bases de datos y ciberseguridad… mientras descubre que existe un
+          programaciÃ³n, servidores, bases de datos y ciberseguridadâ€¦ mientras descubre que existe un
           <strong>Saboteador interno</strong> provocando fallas de forma intencional.
         </p>
         <div class="hero-actions">
-          <a class="btn btn-primary" href="#canvas">Explorar el lienzo</a>
+          <a class="btn btn-primary" href="canvas/canvas.html">Explorar el lienzo</a>
           <a class="btn btn-outline" href="#arquitectura">Ver arquitectura</a>
         </div>
       </div>
@@ -82,15 +83,15 @@
         <p class="section-kicker">Modelo de proyecto</p>
         <h2>Los 7 componentes</h2>
         <p class="section-desc">
-          Este Business Model Canvas no usa los 9 bloques tradicionales: representa únicamente los
-          <strong>7 componentes de la práctica académica</strong>. Selecciona una tarjeta para abrir su
+          Este Business Model Canvas no usa los 9 bloques tradicionales: representa Ãºnicamente los
+          <strong>7 componentes de la prÃ¡ctica acadÃ©mica</strong>. Selecciona una tarjeta para abrir su
           detalle y resaltar sus relaciones.
         </p>
       </div>
       <div class="section-tools">
         <label class="search" for="canvasSearch">
           <span class="search-ico" aria-hidden="true"></span>
-          <input id="canvasSearch" type="search" placeholder="Buscar en el lienzo…" autocomplete="off">
+          <input id="canvasSearch" type="search" placeholder="Buscar en el lienzoâ€¦" autocomplete="off">
         </label>
       </div>
     </header>
@@ -106,7 +107,7 @@
     </div>
 
     <p class="canvas-hint" id="canvasHint">
-      Pasa el cursor sobre una tarjeta para una vista rápida. Haz clic para abrir el detalle, resaltar
+      Pasa el cursor sobre una tarjeta para una vista rÃ¡pida. Haz clic para abrir el detalle, resaltar
       el bloque y sus conexiones. Pulsa <kbd>Esc</kbd> para cerrar.
     </p>
   </section>
@@ -115,11 +116,11 @@
   <section class="section" id="arquitectura">
     <header class="section-head">
       <div>
-        <p class="section-kicker">Solución tecnológica</p>
+        <p class="section-kicker">SoluciÃ³n tecnolÃ³gica</p>
         <h2>Arquitectura simplificada</h2>
         <p class="section-desc">
-          Las aplicaciones se comunican con los servicios y datos a través de una capa <strong>API</strong>.
-          La autenticación y autorización se resuelven con <strong>Keycloak</strong>. Selecciona un nodo
+          Las aplicaciones se comunican con los servicios y datos a travÃ©s de una capa <strong>API</strong>.
+          La autenticaciÃ³n y autorizaciÃ³n se resuelven con <strong>Keycloak</strong>. Selecciona un nodo
           para resaltar sus conexiones.
         </p>
       </div>
@@ -132,14 +133,14 @@
           <div class="arch-node arch-node-actor" data-node="usuarios" tabindex="0" role="button" aria-label="Usuarios">
             <span class="arch-ico" data-ico="users"></span>
             <span class="arch-label">Jugador / Usuarios</span>
-            <span class="arch-sub">Estudiante · Docente · Administrador · Editor</span>
+            <span class="arch-sub">Estudiante Â· Docente Â· Administrador Â· Editor</span>
           </div>
         </div>
         <div class="arch-row" data-layer="auth">
           <div class="arch-node arch-node-security" data-node="keycloak" tabindex="0" role="button" aria-label="Keycloak">
             <span class="arch-ico" data-ico="key"></span>
             <span class="arch-label">Keycloak</span>
-            <span class="arch-sub">Autenticación y autorización</span>
+            <span class="arch-sub">AutenticaciÃ³n y autorizaciÃ³n</span>
           </div>
         </div>
         <div class="arch-row arch-row-apps" data-layer="apps">
@@ -151,19 +152,19 @@
           <div class="arch-node arch-node-app" data-node="flutter" tabindex="0" role="button" aria-label="Flutter">
             <span class="arch-ico" data-ico="smartphone"></span>
             <span class="arch-label">Flutter</span>
-            <span class="arch-sub">Aplicación móvil</span>
+            <span class="arch-sub">AplicaciÃ³n mÃ³vil</span>
           </div>
           <div class="arch-node arch-node-app" data-node="react" tabindex="0" role="button" aria-label="React PWA">
             <span class="arch-ico" data-ico="atom"></span>
             <span class="arch-label">React PWA</span>
-            <span class="arch-sub">Aplicación web</span>
+            <span class="arch-sub">AplicaciÃ³n web</span>
           </div>
         </div>
         <div class="arch-row" data-layer="api">
           <div class="arch-node arch-node-api" data-node="api" tabindex="0" role="button" aria-label="API">
             <span class="arch-ico" data-ico="network"></span>
             <span class="arch-label">API</span>
-            <span class="arch-sub">Capa de comunicación con servicios y datos</span>
+            <span class="arch-sub">Capa de comunicaciÃ³n con servicios y datos</span>
           </div>
         </div>
         <div class="arch-row" data-layer="data">
@@ -178,13 +179,13 @@
 
     <div class="arch-flowline">
       <span class="arch-flowtext">Jugador / Usuarios</span>
-      <span class="arrow" aria-hidden="true">→</span>
+      <span class="arrow" aria-hidden="true">â†’</span>
       <span class="arch-flowtext">Keycloak</span>
-      <span class="arrow" aria-hidden="true">→</span>
+      <span class="arrow" aria-hidden="true">â†’</span>
       <span class="arch-flowtext">Aplicaciones</span>
-      <span class="arrow" aria-hidden="true">→</span>
+      <span class="arrow" aria-hidden="true">â†’</span>
       <span class="arch-flowtext">API</span>
-      <span class="arrow" aria-hidden="true">→</span>
+      <span class="arrow" aria-hidden="true">â†’</span>
       <span class="arch-flowtext">MongoDB</span>
     </div>
 
@@ -205,16 +206,16 @@
     <div class="flows" id="flows"></div>
   </section>
 
-  <!-- ============================ GAMIFICACIÓN ============================ -->
+  <!-- ============================ GAMIFICACIÃ“N ============================ -->
   <section class="section" id="gamificacion">
     <header class="section-head">
       <div>
-        <p class="section-kicker">Motivación y aprendizaje</p>
-        <h2>Gamificación y gameplay</h2>
+        <p class="section-kicker">MotivaciÃ³n y aprendizaje</p>
+        <h2>GamificaciÃ³n y gameplay</h2>
         <p class="section-desc">
-          El proyecto usa XP, niveles, progreso, insignias, logros, misiones, retos y estadísticas. Cuando
-          el jugador desbloquea un logro se muestra una notificación emergente inspirada en el concepto de
-          las plataformas de videojuegos (sin copiar su diseño).
+          El proyecto usa XP, niveles, progreso, insignias, logros, misiones, retos y estadÃ­sticas. Cuando
+          el jugador desbloquea un logro se muestra una notificaciÃ³n emergente inspirada en el concepto de
+          las plataformas de videojuegos (sin copiar su diseÃ±o).
         </p>
       </div>
     </header>
@@ -223,8 +224,8 @@
 
     <div class="gameplay-cta">
       <div>
-        <h3 class="mini-title">Notificación de logro</h3>
-        <p class="mini-desc">Demostración del concepto: notificación emergente con nombre, icono y descripción.</p>
+        <h3 class="mini-title">NotificaciÃ³n de logro</h3>
+        <p class="mini-desc">DemostraciÃ³n del concepto: notificaciÃ³n emergente con nombre, icono y descripciÃ³n.</p>
       </div>
       <button class="btn btn-primary" type="button" id="btnAchievement">
         <span class="btn-ico" data-ico="trophy" aria-hidden="true"></span> Simular logro desbloqueado
@@ -251,9 +252,9 @@
 
 <footer class="site-footer">
   <div class="footer-inner">
-    <p class="footer-main">Proyecto Integrador — TI: Soporte en Acción</p>
-    <p class="footer-sub">Desarrollo y Gestión de Software</p>
-    <p class="footer-meta">Business Model Canvas Interactivo · Diseñado para publicarse con GitHub Pages</p>
+    <p class="footer-main">Proyecto Integrador â€” TI: Soporte en AcciÃ³n</p>
+    <p class="footer-sub">Desarrollo y GestiÃ³n de Software</p>
+    <p class="footer-meta">Business Model Canvas Interactivo Â· DiseÃ±ado para publicarse con GitHub Pages</p>
   </div>
 </footer>
 
@@ -263,7 +264,7 @@
 <div class="modal" id="detailModal" hidden>
   <div class="modal-backdrop" data-close></div>
   <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-    <button class="modal-close" type="button" data-close aria-label="Cerrar">×</button>
+    <button class="modal-close" type="button" data-close aria-label="Cerrar">Ã—</button>
     <div class="modal-body" id="modalBody"></div>
   </div>
 </div>
@@ -273,3 +274,6 @@
 <script src="app.js"></script>
 </body>
 </html>
+
+
+
