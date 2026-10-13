@@ -394,17 +394,18 @@ Posteriormente, Archify se utiliza para organizar visualmente estos elementos y 
 ```text
 practica04/
 │
-├── canvas/
-│   └── canvas.html
+├── index.html                 # Redirige al Canvas interactivo
 │
-├── archify/
-│   ├── canvas-archify.html
-│   └── arquitectura.html
-│
-└── evidencias/
-    ├── canvas-v1.png
-    ├── canvas-final.png
-    └── arquitectura-web.png
+└── business-model-canvas/
+    ├── index.html             # Canvas interactivo (página principal)
+    ├── README.md
+    ├── prompt-final.md
+    ├── css/
+    │   └── styles.css
+    ├── js/
+    │   └── canvas.js
+    ├── img/                   # Sprites, iconos y escenas
+    └── evidencias/            # canvas-v1.png · canvas-final.png
 ```
 
 También puede mantenerse documentación complementaria dentro de:
@@ -467,17 +468,9 @@ Los archivos HTML funcionan como sitios web estáticos y no requieren un servido
 
 # 🔗 Enlaces
 
-### 🎨 Lienzo interactivo
+### 🎨 Canvas interactivo
 
-[Ver Lienzo Interactivo](https://br1anj3sus3b.github.io/Practicas_Integradora_Brian-230308/practica04/canvas/canvas.html)
-
-### 🤖 Canvas generado con Archify
-
-[Ver Canvas Archify](https://br1anj3sus3b.github.io/Practicas_Integradora_Brian-230308/practica04/archify/canvas-archify.html)
-
-### 🏗️ Arquitectura generada con Archify
-
-[Ver Arquitectura Archify](https://br1anj3sus3b.github.io/Practicas_Integradora_Brian-230308/practica04/archify/arquitectura.html)
+[Ver Business Model Canvas Interactivo](https://br1anj3sus3b.github.io/Practicas_Integradora_Brian-230308/practica04/business-model-canvas/index.html)
 
 ---
 
@@ -527,4 +520,4 @@ PostgreSQL
 Proyecto educativo enfocado en la aplicación práctica de conocimientos de Tecnologías de la Información mediante simulación, resolución de problemas y gamificación.
 
 **Práctica 04 — Business Model Canvas Interactivo con Archify**
-- [BMC Completo Interactivo](https://br1anj3sus3b.github.io/Practicas_Integradora_Brian-230308/practica04/canvas-bmc/index.html)
+- [Business Model Canvas Interactivo](https://br1anj3sus3b.github.io/Practicas_Integradora_Brian-230308/practica04/business-model-canvas/index.html)
