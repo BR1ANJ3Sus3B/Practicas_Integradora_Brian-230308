@@ -1,0 +1,184 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "TI: Soporte en Acción",
+    "quality_profile": "showcase",
+    "animation": "trace",
+    "viewBox": [
+      1100,
+      550
+    ]
+  },
+  "components": [
+    {
+      "id": "mobile",
+      "type": "frontend",
+      "label": "Flutter",
+      "sublabel": "Perfil y progreso",
+      "pos": [
+        60,
+        50
+      ],
+      "size": [
+        210,
+        82
+      ]
+    },
+    {
+      "id": "web",
+      "type": "frontend",
+      "label": "React PWA",
+      "sublabel": "Administración y consulta",
+      "pos": [
+        60,
+        230
+      ],
+      "size": [
+        210,
+        82
+      ]
+    },
+    {
+      "id": "game",
+      "type": "frontend",
+      "label": "Unity",
+      "sublabel": "Videojuego educativo",
+      "pos": [
+        60,
+        410
+      ],
+      "size": [
+        210,
+        82
+      ]
+    },
+    {
+      "id": "identity",
+      "type": "security",
+      "label": "Keycloak",
+      "sublabel": "Identidad y JWT",
+      "pos": [
+        440,
+        50
+      ],
+      "size": [
+        210,
+        82
+      ]
+    },
+    {
+      "id": "service",
+      "type": "backend",
+      "label": "API REST",
+      "sublabel": "Reglas y comunicación",
+      "pos": [
+        440,
+        230
+      ],
+      "size": [
+        210,
+        82
+      ]
+    },
+    {
+      "id": "storage",
+      "type": "database",
+      "label": "MongoDB",
+      "sublabel": "Persistencia del jugador",
+      "pos": [
+        820,
+        230
+      ],
+      "size": [
+        210,
+        82
+      ]
+    },
+    {
+      "id": "metrics",
+      "type": "backend",
+      "label": "Métricas",
+      "sublabel": "Telemetría de la API",
+      "pos": [
+        440,
+        410
+      ],
+      "size": [
+        210,
+        82
+      ]
+    },
+    {
+      "id": "dashboards",
+      "type": "cloud",
+      "label": "Grafana",
+      "sublabel": "Dashboards del sistema",
+      "pos": [
+        820,
+        410
+      ],
+      "size": [
+        210,
+        82
+      ]
+    }
+  ],
+  "boundaries": [
+    {
+      "kind": "region",
+      "label": "Docker · servicios en contenedores separados",
+      "wraps": [
+        "identity",
+        "service",
+        "storage",
+        "metrics",
+        "dashboards"
+      ],
+      "pad": 30
+    }
+  ],
+  "connections": [
+    {
+      "from": "mobile",
+      "to": "identity",
+      "label": "Inicio de sesión",
+      "variant": "security"
+    },
+    {
+      "from": "web",
+      "to": "service",
+      "label": "Solicitudes + JWT"
+    },
+    {
+      "from": "game",
+      "to": "service",
+      "label": "Progreso y XP"
+    },
+    {
+      "from": "identity",
+      "to": "service",
+      "label": "Validación JWT",
+      "variant": "security",
+      "labelDy": 65
+    },
+    {
+      "from": "service",
+      "to": "storage",
+      "label": "Lectura / escritura"
+    },
+    {
+      "from": "service",
+      "to": "metrics",
+      "label": "Instrumentación",
+      "variant": "dashed",
+      "labelDy": 65
+    },
+    {
+      "from": "metrics",
+      "to": "dashboards",
+      "label": "Consulta métricas",
+      "variant": "dashed"
+    }
+  ]
+}

@@ -1,0 +1,93 @@
+{
+  "status": "passed",
+  "viewports": [
+    {
+      "width": 1440,
+      "scrollWidth": 1440,
+      "nodes": 8,
+      "edges": 10,
+      "vertical": "row"
+    },
+    {
+      "width": 1600,
+      "scrollWidth": 1600,
+      "nodes": 8,
+      "edges": 10,
+      "vertical": "row"
+    },
+    {
+      "width": 1920,
+      "scrollWidth": 1920,
+      "nodes": 8,
+      "edges": 10,
+      "vertical": "row"
+    },
+    {
+      "width": 2048,
+      "scrollWidth": 2048,
+      "nodes": 8,
+      "edges": 10,
+      "vertical": "row"
+    },
+    {
+      "width": 768,
+      "scrollWidth": 768,
+      "nodes": 8,
+      "edges": 10,
+      "vertical": "row"
+    },
+    {
+      "width": 390,
+      "scrollWidth": 390,
+      "nodes": 8,
+      "edges": 10,
+      "vertical": "column"
+    },
+    {
+      "width": 320,
+      "scrollWidth": 320,
+      "nodes": 8,
+      "edges": 10,
+      "vertical": "column"
+    }
+  ],
+  "checks": [
+    "Ficha, Escape y foco: player",
+    "Ficha, Escape y foco: admin",
+    "Ficha, Escape y foco: teacher",
+    "Ficha, Escape y foco: game",
+    "Ficha, Escape y foco: mobile",
+    "Ficha, Escape y foco: web",
+    "Ficha, Escape y foco: identity",
+    "Ficha, Escape y foco: service",
+    "Ficha, Escape y foco: storage",
+    "Ficha, Escape y foco: metrics",
+    "Ficha, Escape y foco: dashboards",
+    "Ficha, Escape y foco: docker",
+    "Ficha, Escape y foco: github",
+    "Ficha, Escape y foco: pages",
+    "Flujo 0",
+    "Flujo 1",
+    "Flujo 2",
+    "Flujo 3",
+    "Flujo 4",
+    "Pausa animaciones",
+    "Restablecer mapa",
+    "Movimiento reducido",
+    "Integración Archify"
+  ],
+  "files": {
+    "arquitectura.html": {
+      "sha256": "e8ae154ce2ac33d3819b2cecdb44612701a78147cbb1fc967934063c2d54cbf6",
+      "bytes": 5143
+    },
+    "docs/ti-arquitectura/styles.css": {
+      "sha256": "d93684b3d5b01ef79c166bf546891e7014c010a3f00805893ff8497d4c2a04b4",
+      "bytes": 16705
+    },
+    "docs/ti-arquitectura/app.js": {
+      "sha256": "fd80b11a40c00b635a95c37c312fc15a88268b600cb546bea988b84a7b9df4a0",
+      "bytes": 17585
+    }
+  }
+}

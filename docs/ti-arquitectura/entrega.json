@@ -1,0 +1,15 @@
+{
+  "diagram_type": "architecture",
+  "output": "docs/ti-arquitectura/archify.html",
+  "specification_sha256": "91e22e9606ee7a45b1ad5cdd51c740d9a4384bded924b47d7a337c19fe454e28",
+  "specification_bytes": 3162,
+  "artifact_sha256": "944db216d0b0f29438ade48eed1f74b136ec32a1e5f7940e992d728987a573f1",
+  "artifact_bytes": 805095,
+  "validation": "9/9 showcase, 0 errors, 0 warnings",
+  "browser_evidence": "passed",
+  "visual_review": "passed",
+  "visual_review_scope": "Image-capable review of final light 1440x900 and dark 2048x1320 captures: readable labels, separated routes, contained nodes, balanced desktop composition.",
+  "correction_rounds": 1,
+  "site": "arquitectura.html",
+  "site_browser_receipt": "verificacion-web.json"
+}
