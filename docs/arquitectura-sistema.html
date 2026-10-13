@@ -12,7 +12,7 @@
       try {
         var theme = null;
         try {
-          var param = new URLSearchParams(window1.location.search).get('theme');
+          var param = new URLSearchParams(window.location.search).get('theme');
           if (param === 'light' || param === 'dark') theme = param;
           if (new URLSearchParams(window.location.search).get('embed') === '1') {
             document.documentElement.setAttribute('data-embed', 'true');
