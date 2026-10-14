@@ -470,7 +470,7 @@ Los archivos HTML funcionan como sitios web estáticos y no requieren un servido
 
 ### 🎨 Canvas interactivo
 
-[Ver Business Model Canvas Interactivo](https://br1anj3sus3b.github.io/Practicas_Integradora_Brian-230308/practica04/business-model-canvas/index.html)
+[Ver Business Model Canvas Interactivo](https://br1anj3sus3b.github.io/Practicas_Integradora_Brian-230308/)
 
 ---
 
