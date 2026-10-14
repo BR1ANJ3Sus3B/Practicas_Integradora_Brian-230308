@@ -5,9 +5,9 @@ Modelo interactivo de arquitectura de ciberseguridad desarrollado con Archify y 
 ## Arquitectura de la aplicación móvil
 
 | # | Nombre de la práctica | Descripción | Firmas | Estatus |
-|---|------------------------|--------------|--------|---------|
-| 01  | Metodologia de Evaluacion de la Materia | Revisión de la forma en que se evaluará la materia durante el cuatrimestre. |     05      | Completada ✅ |
+|---|------------------------|-------------|--------|---------|
+| 01 | Metodología de Evaluación de la Materia | Revisión de la forma en que se evaluará la materia durante el cuatrimestre. | 05 | Completada ✅ |
 | 02 | [Práctica02 - Boceto de Arquitectura con Archify](https://BR1ANJ3Sus3B.github.io/Practicas_Integradora_Brian-230308/) | Instalación y configuración de Archify (agente de modelado arquitectónico) con interacción con Codex de OpenAI. Se generó un diagrama de arquitectura interactivo en HTML del sistema, incluyendo capa móvil, autenticación, API, datos, servicios externos e infraestructura de desarrollo. | 24 | Completada ✅ |
 | 03 | [Práctica03 - Business Model Canvas con Archify](https://github.com/BR1ANJ3Sus3B/Practicas_Integradora_Brian-230308/blob/main/Practica03_brian/README.md) | Business Model Canvas interactivo de Crunchyroll realizado con Archify. Incluye los 9 bloques del modelo, relaciones entre componentes, buscador y vista de detalle. | 10 | Completada ✅ |
-| 04 | [Práctica04 - Business Model Canvas de TI: Soporte en Acción](https://github.com/BR1ANJ3Sus3B/Practicas_Integradora_Brian-230308/tree/main/practica04) | Business Model Canvas interactivo del Proyecto Integrador **TI: Soporte en Acción** con los 7 componentes de la práctica académica, relaciones entre bloques, arquitectura simplificada, procesos, gamificación y narrativa. Publicado con GitHub Pages. | 07 | Completada ✅ |
-
+| 04 | [Práctica04 - Business Model Canvas de TI: Soporte en Acción](https://github.com/BR1ANJ3Sus3B/Practicas_Integradora_Brian-230308/tree/main/practica04) | Business Model Canvas interactivo del Proyecto Integrador **TI: Soporte en Acción**, con los componentes de la práctica académica, relaciones entre bloques, arquitectura simplificada, procesos, gamificación y narrativa. Publicado con GitHub Pages. | 20 | Completada ✅ |
+| 05 | Práctica05 - Liberación, Despliegue Continuo y Monitoreo | Documentación de la estrategia de liberación y despliegue continuo del proyecto **TI: Soporte en Acción**. Incluye la justificación del flujo de CI/CD, entorno requerido para la liberación, niveles de servicio acordados, métricas para el monitoreo de la aplicación y parámetros de configuración de las herramientas utilizadas en el proyecto. | 15 | Completada ✅ |
