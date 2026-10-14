@@ -119,8 +119,8 @@ practica05/
 ├── Diagrama_Roles_TI_Soporte_en_Accion.html   # Entregable principal (interactivo)
 │
 ├── assets/
-│   ├── Seis roles en acción para soporte TI.png
-│   └── TI_ Soporte en acción con MongoDB.png
+│   ├── seis-roles-soporte-ti.png
+│   └── ti-soporte-en-accion-mongodb.png
 │
 └── evidencias / prototipos móviles
     ├── 6.png
@@ -133,11 +133,11 @@ practica05/
 
 ### Imagen de referencia de los roles
 
-![Seis roles en acción para soporte TI](<assets/Seis roles en acción para soporte TI.png>)
+![Seis roles en acción para soporte TI](<assets/seis-roles-soporte-ti.png>)
 
 ### Visión general de la plataforma
 
-![TI: Soporte en acción con MongoDB](<assets/TI_ Soporte en acción con MongoDB.png>)
+![TI: Soporte en acción con MongoDB](<assets/ti-soporte-en-accion-mongodb.png>)
 
 ### Prototipos de interfaz móvil
 

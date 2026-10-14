@@ -35,9 +35,9 @@ Los tres modelos representan:
 
 | Diagrama | Vista previa | Abrir HTML |
 |----------|--------------|------------|
-| Arquitectura inicial de la aplicación móvil | ![Arquitectura inicial](Doc/img/arquitectura-inicial.png) | [Abrir arquitectura-inicial-interactiva.html](https://br1anj3sus3b.github.io/Practicas_Integradora_Brian-230308/Doc/arquitectura-inicial-interactiva.html) |
-| CyberShield Security Monitoring | ![CyberShield](Doc/img/cybershield.png) | [Abrir cybershield-architecture.html](https://br1anj3sus3b.github.io/Practicas_Integradora_Brian-230308/Doc/cybershield-architecture.html) |
-| Cybersecurity Mobile Platform | ![Cybersecurity Mobile](Doc/img/mobile-cybersecurity.png) | [Abrir mobile-cybersecurity-architecture.html](https://br1anj3sus3b.github.io/Practicas_Integradora_Brian-230308/Doc/mobile-cybersecurity-architecture.html) |
+| Arquitectura inicial de la aplicación móvil | ![Arquitectura inicial](Doc/img/arquitectura-inicial.png) | [Abrir arquitectura-inicial-interactiva.html](https://br1anj3sus3b.github.io/Practicas_Integradora_Brian-230308/Practica02/arquitectura-inicial-interactiva.html) |
+| CyberShield Security Monitoring | ![CyberShield](Doc/img/cybershield.png) | [Abrir cybershield-architecture.html](https://br1anj3sus3b.github.io/Practicas_Integradora_Brian-230308/Practica02/cybershield-architecture.html) |
+| Cybersecurity Mobile Platform | ![Cybersecurity Mobile](Doc/img/mobile-cybersecurity.png) | [Abrir mobile-cybersecurity-architecture.html](https://br1anj3sus3b.github.io/Practicas_Integradora_Brian-230308/Practica02/mobile-cybersecurity-architecture.html) |
 
 ---
 
@@ -52,12 +52,11 @@ Los tres modelos representan:
 | `cybershield-architecture.json` | Fuente del diagrama *CyberShield Security Monitoring*. |
 | `cybershield-architecture.html` | Diagrama interactivo en HTML (CyberShield). |
 | `cybershield-architecture.visual-check*` | Capturas de verificación visual (CyberShield). |
-| `cybershield-architecture copy.html` / `copy.json` | Copias de respaldo de la versión anterior. |
 | `mobile-cybersecurity-architecture.json` | Fuente del diagrama *Cybersecurity Mobile Platform*. |
 | `mobile-cybersecurity-architecture.html` | Diagrama interactivo en HTML (Cybersecurity Mobile Platform). |
-| `Doc/README.md` | Documentación técnica del repositorio (este archivo). |
+| `README.md` | Documentación técnica del repositorio (este archivo). |
 | `Doc/img/` | Capturas de los diagramas usadas en esta documentación. |
-| `.vscode/settings.json` | Configuración local de Live Server (puerto 5501). |
+| `Doc/Practicas_Integradora_230308_Documentacion.pdf` | Documentación completa de las prácticas (entregable PDF). |
 
 ---
 
