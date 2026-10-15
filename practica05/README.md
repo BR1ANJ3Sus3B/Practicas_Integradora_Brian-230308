@@ -7,6 +7,18 @@ Este directorio contiene la documentación correspondiente a la **Práctica 05: 
 El objetivo de esta práctica es definir quién puede hacer qué dentro de la plataforma: los **roles de usuario**, sus responsabilidades y límites, y la lista de **requerimientos funcionales y no funcionales** que describen el comportamiento esperado del sistema.
 
 ---
+<p align="center">
+
+![Unity](https://img.shields.io/badge/UNITY-000000?style=for-the-badge&logo=unity&logoColor=white)
+![Flutter](https://img.shields.io/badge/FLUTTER-02569B?style=for-the-badge&logo=flutter&logoColor=white)
+![React](https://img.shields.io/badge/REACT-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
+![Keycloak](https://img.shields.io/badge/KEYCLOAK-4D4D4D?style=for-the-badge)
+![MongoDB](https://img.shields.io/badge/MONGODB-47A248?style=for-the-badge&logo=mongodb&logoColor=white)
+![Docker](https://img.shields.io/badge/DOCKER-2496ED?style=for-the-badge&logo=docker&logoColor=white)
+![Grafana](https://img.shields.io/badge/GRAFANA-F46800?style=for-the-badge&logo=grafana&logoColor=white)
+
+</p>
+
 
 ## 📖 Descripción del proyecto
 
