@@ -1,4 +1,17 @@
 # Practicas_Integradora_230308
+
+<p align="center">
+  <img src="assets/logo-empresa.png" alt="Logo de la empresa" width="220">
+  &nbsp;&nbsp;&nbsp;
+  <img src="assets/logo-producto.png" alt="Logo de producto" width="220">
+</p>
+
+<p align="center">
+  <sub><b>Logo de la empresa</b></sub>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  <sub><b>Logo de producto</b></sub>
+</p>
+
 Modelo interactivo de arquitectura de ciberseguridad desarrollado con Archify y publicado mediante GitHub Pages. El proyecto representa visualmente los principales componentes, servicios y flujos de comunicación de un sistema orientado al monitoreo y protección de la información.
 
 
