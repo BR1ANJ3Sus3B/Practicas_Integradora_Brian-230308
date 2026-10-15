@@ -7,17 +7,13 @@ Este directorio contiene la documentación correspondiente a la **Práctica 05: 
 El objetivo de esta práctica es definir quién puede hacer qué dentro de la plataforma: los **roles de usuario**, sus responsabilidades y límites, y la lista de **requerimientos funcionales y no funcionales** que describen el comportamiento esperado del sistema.
 
 ---
-<p align="center">
-  <img src="assets/logo-empresa.png" alt="Logo de la empresa" width="220">
-  &nbsp;&nbsp;&nbsp;
-  <img src="assets/logo-producto.png" alt="Logo de producto" width="220">
-</p>
+## 🏢 Identidad del Proyecto
 
-<p align="center">
-  <sub><b>Logo de la empresa</b></sub>
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-  <sub><b>Logo de producto</b></sub>
-</p>
+| Logo de la Empresa | Logo del Producto |
+|:---:|:---:|
+| ![NovaTech Solutions](assets/Imagen%20de%20ChatGPT%2014%20oct%202026%2C%2006_48_47%20p.m-1.png) | ![TI Soporte en Acción](assets/Imagen%20de%20ChatGPT%2014%20oct%202026%2C%2006_48_50%20p.m-2.png) |
+| **NovaTech Solutions** | **TI: Soporte en Acción** |
+| *Empresa ficticia del videojuego* | *Videojuego educativo / producto principal* |
 
 ---
 <p align="center">
