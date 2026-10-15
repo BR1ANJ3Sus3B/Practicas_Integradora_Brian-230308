@@ -8,6 +8,19 @@ El objetivo de esta práctica es definir quién puede hacer qué dentro de la pl
 
 ---
 <p align="center">
+  <img src="assets/logo-empresa.png" alt="Logo de la empresa" width="220">
+  &nbsp;&nbsp;&nbsp;
+  <img src="assets/logo-producto.png" alt="Logo de producto" width="220">
+</p>
+
+<p align="center">
+  <sub><b>Logo de la empresa</b></sub>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  <sub><b>Logo de producto</b></sub>
+</p>
+
+---
+<p align="center">
 
 ![Unity](https://img.shields.io/badge/UNITY-000000?style=for-the-badge&logo=unity&logoColor=white)
 ![Flutter](https://img.shields.io/badge/FLUTTER-02569B?style=for-the-badge&logo=flutter&logoColor=white)
